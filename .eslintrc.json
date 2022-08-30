@@ -1,0 +1,9 @@
+{
+  "root": true,
+  "extends": "@wojtekolek/eslint-config/nextjs",
+  "settings": {
+    "next": {
+      "rootDir": ["apps/*/"]
+    }
+  }
+}
