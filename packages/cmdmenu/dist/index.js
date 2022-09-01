@@ -23,12 +23,16 @@ __export(cmdmenu_exports, {
   useCmdMenu: () => useCmdMenu
 });
 module.exports = __toCommonJS(cmdmenu_exports);
+
+// src/useCmdMenu.ts
 var import_react = require("react");
-var TRIGGER_KEY = "k";
-var DOWN_KEY = "ArrowDown";
-var UP_KEY = "ArrowUp";
-var ENTER_KEY = "Enter";
+
+// src/utils.ts
 var isConfigWithGroups = (config) => {
+  var _a;
+  return ((_a = config.at(0)) == null ? void 0 : _a.items) !== void 0;
+};
+var isListDataWithGroups = (config) => {
   var _a;
   return ((_a = config.at(0)) == null ? void 0 : _a.items) !== void 0;
 };
@@ -64,8 +68,15 @@ var getFirstOption = (config) => {
   }
   return (_c = config.at(0)) == null ? void 0 : _c.id;
 };
+
+// src/useCmdMenu.ts
+var useLayoutEffect = typeof window === "undefined" ? import_react.useEffect : import_react.useLayoutEffect;
+var TRIGGER_KEY = "k";
+var DOWN_KEY = "ArrowDown";
+var UP_KEY = "ArrowUp";
+var ENTER_KEY = "Enter";
 var useCmdMenu = ({ config }) => {
-  const [isCommandMenuOpen, setIsCommandMenuOpen] = (0, import_react.useState)(false);
+  const [isOpen, setIsOpen] = (0, import_react.useState)(false);
   const [selectedItem, setSelectedItem] = (0, import_react.useState)(getFirstOption(config));
   const listRef = (0, import_react.useRef)(null);
   const searchRef = (0, import_react.useRef)(null);
@@ -73,27 +84,27 @@ var useCmdMenu = ({ config }) => {
   const preparedListData = (0, import_react.useRef)(getListData(config, setSelectedItem));
   const flattedListData = (0, import_react.useRef)(getFlatListData(preparedListData.current));
   const [currentListData, setCurrentListData] = (0, import_react.useState)(preparedListData.current);
-  const handleResetToDefaultState = () => {
+  const handleResetToDefaultState = (0, import_react.useCallback)(() => {
     var _a;
     const firstItem = (_a = preparedListData.current.at(0).items) == null ? void 0 : _a.at(0).id;
     selectedItem !== firstItem && setSelectedItem(firstItem);
     return setCurrentListData(preparedListData.current);
-  };
+  }, [selectedItem]);
   (0, import_react.useEffect)(() => {
     const keyDownHandler = (event) => {
       if ((event.metaKey || event.ctrlKey) && event.key === TRIGGER_KEY) {
-        const newIsCommandMenuOpen = !isCommandMenuOpen;
+        const newIsCommandMenuOpen = !isOpen;
         newIsCommandMenuOpen && handleResetToDefaultState();
-        return setIsCommandMenuOpen(!isCommandMenuOpen);
+        return setIsOpen(!isOpen);
       }
-      if (isCommandMenuOpen && event.key === "Escape") {
-        return setIsCommandMenuOpen(false);
+      if (isOpen && event.key === "Escape") {
+        return setIsOpen(false);
       }
     };
     document.addEventListener("keydown", keyDownHandler);
     return () => document.removeEventListener("keydown", keyDownHandler);
-  }, [isCommandMenuOpen]);
-  (0, import_react.useLayoutEffect)(() => {
+  }, [handleResetToDefaultState, isOpen]);
+  useLayoutEffect(() => {
     if (listRef.current && searchRef.current && selectedItemRef.current) {
       const handleScrollSelectedIntoView = (selectedOptionRef) => {
         var _a, _b, _c, _d, _e, _f, _g;
@@ -116,7 +127,7 @@ var useCmdMenu = ({ config }) => {
   }, [selectedItem]);
   const handleSearchChange = ({ target }) => {
     const getFiltered = (listData, searchValue) => {
-      if (isConfigWithGroups(listData)) {
+      if (isListDataWithGroups(listData)) {
         const fillteredItems = listData.map(({ items, ...data }) => ({
           ...data,
           items: items == null ? void 0 : items.filter(
@@ -129,7 +140,7 @@ var useCmdMenu = ({ config }) => {
     };
     const getPreselectedOption = (listData) => {
       var _a, _b, _c;
-      if (isConfigWithGroups(listData)) {
+      if (isListDataWithGroups(listData)) {
         return (_c = (_b = (_a = listData.at(0)) == null ? void 0 : _a.items) == null ? void 0 : _b.at(0)) == null ? void 0 : _c.id;
       }
       return listData.at(0).id;
@@ -177,11 +188,11 @@ var useCmdMenu = ({ config }) => {
   };
   const handleClickInMenuList = (event) => {
     if (event.target.localName === "li") {
-      return setIsCommandMenuOpen(false);
+      return setIsOpen(false);
     }
   };
   return {
-    isCommandMenuOpen,
+    isOpen,
     selectedItem,
     selectedItemRef,
     menuProps: {

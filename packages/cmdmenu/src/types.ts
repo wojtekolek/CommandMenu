@@ -6,22 +6,37 @@ import type {
   RefObject
 } from 'react'
 
-export type ConfigData = {
-  name: string
-  onSelect: (event: MouseEvent<HTMLLIElement>) => void
-}
-
-export type GroupItemData = {
+export type GroupItemConfigData = {
   id: string
   label: string
   onSelect: (event: MouseEvent<HTMLLIElement>) => void
 }
 
-export type GroupData = {
+export type GroupConfigData = {
   id: string
   label: string
-  items: GroupItemData[]
+  items: GroupItemConfigData[]
 }
+
+export type ConfigData = GroupConfigData[] | GroupItemConfigData[]
+
+export type ListItemData = {
+  id: string
+  label: string
+  onPointerEnter: () => void
+  onClick: (event: MouseEvent<HTMLLIElement>) => void
+  isGroup: undefined
+  items: undefined
+}
+
+export type ListGroupData = {
+  id: string
+  label: string
+  isGroup: boolean
+  items: ListItemData[]
+}
+
+export type ListData = ListGroupData[] | ListItemData[]
 
 export type MenuProps = {
   ref: RefObject<HTMLDivElement>
@@ -32,6 +47,5 @@ export type MenuProps = {
 export type SearchProps = {
   autoFocus: boolean
   ref: RefObject<HTMLInputElement>
-  // value: string
   onChange: ChangeEventHandler<HTMLInputElement>
 }

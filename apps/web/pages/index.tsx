@@ -1,5 +1,5 @@
 import { useCmdMenu } from 'cmdmenu'
-import type { GroupData } from 'cmdmenu'
+import type { GroupConfigData } from 'cmdmenu'
 import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
 
@@ -102,7 +102,7 @@ const SearchInput = styled.input.attrs({
   }
 `
 
-const config: GroupData[] = [
+const config: GroupConfigData[] = [
   {
     id: 'favs',
     label: 'Favorite',
@@ -116,6 +116,32 @@ const config: GroupData[] = [
         id: 'instagram',
         label: 'Instagram',
         onSelect: () => console.log('clicked instagram')
+      },
+      {
+        id: 'twitter',
+        label: 'Twitter',
+        onSelect: () => console.log('clicked twitter')
+      }
+    ]
+  },
+  {
+    id: 'spotify',
+    label: 'Spotify',
+    items: [
+      {
+        id: 'spotifyPlay',
+        label: 'Play',
+        onSelect: () => console.log('clicked Play')
+      },
+      {
+        id: 'spotifyPause',
+        label: 'Pause',
+        onSelect: () => console.log('clicked Pause')
+      },
+      {
+        id: 'spotifyNext',
+        label: 'Next song',
+        onSelect: () => console.log('clicked Next song')
       }
     ]
   },
@@ -193,7 +219,7 @@ const config: GroupData[] = [
 ]
 
 const Home = () => {
-  const { isCommandMenuOpen, selectedItem, selectedItemRef, menuProps, searchProps, preparedList } =
+  const { isOpen, selectedItem, selectedItemRef, menuProps, searchProps, preparedList } =
     useCmdMenu({
       config
     })
@@ -201,8 +227,52 @@ const Home = () => {
   return (
     <div>
       <h1>cmd + k</h1>
+      <PortalMenuWrapper>
+        <PortalMenuListWrappper {...menuProps}>
+          <SearchInput {...searchProps} type="text" />
+          <PortalMenuItems>
+            {preparedList.map(({ id, label, isGroup, ...itemProps }) => {
+              if (isGroup && itemProps.items) {
+                return (
+                  <CommandMenuGroupItem key={id} id="group">
+                    <CommandMenuGroupItemLabel>{label}</CommandMenuGroupItemLabel>
+                    <PortalMenuItems>
+                      {itemProps.items.map(
+                        ({ id: itemId, label: itemLabel, ...nestedItemProps }) => {
+                          const isSelected = itemId === selectedItem
+                          return (
+                            <PortalMenuListItem
+                              {...nestedItemProps}
+                              key={itemId}
+                              ref={isSelected ? selectedItemRef : null}
+                              isSelected={isSelected}
+                            >
+                              {itemLabel}
+                            </PortalMenuListItem>
+                          )
+                        }
+                      )}
+                    </PortalMenuItems>
+                  </CommandMenuGroupItem>
+                )
+              }
+              const isSelected = id === selectedItem
+              return (
+                <PortalMenuListItem
+                  {...itemProps}
+                  key={id}
+                  ref={isSelected ? selectedItemRef : null}
+                  isSelected={isSelected}
+                >
+                  {label}
+                </PortalMenuListItem>
+              )
+            })}
+          </PortalMenuItems>
+        </PortalMenuListWrappper>
+      </PortalMenuWrapper>
       <AnimatePresence>
-        {isCommandMenuOpen ? (
+        {isOpen ? (
           <PortalMenuWrapper>
             <PortalMenuListWrappper {...menuProps}>
               <SearchInput {...searchProps} type="text" />
