@@ -15,9 +15,9 @@ import { getFirstOption, getFlatListData, getListData, isListDataWithGroups } fr
 const useLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffectBase
 
 const TRIGGER_KEY = 'k'
-const DOWN_KEY = 'ArrowDown'
-const UP_KEY = 'ArrowUp'
-const ENTER_KEY = 'Enter'
+export const DOWN_KEY = 'ArrowDown'
+export const UP_KEY = 'ArrowUp'
+export const ENTER_KEY = 'Enter'
 
 type UseCmdMenuProps = {
   config: ConfigData

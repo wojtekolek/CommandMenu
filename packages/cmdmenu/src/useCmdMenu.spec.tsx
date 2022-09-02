@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import styled from 'styled-components'
 
 import { ConfigData, GroupConfigData, GroupItemConfigData } from './types'
-import { useCmdMenu } from './useCmdMenu'
+import { DOWN_KEY, ENTER_KEY, UP_KEY, useCmdMenu } from './useCmdMenu'
 
 type RenderReturnType = RenderResult & {
   user: ReturnType<typeof userEvent['setup']>
@@ -216,7 +216,7 @@ describe('useCmdMenu hook', () => {
       const input = screen.getByRole('textbox')
       expect(input).toHaveFocus()
 
-      await user.keyboard('[ArrowDown]')
+      await user.keyboard(`[${DOWN_KEY}]`)
 
       const selectedTwitterOption = screen.getByText('Twitter')
       expect(selectedTwitterOption).toHaveStyle('line-height: 40px;')
@@ -234,12 +234,12 @@ describe('useCmdMenu hook', () => {
       const instagramListItem = screen.getByText('Instagram')
       const twitterListItem = screen.getByText('Twitter')
 
-      await user.keyboard('[ArrowDown]')
+      await user.keyboard(`[${DOWN_KEY}]`)
 
       expect(instagramListItem).not.toHaveStyle('background-color: #1F1F1F;')
       expect(twitterListItem).toHaveStyle('background-color: #1F1F1F;')
 
-      await user.keyboard('[ArrowUp]')
+      await user.keyboard(`[${UP_KEY}]`)
 
       expect(instagramListItem).toHaveStyle('background-color: #1F1F1F;')
       expect(twitterListItem).not.toHaveStyle('background-color: #1F1F1F;')
@@ -251,7 +251,7 @@ describe('useCmdMenu hook', () => {
 
       expect(screen.getByText('Favorite')).toBeInTheDocument()
 
-      await user.keyboard('[Enter]')
+      await user.keyboard(`[${ENTER_KEY}]`)
 
       expect(logSpy).toHaveBeenCalledWith('clicked instagram')
     })
