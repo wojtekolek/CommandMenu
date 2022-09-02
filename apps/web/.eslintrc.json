@@ -3,5 +3,12 @@
   "extends": "@wojtekolek/eslint-config/nextjs",
   "parserOptions": {
     "requireConfigFile": false
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "apps/web/tsconfig.json"
+      }
+    }
   }
 }
