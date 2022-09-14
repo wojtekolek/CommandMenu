@@ -13,12 +13,13 @@ export const spacing = {
 } as const
 
 export const fontSize = {
-  fs1: '8px',
+  fs1: '12px',
   fs2: '16px',
   fs3: '24px',
   fs4: '32px',
   fs5: '40px',
-  fs6: '48px'
+  fs6: '48px',
+  fs7: '88px'
 } as const
 
 export const fontWeight = {
@@ -34,34 +35,35 @@ export const zIndex = {
 
 export const radius = {
   rad1: '4px',
-  rad2: '8px'
+  rad2: '8px',
+  rad3: '16px'
 } as const
 
 export const colors = {
   // primary
   primary: {
-    default: '#F14668',
-    hover: '#F06580',
-    disabled: '#CC687B'
+    default: '#D8B364'
   },
   // background
   background: {
     primary: '#000',
-    secondary: '#141414',
-    tertriary: '#fff'
+    secondary: '#59595920',
+    tertriary: '#292929',
+    quartenary: '#1F1F1F'
   },
   // text
   text: {
-    primary: '#FFF',
-    secondary: '#D4D4D4',
-    tertiary: '#939C9D'
+    primary: '#F7F7F7',
+    secondary: '#E6E6E6',
+    tertiary: '#B8B8B8'
   },
   // rest
   misc: {
-    border: '#303030',
+    border: '#525252',
     pageGradient:
       'radial-gradient(85.3% 65.4% at 5.4% 6.1%, rgb(54, 54, 54), rgb(31, 31, 31)), url(/noise.svg)',
-    footerGradient: 'linear-gradient(rgba(0,0,0,0), rgb(56, 56, 56));'
+    footerGradient: 'linear-gradient(rgba(0,0,0,0), rgb(56, 56, 56));',
+    separatorGradient: 'linear-gradient(42deg, rgb(66, 66, 66), rgb(216, 179, 100));'
   }
 } as const
 

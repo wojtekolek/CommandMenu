@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@styled-icons/feather": "^10.34.0",
     "cmdmenu": "*",
     "framer-motion": "^7.2.1",
     "next": "^12.2.3",

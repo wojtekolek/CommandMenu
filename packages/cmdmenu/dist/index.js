@@ -202,6 +202,7 @@ var useCmdMenu = ({ config }) => {
     },
     searchProps: {
       autoFocus: true,
+      placeholder: "Type to search...",
       ref: searchRef,
       onChange: handleSearchChange
     },

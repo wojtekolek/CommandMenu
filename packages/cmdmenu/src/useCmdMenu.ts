@@ -172,6 +172,7 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
     },
     searchProps: {
       autoFocus: true,
+      placeholder: 'Type to search...',
       ref: searchRef,
       onChange: handleSearchChange
     },

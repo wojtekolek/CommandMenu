@@ -2,5 +2,17 @@
 const withTM = require('next-transpile-modules')(['cmdmenu'])
 
 module.exports = withTM({
-  reactStrictMode: true
+  reactStrictMode: true,
+  swcMinify: true,
+  productionBrowserSourceMaps: true,
+  poweredByHeader: false,
+  compiler: {
+    styledComponents: true,
+    reactRemoveProperties: true
+  },
+  experimental: {
+    legacyBrowsers: false,
+    browsersListForSwc: true,
+    images: { allowFutureImage: true }
+  }
 })

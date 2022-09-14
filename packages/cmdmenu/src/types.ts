@@ -46,6 +46,7 @@ export type MenuProps = {
 
 export type SearchProps = {
   autoFocus: boolean
+  placeholder: string
   ref: RefObject<HTMLInputElement>
   onChange: ChangeEventHandler<HTMLInputElement>
 }
