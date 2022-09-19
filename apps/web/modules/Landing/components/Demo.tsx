@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react'
 
 import { useCmdMenu } from 'cmdmenu'
-import type { GroupConfigData } from 'cmdmenu'
+import type { ConfigData } from 'cmdmenu'
 import styled from 'styled-components'
 
 const PortalMenuWrapper = styled.div`
@@ -89,15 +89,98 @@ const SearchInput = styled.input.attrs({
   }
 `
 
-const config: GroupConfigData[] = [
+const config: ConfigData = [
   {
     id: 'favs',
     label: 'Favorite',
-    items: [
+    groupItems: [
       {
         id: 'spotify',
         label: 'Spotify',
-        onSelect: () => console.log('clicked spotify')
+        placeholder: 'Search in spotify...',
+        items: [
+          {
+            id: 'spotifyPlay',
+            label: 'Play',
+            onSelect: () => console.log('spotify play')
+          },
+          {
+            id: 'spotifyPause',
+            label: 'Pause',
+            onSelect: () => console.log('spotify pasue')
+          },
+          {
+            id: 'spotifyNext',
+            label: 'Next',
+            onSelect: () => console.log('spotify next')
+          },
+          {
+            id: 'spotifyPrevious',
+            label: 'Previous',
+            onSelect: () => console.log('spotify prev')
+          },
+          {
+            id: 'spotifyMore',
+            label: 'More...',
+            placeholder: 'Search in spotify more...',
+            items: [
+              {
+                id: 'spotifyMoreActionOne',
+                label: 'Action one',
+                onSelect: () => console.log('spotify more action one')
+              },
+              {
+                id: 'spotifyMoreActionTwo',
+                label: 'Action two',
+                onSelect: () => console.log('spotify more action two')
+              },
+              {
+                id: 'spotifyMoreActionMore',
+                label: 'More...',
+                placeholder: 'Search in more actions...',
+                items: [
+                  {
+                    id: 'spotifyMoreActionMoreActionMore1',
+                    label: 'More 1',
+                    onSelect: () => console.log('spotifyMoreActionMoreActionMore1 click')
+                  },
+                  {
+                    id: 'spotifyMoreActionMoreActionMore2',
+                    label: 'More 2',
+                    onSelect: () => console.log('spotifyMoreActionMoreActionMore2 click')
+                  },
+                  {
+                    id: 'spotifyMoreActionMoreActionMore3',
+                    label: 'More 3',
+                    onSelect: () => console.log('spotifyMoreActionMoreActionMore3 click')
+                  },
+                  {
+                    id: 'spotifyMoreActionMoreActionMoreMore',
+                    label: 'More...',
+                    placeholder: 'Show me more options mate...',
+                    items: [
+                      {
+                        id: 'spotifyMoreActionMoreActionMoreMore1',
+                        label: 'More 1',
+                        onSelect: () => console.log('spotifyMoreActionMoreActionMore1 click')
+                      },
+                      {
+                        id: 'spotifyMoreActionMoreActionMoreMore2',
+                        label: 'More 2',
+                        onSelect: () => console.log('spotifyMoreActionMoreActionMore2 click')
+                      },
+                      {
+                        id: 'spotifyMoreActionMoreActionMoreMore3',
+                        label: 'More 3',
+                        onSelect: () => console.log('spotifyMoreActionMoreActionMore3 click')
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         id: 'instagram',
@@ -114,7 +197,7 @@ const config: GroupConfigData[] = [
   {
     id: 'spotify',
     label: 'Spotify',
-    items: [
+    groupItems: [
       {
         id: 'spotifyPlay',
         label: 'Play',
@@ -135,7 +218,7 @@ const config: GroupConfigData[] = [
   {
     id: 'common',
     label: 'Common',
-    items: [
+    groupItems: [
       {
         id: 'test1',
         label: 'Test 1',
@@ -216,24 +299,26 @@ export const Demo: FunctionComponent = () => {
         <SearchInput {...searchProps} type="text" />
         <PortalMenuItems>
           {preparedList.map(({ id, label, isGroup, ...itemProps }) => {
-            if (isGroup && itemProps.items) {
+            if (isGroup && itemProps.groupItems) {
               return (
                 <CommandMenuGroupItem key={id} id="group">
                   <CommandMenuGroupItemLabel>{label}</CommandMenuGroupItemLabel>
                   <GroupMenuItems>
-                    {itemProps.items.map(({ id: itemId, label: itemLabel, ...nestedItemProps }) => {
-                      const isSelected = itemId === selectedItem
-                      return (
-                        <PortalMenuListItem
-                          {...nestedItemProps}
-                          key={itemId}
-                          ref={isSelected ? selectedItemRef : null}
-                          isSelected={isSelected}
-                        >
-                          {itemLabel}
-                        </PortalMenuListItem>
-                      )
-                    })}
+                    {itemProps.groupItems.map(
+                      ({ id: itemId, label: itemLabel, ...nestedItemProps }) => {
+                        const isSelected = itemId === selectedItem
+                        return (
+                          <PortalMenuListItem
+                            {...nestedItemProps}
+                            key={itemId}
+                            ref={isSelected ? selectedItemRef : null}
+                            isSelected={isSelected}
+                          >
+                            {itemLabel}
+                          </PortalMenuListItem>
+                        )
+                      }
+                    )}
                   </GroupMenuItems>
                 </CommandMenuGroupItem>
               )

@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  MouseEventHandler,
+  Dispatch,
+  SetStateAction,
   useCallback,
   useEffect,
   useLayoutEffect as useLayoutEffectBase,
@@ -9,8 +10,8 @@ import {
 } from 'react'
 import type { ChangeEventHandler, KeyboardEventHandler, RefObject } from 'react'
 
-import type { ConfigData, ListData, ListItemData, MenuProps, SearchProps } from './types'
-import { getFirstOption, getFlatListData, getListData, isListDataWithGroups } from './utils'
+import type { ConfigData, ListData, MenuProps, SearchProps, SelectedItemData } from './types'
+import { getFirstOption, getListData, isListDataWithGroups } from './utils'
 
 const useLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffectBase
 
@@ -18,6 +19,8 @@ const TRIGGER_KEY = 'k'
 export const DOWN_KEY = 'ArrowDown'
 export const UP_KEY = 'ArrowUp'
 export const ENTER_KEY = 'Enter'
+export const BACK_KEY = 'Backspace'
+export const ESCAPE_KEY = 'Escape'
 
 type UseCmdMenuProps = {
   config: ConfigData
@@ -32,23 +35,107 @@ type UseCmdMenuReturn = {
   preparedList: ListData
 }
 
+type CurrentListState = {
+  preparedConfig: ListData
+  data: ListData
+  itemsOrder: SelectedItemData[]
+  configLevelKey: (string | number)[]
+  searchPlaceholder?: string
+  searchValue?: string
+}
+
+type CmdMenuState = {
+  preparedConfig: ListData
+  currentList: CurrentListState
+}
+
+const getItemsOrder = (preparedConfig: ListData): SelectedItemData[] =>
+  preparedConfig.flatMap(({ id, isGroup, groupItems, items }) => {
+    if (isGroup && groupItems.length) {
+      return groupItems.flatMap(({ id, items }) => ({
+        id,
+        isConfigWithNestedData: !!items
+      }))
+    }
+    return {
+      id,
+      isConfigWithNestedData: !!items
+    }
+  })
+
+const getCurrentList = (preparedConfig: ListData): CurrentListState => ({
+  preparedConfig,
+  data: preparedConfig,
+  itemsOrder: getItemsOrder(preparedConfig),
+  configLevelKey: []
+})
+
+const getInitialData = (
+  config: ConfigData,
+  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>
+): CmdMenuState => {
+  // prepared config
+  const preparedConfig = getListData(config, setSelectedItem)
+
+  return {
+    preparedConfig,
+    currentList: getCurrentList(preparedConfig)
+  }
+}
+
+type FilteredData = {
+  data: ListData
+  itemsOrder: SelectedItemData[]
+}
+
+const getFilteredList = (list: ListData, searchValue: string): FilteredData => {
+  if (isListDataWithGroups(list)) {
+    const fillteredItems = list.map(({ groupItems, ...data }) => ({
+      ...data,
+      groupItems: groupItems?.filter(({ label }) =>
+        label.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    }))
+    const data = fillteredItems.filter(({ groupItems }) => groupItems?.length)
+    return {
+      data,
+      itemsOrder: getItemsOrder(data)
+    }
+  }
+  const data = list.filter(({ label }) => label.toLowerCase().includes(searchValue.toLowerCase()))
+  return {
+    data,
+    itemsOrder: getItemsOrder(data)
+  }
+}
+
+const getPropByPath = (
+  object: Record<string, any>,
+  path: (string | number)[],
+  defaultValue: unknown
+): any => {
+  if (object && path.length) return getPropByPath(object[path.shift()!], path, defaultValue)
+  return object === undefined ? defaultValue : object
+}
+
 export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedItem, setSelectedItem] = useState<string | undefined>(getFirstOption(config))
+  const [selectedItem, setSelectedItem] = useState<SelectedItemData | undefined>(
+    getFirstOption(config)
+  )
+  const state = useRef<CmdMenuState>(getInitialData(config, setSelectedItem))
+  const getState = () => state.current
+
+  const setCurrentListState = (newCurrentListData: Partial<CurrentListState>) =>
+    (state.current.currentList = { ...state.current.currentList, ...newCurrentListData })
 
   const listRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
   const selectedItemRef = useRef<HTMLLIElement>(null)
-  const preparedListData = useRef<ListData>(getListData(config, setSelectedItem))
-  const flattedListData = useRef<ListItemData[]>(getFlatListData(preparedListData.current))
-
-  const [currentListData, setCurrentListData] = useState<ListData>(preparedListData.current)
 
   const handleResetToDefaultState = useCallback(() => {
-    const firstItem = preparedListData.current.at(0)!.items?.at(0)!.id
-    selectedItem !== firstItem && setSelectedItem(firstItem)
-    return setCurrentListData(preparedListData.current)
-  }, [selectedItem])
+    state.current = getInitialData(config, setSelectedItem)
+  }, [config])
 
   useEffect(() => {
     const keyDownHandler = (event: KeyboardEvent) => {
@@ -94,48 +181,117 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
     }
   }, [selectedItem])
 
-  const handleSearchChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    const getFiltered = (listData: ListData, searchValue: string) => {
-      if (isListDataWithGroups(listData)) {
-        const fillteredItems = listData.map(({ items, ...data }) => ({
-          ...data,
-          items: items?.filter(({ label }) =>
-            label.toLowerCase().includes(searchValue.toLowerCase())
-          )
-        }))
-        return fillteredItems.filter(({ items }) => items?.length)
-      }
-      return listData.filter(({ label }) => label.toLowerCase().includes(searchValue.toLowerCase()))
-    }
-    const getPreselectedOption = (listData: ListData) => {
-      if (isListDataWithGroups(listData)) {
-        return listData.at(0)?.items?.at(0)?.id
-      }
-      return listData.at(0)!.id
-    }
+  const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const searchValue = event.target.value
+    const data = getState().currentList.preparedConfig
+    console.log(data)
+    const newData = getFilteredList(Array.isArray(data) ? data : data.items, searchValue)
 
-    const filteredData = getFiltered(preparedListData.current, target.value)
-    const preselectedOption = getPreselectedOption(filteredData)
-    setCurrentListData(filteredData)
-    flattedListData.current = getFlatListData(filteredData)
-    return setSelectedItem(preselectedOption)
+    state.current.currentList.data = newData.data
+    state.current.currentList.itemsOrder = newData.itemsOrder
+    state.current.currentList.searchValue = searchValue
+
+    setCurrentListState({
+      data: newData.data,
+      itemsOrder: newData.itemsOrder,
+      searchValue
+    })
+
+    const newSelectedOption = newData.itemsOrder.at(0)
+    return setSelectedItem(newSelectedOption)
   }
 
-  const handleSelect = (optionRef: RefObject<HTMLLIElement>) => optionRef.current?.click()
+  const handleGoBackFromNested = () => {
+    const getPreviousKey = (levelKey: (string | number)[]) => {
+      const lastItemsKeyIndex = levelKey.lastIndexOf('items')
+      if (lastItemsKeyIndex) {
+        const preparedKey = levelKey.slice(0, lastItemsKeyIndex)
+        const lastGroupsItemsKeyIndex = levelKey.lastIndexOf('groupItems')
+        return lastGroupsItemsKeyIndex === preparedKey.length - 1
+          ? preparedKey.slice(0, lastGroupsItemsKeyIndex - 1)
+          : preparedKey
+      }
+      return levelKey
+    }
+
+    const baseState = getState()
+    const { configLevelKey } = baseState.currentList
+    const arrayKey = getPreviousKey(configLevelKey)
+    const data = getPropByPath(baseState, [...arrayKey], {})
+    const listData = arrayKey.length > 1 ? data.items : data
+    const newItemsOrder = getItemsOrder(listData)
+
+    setCurrentListState({
+      data: listData,
+      itemsOrder: newItemsOrder,
+      preparedConfig: listData,
+      configLevelKey: arrayKey,
+      searchPlaceholder: data.placeholder
+    })
+
+    const newSelectedOption = newItemsOrder.at(0)
+    return setSelectedItem(newSelectedOption)
+  }
+
+  const handleGoToNestedItems = () => {
+    const baseState = getState()
+    const { itemsOrder, preparedConfig, configLevelKey } = baseState.currentList
+
+    const getArrayKey = (levelKey?: (string | number)[]) => {
+      const findIndex = (data: ListData, selectedItemId: string) =>
+        data.findIndex(({ id, isGroup, groupItems }) => {
+          if (isGroup && groupItems.length) {
+            return groupItems!.some(({ id }) => id === selectedItemId)
+          }
+          return id === selectedItemId
+        })
+
+      if (!levelKey?.length || (levelKey && levelKey.length <= 1)) {
+        const groupId = findIndex(preparedConfig, selectedItem!.id)
+        const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === selectedItem?.id)
+        return ['preparedConfig', groupId, 'groupItems', selectedItemIndex]
+      }
+      const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === selectedItem?.id)
+      return [...levelKey, 'items', selectedItemIndex]
+    }
+
+    const arrayKey = getArrayKey(configLevelKey)
+    const data = getPropByPath(baseState, [...arrayKey], {})
+    const newItemsOrder = getItemsOrder(data.items)
+
+    setCurrentListState({
+      data: data.items,
+      itemsOrder: newItemsOrder,
+      preparedConfig: data,
+      configLevelKey: arrayKey,
+      searchPlaceholder: data.placeholder,
+      searchValue: undefined
+    })
+
+    const newSelectedOption = newItemsOrder.at(0)
+    return setSelectedItem(newSelectedOption)
+  }
+
+  const handleSelect = (optionRef: RefObject<HTMLLIElement>) => {
+    if (selectedItem?.isConfigWithNestedData) {
+      handleGoToNestedItems()
+    } else {
+      optionRef.current?.click()
+    }
+  }
 
   const handleKeyPress = (direction: 'up' | 'down') => {
-    const flattedList = flattedListData.current
-    const selectedItemIndex = flattedList.findIndex((configData) => configData.id === selectedItem)
-    const getNextItem = () => {
-      if (selectedItemIndex < flattedList.length - 1 && direction === 'down') {
-        return flattedList.at(selectedItemIndex + 1)?.id
-      }
-      if (selectedItemIndex > 0 && direction === 'up') {
-        return flattedList.at(selectedItemIndex - 1)?.id
-      }
-      return selectedItem
+    const { itemsOrder } = getState().currentList
+    const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === selectedItem?.id)
+
+    let newSelectedItem = selectedItem
+    if (selectedItemIndex < itemsOrder.length - 1 && direction === 'down') {
+      newSelectedItem = itemsOrder.at(selectedItemIndex + 1)
+    } else if (selectedItemIndex > 0 && direction === 'up') {
+      newSelectedItem = itemsOrder.at(selectedItemIndex - 1)
     }
-    return setSelectedItem(getNextItem()!)
+
+    return setSelectedItem(newSelectedItem)
   }
 
   const handleMenuKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
@@ -152,30 +308,30 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
         event.preventDefault()
         return handleSelect(selectedItemRef)
       }
-    }
-  }
-
-  const handleClickInMenuList: MouseEventHandler<HTMLDivElement> = (event) => {
-    if ((event.target as HTMLLIElement).localName === 'li') {
-      return setIsOpen(false)
+      case BACK_KEY: {
+        const { configLevelKey } = getState().currentList
+        if (!(event.target as any).value.length && configLevelKey.length > 1) {
+          return handleGoBackFromNested()
+        }
+      }
     }
   }
 
   return {
     isOpen,
-    selectedItem,
+    selectedItem: selectedItem?.id,
     selectedItemRef,
     menuProps: {
       ref: listRef,
-      onKeyDown: handleMenuKeyDown,
-      onClick: handleClickInMenuList
+      onKeyDown: handleMenuKeyDown
     },
     searchProps: {
       autoFocus: true,
-      placeholder: 'Type to search...',
+      placeholder: getState().currentList.searchPlaceholder ?? 'Type to search...',
+      value: getState().currentList.searchValue ?? '',
       ref: searchRef,
       onChange: handleSearchChange
     },
-    preparedList: currentListData
+    preparedList: getState().currentList.data
   }
 }

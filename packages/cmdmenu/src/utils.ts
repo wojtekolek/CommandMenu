@@ -2,44 +2,51 @@ import type { Dispatch, SetStateAction } from 'react'
 
 import type {
   ConfigData,
-  GroupConfigData,
-  GroupItemConfigData,
+  ItemConfigData,
+  ItemWithNestedListConfigData,
+  ItemsGroupConfigData,
   ListData,
   ListGroupData,
-  ListItemData
+  ListItemData,
+  SelectedItemData
 } from './types'
 
 // Type guards
-export const isConfigWithGroups = (config: ConfigData): config is GroupConfigData[] =>
-  (config as GroupConfigData[]).at(0)?.items !== undefined
+export const isConfigWithGroups = (config: ConfigData): config is ItemsGroupConfigData[] =>
+  (config as ItemsGroupConfigData[]).at(0)?.groupItems !== undefined
 
 export const isListDataWithGroups = (config: ListData): config is ListGroupData[] =>
-  (config as ListGroupData[]).at(0)?.items !== undefined
+  (config as ListGroupData[]).at(0)?.groupItems !== undefined
 
 // Preapare list
 export const prepareListOption = (
-  config: GroupItemConfigData[],
-  setSelectedItem: Dispatch<SetStateAction<string | undefined>>
-) =>
-  config.map(({ id, label, onSelect }) => ({
+  config: Array<ItemConfigData | ItemWithNestedListConfigData>,
+  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>
+): ListItemData[] =>
+  config.map(({ id, label, onSelect, items, placeholder }) => ({
     id,
     label,
-    onPointerEnter: () => setSelectedItem(id),
-    onClick: onSelect,
+    onPointerEnter: () =>
+      setSelectedItem({
+        id,
+        isConfigWithNestedData: !!items?.length
+      }),
+    onClick: onSelect!,
     isGroup: undefined,
-    items: undefined
+    placeholder,
+    items: items?.length ? prepareListOption(items, setSelectedItem) : undefined
   }))
 
 export const getListData = (
   config: ConfigData,
-  setSelectedItem: Dispatch<SetStateAction<string | undefined>>
+  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>
 ): ListData => {
   if (isConfigWithGroups(config)) {
-    return config.map(({ id, label, items }) => ({
+    return config.map(({ id, label, groupItems }) => ({
       id,
       label,
       isGroup: true,
-      items: prepareListOption(items, setSelectedItem)
+      groupItems: prepareListOption(groupItems, setSelectedItem)
     }))
   }
   return prepareListOption(config, setSelectedItem)
@@ -52,9 +59,26 @@ export const getFlatListData = (listData: ListData): ListItemData[] => {
   return listData as ListItemData[]
 }
 
-export const getFirstOption = (config: ConfigData): string => {
+// export const getFirstOption = (
+//   config: ConfigData
+// ): ItemConfigData | ItemWithNestedListConfigData => {
+//   if (isConfigWithGroups(config)) {
+//     return config.at(0)?.items.at(0)!
+//   }
+//   return config.at(0)!
+// }
+
+export const getFirstOption = (config: ConfigData): SelectedItemData => {
   if (isConfigWithGroups(config)) {
-    return config.at(0)?.items.at(0)?.id!
+    const item = config.at(0)?.groupItems.at(0)!
+    return {
+      id: item.id,
+      isConfigWithNestedData: true
+    }
   }
-  return config.at(0)?.id!
+  const item = config.at(0)!
+  return {
+    id: item.id,
+    isConfigWithNestedData: false
+  }
 }

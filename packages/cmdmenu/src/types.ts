@@ -1,52 +1,67 @@
-import type {
-  ChangeEventHandler,
-  KeyboardEventHandler,
-  MouseEvent,
-  MouseEventHandler,
-  RefObject
-} from 'react'
+import type { ChangeEventHandler, KeyboardEventHandler, MouseEvent, RefObject } from 'react'
 
-export type GroupItemConfigData = {
+// Config
+type ItemCommonConfigData = {
   id: string
   label: string
+}
+
+export type ItemConfigData = ItemCommonConfigData & {
+  placeholder?: never
+  items?: never
   onSelect: (event: MouseEvent<HTMLLIElement>) => void
 }
 
-export type GroupConfigData = {
-  id: string
-  label: string
-  items: GroupItemConfigData[]
+export type ItemWithNestedListConfigData = ItemCommonConfigData & {
+  onSelect?: never
+  placeholder: string
+  items: Array<ItemWithNestedListConfigData | ItemConfigData>
 }
 
-export type ConfigData = GroupConfigData[] | GroupItemConfigData[]
+export type ItemsGroupConfigData = {
+  id: string
+  label: string
+  groupItems: Array<ItemConfigData | ItemWithNestedListConfigData>
+}
+
+export type ConfigData = ItemsGroupConfigData[] | ItemConfigData[]
+
+// Prepared list
+export type SelectedItemData = {
+  id: string
+  isConfigWithNestedData: boolean
+}
 
 export type ListItemData = {
   id: string
   label: string
   onPointerEnter: () => void
   onClick: (event: MouseEvent<HTMLLIElement>) => void
-  isGroup: undefined
-  items: undefined
+  items?: ListItemData[]
+  isGroup?: never
+  groupItems?: never
 }
 
 export type ListGroupData = {
   id: string
   label: string
   isGroup: boolean
-  items: ListItemData[]
+  groupItems: ListItemData[]
+  items?: never
 }
 
 export type ListData = ListGroupData[] | ListItemData[]
 
+// Return types
 export type MenuProps = {
   ref: RefObject<HTMLDivElement>
   onKeyDown: KeyboardEventHandler<HTMLDivElement>
-  onClick: MouseEventHandler<HTMLDivElement>
 }
 
 export type SearchProps = {
   autoFocus: boolean
   placeholder: string
+  value?: string
   ref: RefObject<HTMLInputElement>
   onChange: ChangeEventHandler<HTMLInputElement>
 }

@@ -10,43 +10,49 @@ import {
 // src/utils.ts
 var isConfigWithGroups = (config) => {
   var _a;
-  return ((_a = config.at(0)) == null ? void 0 : _a.items) !== void 0;
+  return ((_a = config.at(0)) == null ? void 0 : _a.groupItems) !== void 0;
 };
 var isListDataWithGroups = (config) => {
   var _a;
-  return ((_a = config.at(0)) == null ? void 0 : _a.items) !== void 0;
+  return ((_a = config.at(0)) == null ? void 0 : _a.groupItems) !== void 0;
 };
-var prepareListOption = (config, setSelectedItem) => config.map(({ id, label, onSelect }) => ({
+var prepareListOption = (config, setSelectedItem) => config.map(({ id, label, onSelect, items, placeholder }) => ({
   id,
   label,
-  onPointerEnter: () => setSelectedItem(id),
+  onPointerEnter: () => setSelectedItem({
+    id,
+    isConfigWithNestedData: !!(items == null ? void 0 : items.length)
+  }),
   onClick: onSelect,
   isGroup: void 0,
-  items: void 0
+  placeholder,
+  items: (items == null ? void 0 : items.length) ? prepareListOption(items, setSelectedItem) : void 0
 }));
 var getListData = (config, setSelectedItem) => {
   if (isConfigWithGroups(config)) {
-    return config.map(({ id, label, items }) => ({
+    return config.map(({ id, label, groupItems }) => ({
       id,
       label,
       isGroup: true,
-      items: prepareListOption(items, setSelectedItem)
+      groupItems: prepareListOption(groupItems, setSelectedItem)
     }));
   }
   return prepareListOption(config, setSelectedItem);
 };
-var getFlatListData = (listData) => {
-  if (isConfigWithGroups(listData)) {
-    return listData.flatMap(({ items }) => items);
-  }
-  return listData;
-};
 var getFirstOption = (config) => {
-  var _a, _b, _c;
+  var _a;
   if (isConfigWithGroups(config)) {
-    return (_b = (_a = config.at(0)) == null ? void 0 : _a.items.at(0)) == null ? void 0 : _b.id;
+    const item2 = (_a = config.at(0)) == null ? void 0 : _a.groupItems.at(0);
+    return {
+      id: item2.id,
+      isConfigWithNestedData: true
+    };
   }
-  return (_c = config.at(0)) == null ? void 0 : _c.id;
+  const item = config.at(0);
+  return {
+    id: item.id,
+    isConfigWithNestedData: false
+  };
 };
 
 // src/useCmdMenu.ts
@@ -55,21 +61,71 @@ var TRIGGER_KEY = "k";
 var DOWN_KEY = "ArrowDown";
 var UP_KEY = "ArrowUp";
 var ENTER_KEY = "Enter";
+var BACK_KEY = "Backspace";
+var getItemsOrder = (preparedConfig) => preparedConfig.flatMap(({ id, isGroup, groupItems, items }) => {
+  if (isGroup && groupItems.length) {
+    return groupItems.flatMap(({ id: id2, items: items2 }) => ({
+      id: id2,
+      isConfigWithNestedData: !!items2
+    }));
+  }
+  return {
+    id,
+    isConfigWithNestedData: !!items
+  };
+});
+var getCurrentList = (preparedConfig) => ({
+  preparedConfig,
+  data: preparedConfig,
+  itemsOrder: getItemsOrder(preparedConfig),
+  configLevelKey: []
+});
+var getInitialData = (config, setSelectedItem) => {
+  const preparedConfig = getListData(config, setSelectedItem);
+  return {
+    preparedConfig,
+    currentList: getCurrentList(preparedConfig)
+  };
+};
+var getFilteredList = (list, searchValue) => {
+  if (isListDataWithGroups(list)) {
+    const fillteredItems = list.map(({ groupItems, ...data3 }) => ({
+      ...data3,
+      groupItems: groupItems == null ? void 0 : groupItems.filter(
+        ({ label }) => label.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    }));
+    const data2 = fillteredItems.filter(({ groupItems }) => groupItems == null ? void 0 : groupItems.length);
+    return {
+      data: data2,
+      itemsOrder: getItemsOrder(data2)
+    };
+  }
+  const data = list.filter(({ label }) => label.toLowerCase().includes(searchValue.toLowerCase()));
+  return {
+    data,
+    itemsOrder: getItemsOrder(data)
+  };
+};
+var getPropByPath = (object, path, defaultValue) => {
+  if (object && path.length)
+    return getPropByPath(object[path.shift()], path, defaultValue);
+  return object === void 0 ? defaultValue : object;
+};
 var useCmdMenu = ({ config }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(getFirstOption(config));
+  const [selectedItem, setSelectedItem] = useState(
+    getFirstOption(config)
+  );
+  const state = useRef(getInitialData(config, setSelectedItem));
+  const getState = () => state.current;
+  const setCurrentListState = (newCurrentListData) => state.current.currentList = { ...state.current.currentList, ...newCurrentListData };
   const listRef = useRef(null);
   const searchRef = useRef(null);
   const selectedItemRef = useRef(null);
-  const preparedListData = useRef(getListData(config, setSelectedItem));
-  const flattedListData = useRef(getFlatListData(preparedListData.current));
-  const [currentListData, setCurrentListData] = useState(preparedListData.current);
   const handleResetToDefaultState = useCallback(() => {
-    var _a;
-    const firstItem = (_a = preparedListData.current.at(0).items) == null ? void 0 : _a.at(0).id;
-    selectedItem !== firstItem && setSelectedItem(firstItem);
-    return setCurrentListData(preparedListData.current);
-  }, [selectedItem]);
+    state.current = getInitialData(config, setSelectedItem);
+  }, [config]);
   useEffect(() => {
     const keyDownHandler = (event) => {
       if ((event.metaKey || event.ctrlKey) && event.key === TRIGGER_KEY) {
@@ -105,50 +161,98 @@ var useCmdMenu = ({ config }) => {
       handleScrollSelectedIntoView(selectedItemRef);
     }
   }, [selectedItem]);
-  const handleSearchChange = ({ target }) => {
-    const getFiltered = (listData, searchValue) => {
-      if (isListDataWithGroups(listData)) {
-        const fillteredItems = listData.map(({ items, ...data }) => ({
-          ...data,
-          items: items == null ? void 0 : items.filter(
-            ({ label }) => label.toLowerCase().includes(searchValue.toLowerCase())
-          )
-        }));
-        return fillteredItems.filter(({ items }) => items == null ? void 0 : items.length);
+  const handleSearchChange = (event) => {
+    const searchValue = event.target.value;
+    const data = getState().currentList.preparedConfig;
+    console.log(data);
+    const newData = getFilteredList(Array.isArray(data) ? data : data.items, searchValue);
+    state.current.currentList.data = newData.data;
+    state.current.currentList.itemsOrder = newData.itemsOrder;
+    state.current.currentList.searchValue = searchValue;
+    setCurrentListState({
+      data: newData.data,
+      itemsOrder: newData.itemsOrder,
+      searchValue
+    });
+    const newSelectedOption = newData.itemsOrder.at(0);
+    return setSelectedItem(newSelectedOption);
+  };
+  const handleGoBackFromNested = () => {
+    const getPreviousKey = (levelKey) => {
+      const lastItemsKeyIndex = levelKey.lastIndexOf("items");
+      if (lastItemsKeyIndex) {
+        const preparedKey = levelKey.slice(0, lastItemsKeyIndex);
+        const lastGroupsItemsKeyIndex = levelKey.lastIndexOf("groupItems");
+        return lastGroupsItemsKeyIndex === preparedKey.length - 1 ? preparedKey.slice(0, lastGroupsItemsKeyIndex - 1) : preparedKey;
       }
-      return listData.filter(({ label }) => label.toLowerCase().includes(searchValue.toLowerCase()));
+      return levelKey;
     };
-    const getPreselectedOption = (listData) => {
-      var _a, _b, _c;
-      if (isListDataWithGroups(listData)) {
-        return (_c = (_b = (_a = listData.at(0)) == null ? void 0 : _a.items) == null ? void 0 : _b.at(0)) == null ? void 0 : _c.id;
+    const baseState = getState();
+    const { configLevelKey } = baseState.currentList;
+    const arrayKey = getPreviousKey(configLevelKey);
+    const data = getPropByPath(baseState, [...arrayKey], {});
+    const listData = arrayKey.length > 1 ? data.items : data;
+    const newItemsOrder = getItemsOrder(listData);
+    setCurrentListState({
+      data: listData,
+      itemsOrder: newItemsOrder,
+      preparedConfig: listData,
+      configLevelKey: arrayKey,
+      searchPlaceholder: data.placeholder
+    });
+    const newSelectedOption = newItemsOrder.at(0);
+    return setSelectedItem(newSelectedOption);
+  };
+  const handleGoToNestedItems = () => {
+    const baseState = getState();
+    const { itemsOrder, preparedConfig, configLevelKey } = baseState.currentList;
+    const getArrayKey = (levelKey) => {
+      const findIndex = (data2, selectedItemId) => data2.findIndex(({ id, isGroup, groupItems }) => {
+        if (isGroup && groupItems.length) {
+          return groupItems.some(({ id: id2 }) => id2 === selectedItemId);
+        }
+        return id === selectedItemId;
+      });
+      if (!(levelKey == null ? void 0 : levelKey.length) || levelKey && levelKey.length <= 1) {
+        const groupId = findIndex(preparedConfig, selectedItem.id);
+        const selectedItemIndex2 = itemsOrder.findIndex(({ id }) => id === (selectedItem == null ? void 0 : selectedItem.id));
+        return ["preparedConfig", groupId, "groupItems", selectedItemIndex2];
       }
-      return listData.at(0).id;
+      const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === (selectedItem == null ? void 0 : selectedItem.id));
+      return [...levelKey, "items", selectedItemIndex];
     };
-    const filteredData = getFiltered(preparedListData.current, target.value);
-    const preselectedOption = getPreselectedOption(filteredData);
-    setCurrentListData(filteredData);
-    flattedListData.current = getFlatListData(filteredData);
-    return setSelectedItem(preselectedOption);
+    const arrayKey = getArrayKey(configLevelKey);
+    const data = getPropByPath(baseState, [...arrayKey], {});
+    const newItemsOrder = getItemsOrder(data.items);
+    setCurrentListState({
+      data: data.items,
+      itemsOrder: newItemsOrder,
+      preparedConfig: data,
+      configLevelKey: arrayKey,
+      searchPlaceholder: data.placeholder,
+      searchValue: void 0
+    });
+    const newSelectedOption = newItemsOrder.at(0);
+    return setSelectedItem(newSelectedOption);
   };
   const handleSelect = (optionRef) => {
     var _a;
-    return (_a = optionRef.current) == null ? void 0 : _a.click();
+    if (selectedItem == null ? void 0 : selectedItem.isConfigWithNestedData) {
+      handleGoToNestedItems();
+    } else {
+      (_a = optionRef.current) == null ? void 0 : _a.click();
+    }
   };
   const handleKeyPress = (direction) => {
-    const flattedList = flattedListData.current;
-    const selectedItemIndex = flattedList.findIndex((configData) => configData.id === selectedItem);
-    const getNextItem = () => {
-      var _a, _b;
-      if (selectedItemIndex < flattedList.length - 1 && direction === "down") {
-        return (_a = flattedList.at(selectedItemIndex + 1)) == null ? void 0 : _a.id;
-      }
-      if (selectedItemIndex > 0 && direction === "up") {
-        return (_b = flattedList.at(selectedItemIndex - 1)) == null ? void 0 : _b.id;
-      }
-      return selectedItem;
-    };
-    return setSelectedItem(getNextItem());
+    const { itemsOrder } = getState().currentList;
+    const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === (selectedItem == null ? void 0 : selectedItem.id));
+    let newSelectedItem = selectedItem;
+    if (selectedItemIndex < itemsOrder.length - 1 && direction === "down") {
+      newSelectedItem = itemsOrder.at(selectedItemIndex + 1);
+    } else if (selectedItemIndex > 0 && direction === "up") {
+      newSelectedItem = itemsOrder.at(selectedItemIndex - 1);
+    }
+    return setSelectedItem(newSelectedItem);
   };
   const handleMenuKeyDown = (event) => {
     switch (event.key) {
@@ -164,29 +268,30 @@ var useCmdMenu = ({ config }) => {
         event.preventDefault();
         return handleSelect(selectedItemRef);
       }
-    }
-  };
-  const handleClickInMenuList = (event) => {
-    if (event.target.localName === "li") {
-      return setIsOpen(false);
+      case BACK_KEY: {
+        const { configLevelKey } = getState().currentList;
+        if (!event.target.value.length && configLevelKey.length > 1) {
+          return handleGoBackFromNested();
+        }
+      }
     }
   };
   return {
     isOpen,
-    selectedItem,
+    selectedItem: selectedItem == null ? void 0 : selectedItem.id,
     selectedItemRef,
     menuProps: {
       ref: listRef,
-      onKeyDown: handleMenuKeyDown,
-      onClick: handleClickInMenuList
+      onKeyDown: handleMenuKeyDown
     },
     searchProps: {
       autoFocus: true,
-      placeholder: "Type to search...",
+      placeholder: getState().currentList.searchPlaceholder ?? "Type to search...",
+      value: getState().currentList.searchValue ?? "",
       ref: searchRef,
       onChange: handleSearchChange
     },
-    preparedList: currentListData
+    preparedList: getState().currentList.data
   };
 };
 export {
