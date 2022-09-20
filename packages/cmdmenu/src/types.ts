@@ -30,6 +30,7 @@ export type ConfigData = ItemsGroupConfigData[] | ItemConfigData[]
 export type SelectedItemData = {
   id: string
   isConfigWithNestedData: boolean
+  index: number
 }
 
 export type ListItemData = {

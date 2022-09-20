@@ -49,19 +49,26 @@ type CmdMenuState = {
   currentList: CurrentListState
 }
 
-const getItemsOrder = (preparedConfig: ListData): SelectedItemData[] =>
-  preparedConfig.flatMap(({ id, isGroup, groupItems, items }) => {
-    if (isGroup && groupItems.length) {
-      return groupItems.flatMap(({ id, items }) => ({
+const getItemsOrder = (preparedConfig: ListData): SelectedItemData[] => {
+  if (isListDataWithGroups(preparedConfig)) {
+    const flatList = preparedConfig.flatMap(({ groupItems }) =>
+      groupItems.flatMap(({ id, items }) => ({
         id,
-        isConfigWithNestedData: !!items
+        isConfigWithNestedData: !!items,
+        index: 0
       }))
-    }
-    return {
-      id,
-      isConfigWithNestedData: !!items
-    }
-  })
+    )
+    return flatList.flatMap((data, index) => ({
+      ...data,
+      index
+    }))
+  }
+  return preparedConfig.flatMap(({ id, items }, index) => ({
+    id,
+    isConfigWithNestedData: !!items,
+    index
+  }))
+}
 
 const getCurrentList = (preparedConfig: ListData): CurrentListState => ({
   preparedConfig,
@@ -117,6 +124,18 @@ const getPropByPath = (
   if (object && path.length) return getPropByPath(object[path.shift()!], path, defaultValue)
   return object === undefined ? defaultValue : object
 }
+
+const findIndexes = (data: ListData, selectedItemId: string) =>
+  data.flatMap(({ id, isGroup, groupItems }, index) => {
+    if (isGroup && groupItems.length) {
+      const itemIndex = groupItems.findIndex(({ id }) => id === selectedItemId)
+      // return itemIndex > -1 ? { groupIndex: index, itemIndex } : undefined
+      return itemIndex > -1 ? [index, itemIndex] : []
+    } else if (id === selectedItemId) {
+      return [index]
+    }
+    return []
+  })
 
 export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -182,19 +201,13 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
   }, [selectedItem])
 
   const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const searchValue = event.target.value
-    const data = getState().currentList.preparedConfig
-    console.log(data)
-    const newData = getFilteredList(Array.isArray(data) ? data : data.items, searchValue)
-
-    state.current.currentList.data = newData.data
-    state.current.currentList.itemsOrder = newData.itemsOrder
-    state.current.currentList.searchValue = searchValue
+    const { value } = event.target
+    const newData = getFilteredList(getState().currentList.preparedConfig, value)
 
     setCurrentListState({
       data: newData.data,
       itemsOrder: newData.itemsOrder,
-      searchValue
+      searchValue: value
     })
 
     const newSelectedOption = newData.itemsOrder.at(0)
@@ -235,34 +248,28 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
 
   const handleGoToNestedItems = () => {
     const baseState = getState()
-    const { itemsOrder, preparedConfig, configLevelKey } = baseState.currentList
+    const { preparedConfig, configLevelKey } = baseState.currentList
 
-    const getArrayKey = (levelKey?: (string | number)[]) => {
-      const findIndex = (data: ListData, selectedItemId: string) =>
-        data.findIndex(({ id, isGroup, groupItems }) => {
-          if (isGroup && groupItems.length) {
-            return groupItems!.some(({ id }) => id === selectedItemId)
-          }
-          return id === selectedItemId
-        })
-
+    const getArrayKey = (config: ListData, levelKey: (string | number)[]) => {
+      const indexes = findIndexes(config, selectedItem!.id)
       if (!levelKey?.length || (levelKey && levelKey.length <= 1)) {
-        const groupId = findIndex(preparedConfig, selectedItem!.id)
-        const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === selectedItem?.id)
-        return ['preparedConfig', groupId, 'groupItems', selectedItemIndex]
+        // For grouped configs the first index will be the group index.
+        const [groupIndex, selectedItemIndex] = indexes
+        return ['preparedConfig', groupIndex, 'groupItems', selectedItemIndex]
       }
-      const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === selectedItem?.id)
+      // For flat configs the first index will be the item index.
+      const [selectedItemIndex] = indexes
       return [...levelKey, 'items', selectedItemIndex]
     }
 
-    const arrayKey = getArrayKey(configLevelKey)
+    const arrayKey = getArrayKey(preparedConfig, configLevelKey)
     const data = getPropByPath(baseState, [...arrayKey], {})
     const newItemsOrder = getItemsOrder(data.items)
 
     setCurrentListState({
       data: data.items,
       itemsOrder: newItemsOrder,
-      preparedConfig: data,
+      preparedConfig: data.items,
       configLevelKey: arrayKey,
       searchPlaceholder: data.placeholder,
       searchValue: undefined
@@ -282,15 +289,13 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
 
   const handleKeyPress = (direction: 'up' | 'down') => {
     const { itemsOrder } = getState().currentList
-    const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === selectedItem?.id)
+    const selectedItemIndex = selectedItem!.index
 
-    let newSelectedItem = selectedItem
-    if (selectedItemIndex < itemsOrder.length - 1 && direction === 'down') {
-      newSelectedItem = itemsOrder.at(selectedItemIndex + 1)
-    } else if (selectedItemIndex > 0 && direction === 'up') {
-      newSelectedItem = itemsOrder.at(selectedItemIndex - 1)
-    }
-
+    const newSelectedItemIndex =
+      selectedItemIndex < itemsOrder.length - 1 && direction === 'down'
+        ? selectedItemIndex + 1
+        : selectedItemIndex - 1
+    const newSelectedItem = itemsOrder.at(newSelectedItemIndex)
     return setSelectedItem(newSelectedItem)
   }
 

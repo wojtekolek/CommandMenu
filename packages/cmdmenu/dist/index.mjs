@@ -16,12 +16,13 @@ var isListDataWithGroups = (config) => {
   var _a;
   return ((_a = config.at(0)) == null ? void 0 : _a.groupItems) !== void 0;
 };
-var prepareListOption = (config, setSelectedItem) => config.map(({ id, label, onSelect, items, placeholder }) => ({
+var prepareListOption = (config, setSelectedItem) => config.map(({ id, label, onSelect, items, placeholder }, index) => ({
   id,
   label,
   onPointerEnter: () => setSelectedItem({
     id,
-    isConfigWithNestedData: !!(items == null ? void 0 : items.length)
+    isConfigWithNestedData: !!(items == null ? void 0 : items.length),
+    index
   }),
   onClick: onSelect,
   isGroup: void 0,
@@ -41,17 +42,20 @@ var getListData = (config, setSelectedItem) => {
 };
 var getFirstOption = (config) => {
   var _a;
+  const INITIAL_INDEX = 0;
   if (isConfigWithGroups(config)) {
-    const item2 = (_a = config.at(0)) == null ? void 0 : _a.groupItems.at(0);
+    const item2 = (_a = config.at(INITIAL_INDEX)) == null ? void 0 : _a.groupItems.at(INITIAL_INDEX);
     return {
       id: item2.id,
-      isConfigWithNestedData: true
+      isConfigWithNestedData: true,
+      index: INITIAL_INDEX
     };
   }
-  const item = config.at(0);
+  const item = config.at(INITIAL_INDEX);
   return {
     id: item.id,
-    isConfigWithNestedData: false
+    isConfigWithNestedData: false,
+    index: INITIAL_INDEX
   };
 };
 
@@ -62,18 +66,26 @@ var DOWN_KEY = "ArrowDown";
 var UP_KEY = "ArrowUp";
 var ENTER_KEY = "Enter";
 var BACK_KEY = "Backspace";
-var getItemsOrder = (preparedConfig) => preparedConfig.flatMap(({ id, isGroup, groupItems, items }) => {
-  if (isGroup && groupItems.length) {
-    return groupItems.flatMap(({ id: id2, items: items2 }) => ({
-      id: id2,
-      isConfigWithNestedData: !!items2
+var getItemsOrder = (preparedConfig) => {
+  if (isListDataWithGroups(preparedConfig)) {
+    const flatList = preparedConfig.flatMap(
+      ({ groupItems }) => groupItems.flatMap(({ id, items }) => ({
+        id,
+        isConfigWithNestedData: !!items,
+        index: 0
+      }))
+    );
+    return flatList.flatMap((data, index) => ({
+      ...data,
+      index
     }));
   }
-  return {
+  return preparedConfig.flatMap(({ id, items }, index) => ({
     id,
-    isConfigWithNestedData: !!items
-  };
-});
+    isConfigWithNestedData: !!items,
+    index
+  }));
+};
 var getCurrentList = (preparedConfig) => ({
   preparedConfig,
   data: preparedConfig,
@@ -112,6 +124,15 @@ var getPropByPath = (object, path, defaultValue) => {
     return getPropByPath(object[path.shift()], path, defaultValue);
   return object === void 0 ? defaultValue : object;
 };
+var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupItems }, index) => {
+  if (isGroup && groupItems.length) {
+    const itemIndex = groupItems.findIndex(({ id: id2 }) => id2 === selectedItemId);
+    return itemIndex > -1 ? [index, itemIndex] : [];
+  } else if (id === selectedItemId) {
+    return [index];
+  }
+  return [];
+});
 var useCmdMenu = ({ config }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(
@@ -162,17 +183,12 @@ var useCmdMenu = ({ config }) => {
     }
   }, [selectedItem]);
   const handleSearchChange = (event) => {
-    const searchValue = event.target.value;
-    const data = getState().currentList.preparedConfig;
-    console.log(data);
-    const newData = getFilteredList(Array.isArray(data) ? data : data.items, searchValue);
-    state.current.currentList.data = newData.data;
-    state.current.currentList.itemsOrder = newData.itemsOrder;
-    state.current.currentList.searchValue = searchValue;
+    const { value } = event.target;
+    const newData = getFilteredList(getState().currentList.preparedConfig, value);
     setCurrentListState({
       data: newData.data,
       itemsOrder: newData.itemsOrder,
-      searchValue
+      searchValue: value
     });
     const newSelectedOption = newData.itemsOrder.at(0);
     return setSelectedItem(newSelectedOption);
@@ -205,29 +221,23 @@ var useCmdMenu = ({ config }) => {
   };
   const handleGoToNestedItems = () => {
     const baseState = getState();
-    const { itemsOrder, preparedConfig, configLevelKey } = baseState.currentList;
-    const getArrayKey = (levelKey) => {
-      const findIndex = (data2, selectedItemId) => data2.findIndex(({ id, isGroup, groupItems }) => {
-        if (isGroup && groupItems.length) {
-          return groupItems.some(({ id: id2 }) => id2 === selectedItemId);
-        }
-        return id === selectedItemId;
-      });
+    const { preparedConfig, configLevelKey } = baseState.currentList;
+    const getArrayKey = (config2, levelKey) => {
+      const indexes = findIndexes(config2, selectedItem.id);
       if (!(levelKey == null ? void 0 : levelKey.length) || levelKey && levelKey.length <= 1) {
-        const groupId = findIndex(preparedConfig, selectedItem.id);
-        const selectedItemIndex2 = itemsOrder.findIndex(({ id }) => id === (selectedItem == null ? void 0 : selectedItem.id));
-        return ["preparedConfig", groupId, "groupItems", selectedItemIndex2];
+        const [groupIndex, selectedItemIndex2] = indexes;
+        return ["preparedConfig", groupIndex, "groupItems", selectedItemIndex2];
       }
-      const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === (selectedItem == null ? void 0 : selectedItem.id));
+      const [selectedItemIndex] = indexes;
       return [...levelKey, "items", selectedItemIndex];
     };
-    const arrayKey = getArrayKey(configLevelKey);
+    const arrayKey = getArrayKey(preparedConfig, configLevelKey);
     const data = getPropByPath(baseState, [...arrayKey], {});
     const newItemsOrder = getItemsOrder(data.items);
     setCurrentListState({
       data: data.items,
       itemsOrder: newItemsOrder,
-      preparedConfig: data,
+      preparedConfig: data.items,
       configLevelKey: arrayKey,
       searchPlaceholder: data.placeholder,
       searchValue: void 0
@@ -245,13 +255,9 @@ var useCmdMenu = ({ config }) => {
   };
   const handleKeyPress = (direction) => {
     const { itemsOrder } = getState().currentList;
-    const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === (selectedItem == null ? void 0 : selectedItem.id));
-    let newSelectedItem = selectedItem;
-    if (selectedItemIndex < itemsOrder.length - 1 && direction === "down") {
-      newSelectedItem = itemsOrder.at(selectedItemIndex + 1);
-    } else if (selectedItemIndex > 0 && direction === "up") {
-      newSelectedItem = itemsOrder.at(selectedItemIndex - 1);
-    }
+    const selectedItemIndex = selectedItem.index;
+    const newSelectedItemIndex = selectedItemIndex < itemsOrder.length - 1 && direction === "down" ? selectedItemIndex + 1 : selectedItemIndex - 1;
+    const newSelectedItem = itemsOrder.at(newSelectedItemIndex);
     return setSelectedItem(newSelectedItem);
   };
   const handleMenuKeyDown = (event) => {
