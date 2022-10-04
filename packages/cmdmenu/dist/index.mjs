@@ -16,9 +16,11 @@ var isListDataWithGroups = (config) => {
   var _a;
   return ((_a = config.at(0)) == null ? void 0 : _a.groupItems) !== void 0;
 };
-var prepareListOption = (config, setSelectedItem) => config.map(({ id, label, onSelect, items, placeholder }, index) => ({
+var prepareListOption = (config, setSelectedItem) => config.map(({ id, label, icon, description, onSelect, items, placeholder }, index) => ({
   id,
   label,
+  icon,
+  description,
   onPointerEnter: () => setSelectedItem({
     id,
     isConfigWithNestedData: !!(items == null ? void 0 : items.length),
@@ -256,7 +258,16 @@ var useCmdMenu = ({ config }) => {
   const handleKeyPress = (direction) => {
     const { itemsOrder } = getState().currentList;
     const selectedItemIndex = selectedItem.index;
-    const newSelectedItemIndex = selectedItemIndex < itemsOrder.length - 1 && direction === "down" ? selectedItemIndex + 1 : selectedItemIndex - 1;
+    const getNextItemIndex = () => {
+      if (selectedItemIndex < itemsOrder.length - 1 && direction === "down") {
+        return selectedItemIndex + 1;
+      }
+      if (selectedItemIndex > 0 && direction === "up") {
+        return selectedItemIndex - 1;
+      }
+      return selectedItemIndex;
+    };
+    const newSelectedItemIndex = getNextItemIndex();
     const newSelectedItem = itemsOrder.at(newSelectedItemIndex);
     return setSelectedItem(newSelectedItem);
   };

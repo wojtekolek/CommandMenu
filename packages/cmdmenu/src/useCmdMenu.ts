@@ -291,10 +291,16 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
     const { itemsOrder } = getState().currentList
     const selectedItemIndex = selectedItem!.index
 
-    const newSelectedItemIndex =
-      selectedItemIndex < itemsOrder.length - 1 && direction === 'down'
-        ? selectedItemIndex + 1
-        : selectedItemIndex - 1
+    const getNextItemIndex = () => {
+      if (selectedItemIndex < itemsOrder.length - 1 && direction === 'down') {
+        return selectedItemIndex + 1
+      }
+      if (selectedItemIndex > 0 && direction === 'up') {
+        return selectedItemIndex - 1
+      }
+      return selectedItemIndex
+    }
+    const newSelectedItemIndex = getNextItemIndex()
     const newSelectedItem = itemsOrder.at(newSelectedItemIndex)
     return setSelectedItem(newSelectedItem)
   }

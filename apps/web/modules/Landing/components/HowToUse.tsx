@@ -13,6 +13,6 @@ const HowToUseWrapper = styled.section`
 export const HowToUse: FunctionComponent = () => (
   <HowToUseWrapper>
     <SectionTitle>How to use it?</SectionTitle>
-    <CodeSnippet>siema</CodeSnippet>
+    <CodeSnippet>Soon...</CodeSnippet>
   </HowToUseWrapper>
 )

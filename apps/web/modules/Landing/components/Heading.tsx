@@ -35,12 +35,10 @@ export const Heading: FunctionComponent = () => (
     <SubTitle>Headless UI for building command menus in React.</SubTitle>
     <Badges>
       <Badges.Badge>
-        <Icon name="Github" />
-        github.com/wojtekolek/cmdmenu
+        <Icon name="Github" />-
       </Badges.Badge>
       <Badges.Badge>
-        <Icon name="Copy" />
-        npm i -S cmdmenu
+        <Icon name="Copy" />-
       </Badges.Badge>
     </Badges>
     <Separator />

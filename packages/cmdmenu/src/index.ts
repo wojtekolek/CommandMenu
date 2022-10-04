@@ -1,2 +1,2 @@
 export { useCmdMenu } from './useCmdMenu'
-export type { ItemsGroupConfigData, ItemConfigData, ConfigData } from './types'
+export type { ItemsGroupConfigData, ItemConfigData, ConfigData, ListItemData } from './types'

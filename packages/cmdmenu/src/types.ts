@@ -1,30 +1,34 @@
 import type { ChangeEventHandler, KeyboardEventHandler, MouseEvent, RefObject } from 'react'
 
 // Config
-type ItemCommonConfigData = {
+type ItemCommonConfigData<IconName = string> = {
   id: string
+  icon?: IconName
   label: string
+  description?: string
 }
 
-export type ItemConfigData = ItemCommonConfigData & {
+export type ItemConfigData<IconName = string> = ItemCommonConfigData<IconName> & {
   placeholder?: never
   items?: never
   onSelect: (event: MouseEvent<HTMLLIElement>) => void
 }
 
-export type ItemWithNestedListConfigData = ItemCommonConfigData & {
+export type ItemWithNestedListConfigData<IconName = string> = ItemCommonConfigData<IconName> & {
   onSelect?: never
   placeholder: string
-  items: Array<ItemWithNestedListConfigData | ItemConfigData>
+  items: Array<ItemWithNestedListConfigData<IconName> | ItemConfigData<IconName>>
 }
 
-export type ItemsGroupConfigData = {
+export type ItemsGroupConfigData<IconName = string> = {
   id: string
   label: string
-  groupItems: Array<ItemConfigData | ItemWithNestedListConfigData>
+  groupItems: Array<ItemConfigData<IconName> | ItemWithNestedListConfigData<IconName>>
 }
 
-export type ConfigData = ItemsGroupConfigData[] | ItemConfigData[]
+export type ConfigData<IconName = string> =
+  | ItemsGroupConfigData<IconName>[]
+  | ItemConfigData<IconName>[]
 
 // Prepared list
 export type SelectedItemData = {
@@ -36,6 +40,8 @@ export type SelectedItemData = {
 export type ListItemData = {
   id: string
   label: string
+  icon?: string
+  description?: string
   onPointerEnter: () => void
   onClick: (event: MouseEvent<HTMLLIElement>) => void
   items?: ListItemData[]
@@ -49,6 +55,8 @@ export type ListGroupData = {
   isGroup: boolean
   groupItems: ListItemData[]
   items?: never
+  icon?: never
+  description?: never
 }
 
 export type ListData = ListGroupData[] | ListItemData[]

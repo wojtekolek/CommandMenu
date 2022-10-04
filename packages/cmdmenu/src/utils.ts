@@ -23,9 +23,11 @@ export const prepareListOption = (
   config: Array<ItemConfigData | ItemWithNestedListConfigData>,
   setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>
 ): ListItemData[] =>
-  config.map(({ id, label, onSelect, items, placeholder }, index) => ({
+  config.map(({ id, label, icon, description, onSelect, items, placeholder }, index) => ({
     id,
     label,
+    icon,
+    description,
     onPointerEnter: () =>
       setSelectedItem({
         id,
@@ -59,15 +61,6 @@ export const getFlatListData = (listData: ListData): ListItemData[] => {
   }
   return listData as ListItemData[]
 }
-
-// export const getFirstOption = (
-//   config: ConfigData
-// ): ItemConfigData | ItemWithNestedListConfigData => {
-//   if (isConfigWithGroups(config)) {
-//     return config.at(0)?.items.at(0)!
-//   }
-//   return config.at(0)!
-// }
 
 export const getFirstOption = (config: ConfigData): SelectedItemData => {
   const INITIAL_INDEX = 0

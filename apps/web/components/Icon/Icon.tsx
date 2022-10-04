@@ -1,10 +1,11 @@
 import { FunctionComponent } from 'react'
+
 import * as icons from '@styled-icons/feather'
 
-export type IconNameTypes = keyof typeof icons
+export type IconName = keyof typeof icons
 
 type IconProps = {
-  name: IconNameTypes
+  name: IconName
   className?: string
   size?: number
   title?: string
