@@ -42,7 +42,7 @@ export const radius = {
 export const colors = {
   // primary
   primary: {
-    default: '#D8B364'
+    default: '#FFD78A'
   },
   // background
   background: {
