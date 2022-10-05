@@ -128,7 +128,6 @@ const ListComponent: FunctionComponent<ListComponentProps> = ({
   return (
     <PortalMenuListItem
       {...itemProps}
-      key={id}
       ref={isSelected ? selectedItemRef : null}
       isSelected={isSelected}
     >
