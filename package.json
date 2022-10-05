@@ -6,9 +6,13 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "changeset": "changeset",
+    "version-package": "changeset version",
+    "publish-package": "turbo run build lint --filter=web^... && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.25.0",
     "@wojtekolek/eslint-config": "^1.4.5",
     "prettier": "latest",
     "turbo": "latest"
@@ -16,5 +20,6 @@
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
-  }
+  },
+  "packageManager": "pnpm@7.13.1"
 }

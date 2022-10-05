@@ -1,4 +1,4 @@
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
+import Document, { DocumentContext, Html, Main, Head, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
 class CustomDocument extends Document {
@@ -29,6 +29,15 @@ class CustomDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600&display=swap"
             rel="stylesheet"
           />
+          <link
+            rel="apple-touch-icon-precomposed"
+            sizes="180x180"
+            href="/favicons/apple-touch-icon.png"
+          />
+          <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32" />
+          <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16" />
+          <link rel="icon" type="image/png" href="/favicons/favicon.png" sizes="48x48" />
+          <link rel="manifest" href="/favicons/site.webmanifest" />
         </Head>
         <body>
           <Main />
