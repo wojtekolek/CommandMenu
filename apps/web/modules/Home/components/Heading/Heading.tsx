@@ -1,11 +1,14 @@
 import type { FunctionComponent } from 'react'
 
 import styled from 'styled-components'
-
 import { Icon } from 'components/Icon'
 import { Image } from 'components/Image'
-import { SubTitle, Title } from 'components/Primitives'
+import { SubTitle as SubTitleBase, Title } from 'components/Primitives'
 import { Badges } from 'components/Primitives/Badges'
+import { ExternalLink } from 'components/Link'
+import Logo from 'public/logo.svg'
+import { from } from 'utils/styles/responsiveness'
+import { PackageNameBadge } from './components/PackageNameBadge'
 
 const HeadingWrapper = styled.div`
   display: flex;
@@ -20,26 +23,44 @@ const TitleWrapper = styled.div`
   display: flex;
 `
 
+const LogoImage = styled(Image)`
+  width: 75px;
+  height: auto;
+
+  ${from('tablet')} {
+    width: 115px;
+  }
+`
+
+const SubTitle = styled(SubTitleBase)`
+  text-align: center;
+`
+
 const Separator = styled.div`
-  width: 80%;
+  width: 100%;
   height: 2px;
   background: ${({ theme }) => theme.colors.misc.separatorGradient};
+
+  ${from('tablet')} {
+    width: 80%;
+  }
 `
 
 export const Heading: FunctionComponent = () => (
   <HeadingWrapper>
     <TitleWrapper>
-      <Image alt="logo" src="/logo.svg" width={115} height={105} />
+      <LogoImage priority alt="logo" src={Logo} />
       <Title>mdMenu</Title>
     </TitleWrapper>
     <SubTitle>Headless UI for building command menus in React.</SubTitle>
     <Badges>
       <Badges.Badge>
-        <Icon name="Github" />-
+        <Icon name="Github" />
+        <ExternalLink href="https://github.com/wojtekolek/cmdmenu">
+          github.com/wojtekolek/cmdmenu
+        </ExternalLink>
       </Badges.Badge>
-      <Badges.Badge>
-        <Icon name="Copy" />-
-      </Badges.Badge>
+      <PackageNameBadge />
     </Badges>
     <Separator />
   </HeadingWrapper>

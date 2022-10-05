@@ -5,11 +5,12 @@ import type { ListItemData } from 'cmdmenu'
 import styled from 'styled-components'
 
 import { Icon } from 'components/Icon'
+import { from } from 'utils/styles/responsiveness'
 import { config } from './config'
 
 const PortalMenuWrapper = styled.div`
   margin: 0 auto;
-  width: 640px;
+  width: 100%;
   min-height: 240px;
   max-height: 480px;
   background-color: ${({ theme }) => theme.colors.background.tertriary};
@@ -17,6 +18,10 @@ const PortalMenuWrapper = styled.div`
   border-radius: ${({ theme }) => theme.radius.rad2};
   overflow: hidden;
   z-index: 999999;
+
+  ${from('tablet')} {
+    width: 640px;
+  }
 `
 
 type PortalMenuListItemButtonStyleProps = {

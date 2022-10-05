@@ -4,10 +4,15 @@ import styled from 'styled-components'
 
 import { CodeSnippet } from 'components/CodeSnippet'
 import { SectionTitle } from 'components/Primitives'
+import { from } from 'utils/styles/responsiveness'
 
 const HowToUseWrapper = styled.section`
   margin: 0 auto;
-  width: 640px;
+  width: 100%;
+
+  ${from('tablet')} {
+    width: 640px;
+  }
 `
 
 export const HowToUse: FunctionComponent = () => (

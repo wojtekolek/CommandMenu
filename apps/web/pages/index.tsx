@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 
-import { Landing } from 'modules/Landing'
+import { Home } from 'modules/Home'
 
-const Home: NextPage = () => <Landing />
+const HomePage: NextPage = () => <Home />
 
-export default Home
+export default HomePage

@@ -6,18 +6,18 @@ import { Demo } from './components/Demo'
 import { Heading } from './components/Heading'
 import { HowToUse } from './components/HowToUse'
 
-const LandingContent = styled.div`
+const HomeContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.ss4};
 `
 
-export const Landing: FunctionComponent = () => (
+export const Home: FunctionComponent = () => (
   <>
     <Heading />
-    <LandingContent>
+    <HomeContent>
       <Demo />
       <HowToUse />
-    </LandingContent>
+    </HomeContent>
   </>
 )

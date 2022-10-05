@@ -1,6 +1,6 @@
 import type { FunctionComponent, ReactNode } from 'react'
 
-import { ThemeProvider, createGlobalStyle } from 'styled-components'
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 
 import { Footer } from 'components/Footer'
 import { Normalize } from 'utils/styles/Normalize'
@@ -24,6 +24,10 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+const LayoutMain = styled.main`
+  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss2}`};
+`
+
 type LayoutProps = {
   children: ReactNode
 }
@@ -32,7 +36,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({ children }) => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
     <Normalize />
-    {children}
+    <LayoutMain>{children}</LayoutMain>
     <Footer />
   </ThemeProvider>
 )

@@ -2,15 +2,16 @@ import type { FunctionComponent, ReactNode } from 'react'
 
 import Head from 'next/head'
 
+const DESCRIPTION = 'Headless UI for building command menus in React.'
+
 type PageMetaProps = {
   children?: ReactNode
-  subTitle?: string
 }
 
-export const PageMeta: FunctionComponent<PageMetaProps> = ({ subTitle, children }) => (
+export const PageMeta: FunctionComponent<PageMetaProps> = ({ children }) => (
   <Head>
-    <title>{`${subTitle ? `${subTitle} — ` : ''}CmdMenu`}</title>
-    <meta name="description" content="Headless UI for building command menus in React." />
+    <title>CmdMenu - {DESCRIPTION}</title>
+    <meta name="description" content={DESCRIPTION} />
     {children}
   </Head>
 )

@@ -1,9 +1,17 @@
 import styled from 'styled-components'
+import { from } from 'utils/styles/responsiveness'
 
 const BadgesBase = styled.ul`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   list-style: none;
-  gap: ${({ theme }) => theme.spacing.ss4};
+  gap: ${({ theme }) => theme.spacing.ss2};
+
+  ${from('tablet')} {
+    flex-direction: row;
+    gap: ${({ theme }) => theme.spacing.ss4};
+  }
 `
 
 const Badge = styled.li`
