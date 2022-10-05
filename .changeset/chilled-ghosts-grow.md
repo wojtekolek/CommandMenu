@@ -1,5 +1,0 @@
----
-'cmdmenu': patch
----
-
-Initial
