@@ -9,7 +9,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
     "version-package": "changeset version",
-    "publish-package": "turbo run build lint --filter=web^... && changeset publish"
+    "publish-package": "turbo run build lint --filter=example^... && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.25.0",

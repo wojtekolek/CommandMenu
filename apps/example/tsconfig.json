@@ -1,5 +1,4 @@
 {
-  "display": "Next.js",
   "compilerOptions": {
     "target": "es5",
     "lib": [
