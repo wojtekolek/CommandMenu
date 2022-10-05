@@ -133,7 +133,24 @@ export const config: ConfigData<IconName> = [
         label: 'Share',
         icon: 'Share',
         description: 'Share smth',
-        onSelect: () => console.log('clicked test1')
+        placeholder: 'Show me more options mate...',
+        items: [
+          {
+            id: 'shareMore1',
+            label: 'More 1',
+            onSelect: () => console.log('spotifyMoreActionMoreActionMore1 click')
+          },
+          {
+            id: 'shareMore2',
+            label: 'More 2',
+            onSelect: () => console.log('spotifyMoreActionMoreActionMore2 click')
+          },
+          {
+            id: 'shareMore3',
+            label: 'More 3',
+            onSelect: () => console.log('spotifyMoreActionMoreActionMore3 click')
+          }
+        ]
       },
       {
         id: 'github',

@@ -1,21 +1,19 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
+import { useEffect, useLayoutEffect as useLayoutEffectBase, useRef, useState } from 'react'
+import type {
+  ChangeEventHandler,
+  KeyboardEventHandler,
+  RefObject,
   Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useLayoutEffect as useLayoutEffectBase,
-  useRef,
-  useState
+  SetStateAction
 } from 'react'
-import type { ChangeEventHandler, KeyboardEventHandler, RefObject } from 'react'
 
 import type { ConfigData, ListData, MenuProps, SearchProps, SelectedItemData } from './types'
 import { getFirstOption, getListData, isListDataWithGroups } from './utils'
 
 const useLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffectBase
 
-const TRIGGER_KEY = 'k'
+// const TRIGGER_KEY = 'k'
 export const DOWN_KEY = 'ArrowDown'
 export const UP_KEY = 'ArrowUp'
 export const ENTER_KEY = 'Enter'
@@ -51,22 +49,16 @@ type CmdMenuState = {
 
 const getItemsOrder = (preparedConfig: ListData): SelectedItemData[] => {
   if (isListDataWithGroups(preparedConfig)) {
-    const flatList = preparedConfig.flatMap(({ groupItems }) =>
+    return preparedConfig.flatMap(({ groupItems }) =>
       groupItems.flatMap(({ id, items }) => ({
         id,
-        isConfigWithNestedData: !!items,
-        index: 0
+        isConfigWithNestedData: !!items
       }))
     )
-    return flatList.flatMap((data, index) => ({
-      ...data,
-      index
-    }))
   }
-  return preparedConfig.flatMap(({ id, items }, index) => ({
+  return preparedConfig.flatMap(({ id, items }) => ({
     id,
-    isConfigWithNestedData: !!items,
-    index
+    isConfigWithNestedData: !!items?.length
   }))
 }
 
@@ -79,10 +71,11 @@ const getCurrentList = (preparedConfig: ListData): CurrentListState => ({
 
 const getInitialData = (
   config: ConfigData,
-  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>
+  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>,
+  goToNested: (passedItemId: string) => void
 ): CmdMenuState => {
   // prepared config
-  const preparedConfig = getListData(config, setSelectedItem)
+  const preparedConfig = getListData(config, setSelectedItem, goToNested)
 
   return {
     preparedConfig,
@@ -129,7 +122,6 @@ const findIndexes = (data: ListData, selectedItemId: string) =>
   data.flatMap(({ id, isGroup, groupItems }, index) => {
     if (isGroup && groupItems.length) {
       const itemIndex = groupItems.findIndex(({ id }) => id === selectedItemId)
-      // return itemIndex > -1 ? { groupIndex: index, itemIndex } : undefined
       return itemIndex > -1 ? [index, itemIndex] : []
     } else if (id === selectedItemId) {
       return [index]
@@ -138,11 +130,13 @@ const findIndexes = (data: ListData, selectedItemId: string) =>
   })
 
 export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  // const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedItem, setSelectedItem] = useState<SelectedItemData | undefined>(
     getFirstOption(config)
   )
-  const state = useRef<CmdMenuState>(getInitialData(config, setSelectedItem))
+
+  const goToNested = (passedItemId: string) => handleGoToNestedItems(passedItemId)
+  const state = useRef<CmdMenuState>(getInitialData(config, setSelectedItem, goToNested))
   const getState = () => state.current
 
   const setCurrentListState = (newCurrentListData: Partial<CurrentListState>) =>
@@ -152,25 +146,25 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
   const searchRef = useRef<HTMLInputElement>(null)
   const selectedItemRef = useRef<HTMLLIElement>(null)
 
-  const handleResetToDefaultState = useCallback(() => {
-    state.current = getInitialData(config, setSelectedItem)
-  }, [config])
+  // const handleResetToDefaultState = useCallback(() => {
+  //   state.current = getInitialData(config, setSelectedItem, goToNested)
+  // }, [config, goToNested])
 
-  useEffect(() => {
-    const keyDownHandler = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === TRIGGER_KEY) {
-        const newIsCommandMenuOpen = !isOpen
-        newIsCommandMenuOpen && handleResetToDefaultState()
-        return setIsOpen(!isOpen)
-      }
-      if (isOpen && event.key === 'Escape') {
-        return setIsOpen(false)
-      }
-    }
+  // useEffect(() => {
+  //   const keyDownHandler = (event: KeyboardEvent) => {
+  //     if ((event.metaKey || event.ctrlKey) && event.key === TRIGGER_KEY) {
+  //       const newIsCommandMenuOpen = !isOpen
+  //       newIsCommandMenuOpen && handleResetToDefaultState()
+  //       return setIsOpen(!isOpen)
+  //     }
+  //     if (isOpen && event.key === 'Escape') {
+  //       return setIsOpen(false)
+  //     }
+  //   }
 
-    document.addEventListener('keydown', keyDownHandler)
-    return () => document.removeEventListener('keydown', keyDownHandler)
-  }, [handleResetToDefaultState, isOpen])
+  //   document.addEventListener('keydown', keyDownHandler)
+  //   return () => document.removeEventListener('keydown', keyDownHandler)
+  // }, [handleResetToDefaultState, isOpen])
 
   useLayoutEffect(() => {
     if (listRef.current && searchRef.current && selectedItemRef.current) {
@@ -246,12 +240,12 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
     return setSelectedItem(newSelectedOption)
   }
 
-  const handleGoToNestedItems = () => {
+  const handleGoToNestedItems = (passedItemId: string) => {
     const baseState = getState()
     const { preparedConfig, configLevelKey } = baseState.currentList
 
     const getArrayKey = (config: ListData, levelKey: (string | number)[]) => {
-      const indexes = findIndexes(config, selectedItem!.id)
+      const indexes = findIndexes(config, passedItemId)
       if (!levelKey?.length || (levelKey && levelKey.length <= 1)) {
         // For grouped configs the first index will be the group index.
         const [groupIndex, selectedItemIndex] = indexes
@@ -261,7 +255,6 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
       const [selectedItemIndex] = indexes
       return [...levelKey, 'items', selectedItemIndex]
     }
-
     const arrayKey = getArrayKey(preparedConfig, configLevelKey)
     const data = getPropByPath(baseState, [...arrayKey], {})
     const newItemsOrder = getItemsOrder(data.items)
@@ -279,17 +272,11 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
     return setSelectedItem(newSelectedOption)
   }
 
-  const handleSelect = (optionRef: RefObject<HTMLLIElement>) => {
-    if (selectedItem?.isConfigWithNestedData) {
-      handleGoToNestedItems()
-    } else {
-      optionRef.current?.click()
-    }
-  }
+  const handleSelect = (optionRef: RefObject<HTMLLIElement>) => optionRef.current?.click()
 
   const handleKeyPress = (direction: 'up' | 'down') => {
     const { itemsOrder } = getState().currentList
-    const selectedItemIndex = selectedItem!.index
+    const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === selectedItem?.id)
 
     const getNextItemIndex = () => {
       if (selectedItemIndex < itemsOrder.length - 1 && direction === 'down') {
@@ -329,7 +316,7 @@ export const useCmdMenu = ({ config }: UseCmdMenuProps): UseCmdMenuReturn => {
   }
 
   return {
-    isOpen,
+    isOpen: true,
     selectedItem: selectedItem?.id,
     selectedItemRef,
     menuProps: {

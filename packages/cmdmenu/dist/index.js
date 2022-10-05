@@ -36,31 +36,33 @@ var isListDataWithGroups = (config) => {
   var _a;
   return ((_a = config.at(0)) == null ? void 0 : _a.groupItems) !== void 0;
 };
-var prepareListOption = (config, setSelectedItem) => config.map(({ id, label, icon, description, onSelect, items, placeholder }, index) => ({
-  id,
-  label,
-  icon,
-  description,
-  onPointerEnter: () => setSelectedItem({
+var prepareListOption = (config, setSelectedItem, goToNested) => config.map(({ id, label, icon, description, onSelect, items, placeholder }) => {
+  const isConfigWithNestedData = !!(items == null ? void 0 : items.length);
+  return {
     id,
-    isConfigWithNestedData: !!(items == null ? void 0 : items.length),
-    index
-  }),
-  onClick: onSelect,
-  isGroup: void 0,
-  placeholder,
-  items: (items == null ? void 0 : items.length) ? prepareListOption(items, setSelectedItem) : void 0
-}));
-var getListData = (config, setSelectedItem) => {
+    label,
+    icon,
+    description,
+    onPointerMove: () => setSelectedItem({
+      id,
+      isConfigWithNestedData
+    }),
+    onClick: isConfigWithNestedData ? () => goToNested(id) : onSelect,
+    isGroup: void 0,
+    placeholder,
+    items: (items == null ? void 0 : items.length) ? prepareListOption(items, setSelectedItem, goToNested) : void 0
+  };
+});
+var getListData = (config, setSelectedItem, goToNested) => {
   if (isConfigWithGroups(config)) {
     return config.map(({ id, label, groupItems }) => ({
       id,
       label,
       isGroup: true,
-      groupItems: prepareListOption(groupItems, setSelectedItem)
+      groupItems: prepareListOption(groupItems, setSelectedItem, goToNested)
     }));
   }
-  return prepareListOption(config, setSelectedItem);
+  return prepareListOption(config, setSelectedItem, goToNested);
 };
 var getFirstOption = (config) => {
   var _a;
@@ -69,43 +71,34 @@ var getFirstOption = (config) => {
     const item2 = (_a = config.at(INITIAL_INDEX)) == null ? void 0 : _a.groupItems.at(INITIAL_INDEX);
     return {
       id: item2.id,
-      isConfigWithNestedData: true,
-      index: INITIAL_INDEX
+      isConfigWithNestedData: true
     };
   }
   const item = config.at(INITIAL_INDEX);
   return {
     id: item.id,
-    isConfigWithNestedData: false,
-    index: INITIAL_INDEX
+    isConfigWithNestedData: false
   };
 };
 
 // src/useCmdMenu.ts
 var useLayoutEffect = typeof window === "undefined" ? import_react.useEffect : import_react.useLayoutEffect;
-var TRIGGER_KEY = "k";
 var DOWN_KEY = "ArrowDown";
 var UP_KEY = "ArrowUp";
 var ENTER_KEY = "Enter";
 var BACK_KEY = "Backspace";
 var getItemsOrder = (preparedConfig) => {
   if (isListDataWithGroups(preparedConfig)) {
-    const flatList = preparedConfig.flatMap(
+    return preparedConfig.flatMap(
       ({ groupItems }) => groupItems.flatMap(({ id, items }) => ({
         id,
-        isConfigWithNestedData: !!items,
-        index: 0
+        isConfigWithNestedData: !!items
       }))
     );
-    return flatList.flatMap((data, index) => ({
-      ...data,
-      index
-    }));
   }
-  return preparedConfig.flatMap(({ id, items }, index) => ({
+  return preparedConfig.flatMap(({ id, items }) => ({
     id,
-    isConfigWithNestedData: !!items,
-    index
+    isConfigWithNestedData: !!(items == null ? void 0 : items.length)
   }));
 };
 var getCurrentList = (preparedConfig) => ({
@@ -114,8 +107,8 @@ var getCurrentList = (preparedConfig) => ({
   itemsOrder: getItemsOrder(preparedConfig),
   configLevelKey: []
 });
-var getInitialData = (config, setSelectedItem) => {
-  const preparedConfig = getListData(config, setSelectedItem);
+var getInitialData = (config, setSelectedItem, goToNested) => {
+  const preparedConfig = getListData(config, setSelectedItem, goToNested);
   return {
     preparedConfig,
     currentList: getCurrentList(preparedConfig)
@@ -156,33 +149,16 @@ var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupIt
   return [];
 });
 var useCmdMenu = ({ config }) => {
-  const [isOpen, setIsOpen] = (0, import_react.useState)(false);
   const [selectedItem, setSelectedItem] = (0, import_react.useState)(
     getFirstOption(config)
   );
-  const state = (0, import_react.useRef)(getInitialData(config, setSelectedItem));
+  const goToNested = (passedItemId) => handleGoToNestedItems(passedItemId);
+  const state = (0, import_react.useRef)(getInitialData(config, setSelectedItem, goToNested));
   const getState = () => state.current;
   const setCurrentListState = (newCurrentListData) => state.current.currentList = { ...state.current.currentList, ...newCurrentListData };
   const listRef = (0, import_react.useRef)(null);
   const searchRef = (0, import_react.useRef)(null);
   const selectedItemRef = (0, import_react.useRef)(null);
-  const handleResetToDefaultState = (0, import_react.useCallback)(() => {
-    state.current = getInitialData(config, setSelectedItem);
-  }, [config]);
-  (0, import_react.useEffect)(() => {
-    const keyDownHandler = (event) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === TRIGGER_KEY) {
-        const newIsCommandMenuOpen = !isOpen;
-        newIsCommandMenuOpen && handleResetToDefaultState();
-        return setIsOpen(!isOpen);
-      }
-      if (isOpen && event.key === "Escape") {
-        return setIsOpen(false);
-      }
-    };
-    document.addEventListener("keydown", keyDownHandler);
-    return () => document.removeEventListener("keydown", keyDownHandler);
-  }, [handleResetToDefaultState, isOpen]);
   useLayoutEffect(() => {
     if (listRef.current && searchRef.current && selectedItemRef.current) {
       const handleScrollSelectedIntoView = (selectedOptionRef) => {
@@ -241,11 +217,11 @@ var useCmdMenu = ({ config }) => {
     const newSelectedOption = newItemsOrder.at(0);
     return setSelectedItem(newSelectedOption);
   };
-  const handleGoToNestedItems = () => {
+  const handleGoToNestedItems = (passedItemId) => {
     const baseState = getState();
     const { preparedConfig, configLevelKey } = baseState.currentList;
     const getArrayKey = (config2, levelKey) => {
-      const indexes = findIndexes(config2, selectedItem.id);
+      const indexes = findIndexes(config2, passedItemId);
       if (!(levelKey == null ? void 0 : levelKey.length) || levelKey && levelKey.length <= 1) {
         const [groupIndex, selectedItemIndex2] = indexes;
         return ["preparedConfig", groupIndex, "groupItems", selectedItemIndex2];
@@ -269,15 +245,11 @@ var useCmdMenu = ({ config }) => {
   };
   const handleSelect = (optionRef) => {
     var _a;
-    if (selectedItem == null ? void 0 : selectedItem.isConfigWithNestedData) {
-      handleGoToNestedItems();
-    } else {
-      (_a = optionRef.current) == null ? void 0 : _a.click();
-    }
+    return (_a = optionRef.current) == null ? void 0 : _a.click();
   };
   const handleKeyPress = (direction) => {
     const { itemsOrder } = getState().currentList;
-    const selectedItemIndex = selectedItem.index;
+    const selectedItemIndex = itemsOrder.findIndex(({ id }) => id === (selectedItem == null ? void 0 : selectedItem.id));
     const getNextItemIndex = () => {
       if (selectedItemIndex < itemsOrder.length - 1 && direction === "down") {
         return selectedItemIndex + 1;
@@ -314,7 +286,7 @@ var useCmdMenu = ({ config }) => {
     }
   };
   return {
-    isOpen,
+    isOpen: true,
     selectedItem: selectedItem == null ? void 0 : selectedItem.id,
     selectedItemRef,
     menuProps: {

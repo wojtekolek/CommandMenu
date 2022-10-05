@@ -21,38 +21,42 @@ export const isListDataWithGroups = (config: ListData): config is ListGroupData[
 // Preapare list
 export const prepareListOption = (
   config: Array<ItemConfigData | ItemWithNestedListConfigData>,
-  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>
+  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>,
+  goToNested: (passedItemId: string) => void
 ): ListItemData[] =>
-  config.map(({ id, label, icon, description, onSelect, items, placeholder }, index) => ({
-    id,
-    label,
-    icon,
-    description,
-    onPointerEnter: () =>
-      setSelectedItem({
-        id,
-        isConfigWithNestedData: !!items?.length,
-        index
-      }),
-    onClick: onSelect!,
-    isGroup: undefined,
-    placeholder,
-    items: items?.length ? prepareListOption(items, setSelectedItem) : undefined
-  }))
+  config.map(({ id, label, icon, description, onSelect, items, placeholder }) => {
+    const isConfigWithNestedData = !!items?.length
+    return {
+      id,
+      label,
+      icon,
+      description,
+      onPointerMove: () =>
+        setSelectedItem({
+          id,
+          isConfigWithNestedData
+        }),
+      onClick: isConfigWithNestedData ? () => goToNested(id) : onSelect!,
+      isGroup: undefined,
+      placeholder,
+      items: items?.length ? prepareListOption(items, setSelectedItem, goToNested) : undefined
+    }
+  })
 
 export const getListData = (
   config: ConfigData,
-  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>
+  setSelectedItem: Dispatch<SetStateAction<SelectedItemData | undefined>>,
+  goToNested: (passedItemId: string) => void
 ): ListData => {
   if (isConfigWithGroups(config)) {
     return config.map(({ id, label, groupItems }) => ({
       id,
       label,
       isGroup: true,
-      groupItems: prepareListOption(groupItems, setSelectedItem)
+      groupItems: prepareListOption(groupItems, setSelectedItem, goToNested)
     }))
   }
-  return prepareListOption(config, setSelectedItem)
+  return prepareListOption(config, setSelectedItem, goToNested)
 }
 
 export const getFlatListData = (listData: ListData): ListItemData[] => {
@@ -68,14 +72,12 @@ export const getFirstOption = (config: ConfigData): SelectedItemData => {
     const item = config.at(INITIAL_INDEX)?.groupItems.at(INITIAL_INDEX)!
     return {
       id: item.id,
-      isConfigWithNestedData: true,
-      index: INITIAL_INDEX
+      isConfigWithNestedData: true
     }
   }
   const item = config.at(INITIAL_INDEX)!
   return {
     id: item.id,
-    isConfigWithNestedData: false,
-    index: INITIAL_INDEX
+    isConfigWithNestedData: false
   }
 }

@@ -10,8 +10,6 @@ export const breakpoints = {
   desktopFullHD: DESKTOP_FULLHD_BREAKPOINT
 } as const
 
-// wojtekolek.com is mobile-first
-
 type BreakpointName = keyof typeof breakpoints
 
 /**

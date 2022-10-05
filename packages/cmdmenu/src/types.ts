@@ -34,7 +34,6 @@ export type ConfigData<IconName = string> =
 export type SelectedItemData = {
   id: string
   isConfigWithNestedData: boolean
-  index: number
 }
 
 export type ListItemData = {
@@ -42,7 +41,7 @@ export type ListItemData = {
   label: string
   icon?: string
   description?: string
-  onPointerEnter: () => void
+  onPointerMove: () => void
   onClick: (event: MouseEvent<HTMLLIElement>) => void
   items?: ListItemData[]
   isGroup?: never
