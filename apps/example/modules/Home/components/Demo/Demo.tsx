@@ -1,7 +1,7 @@
 import type { FunctionComponent, RefObject } from 'react'
 
-import { useCMDPalette } from 'cmdpalette'
-import type { ListItemData } from 'cmdpalette'
+import { useCMDPalette } from '@wojtekolek/cmdpalette'
+import type { ListItemData } from '@wojtekolek/cmdpalette'
 import styled from 'styled-components'
 
 import { Icon } from 'components/Icon'

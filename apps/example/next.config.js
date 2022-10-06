@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const withTM = require('next-transpile-modules')(['cmdpalette'])
+const withTM = require('next-transpile-modules')(['@wojtekolek/cmdpalette'])
 
 module.exports = withTM({
   reactStrictMode: true,
