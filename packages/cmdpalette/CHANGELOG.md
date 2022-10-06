@@ -1,5 +1,11 @@
 # cmdmenu
 
+## 0.1.4
+
+### Patch Changes
+
+- 9447ea5: Rename props
+
 ## 0.1.3
 
 ### Patch Changes
