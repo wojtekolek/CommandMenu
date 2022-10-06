@@ -1,5 +1,11 @@
 # cmdmenu
 
+## 0.1.3
+
+### Patch Changes
+
+- 2e328c2: Fix build
+
 ## 0.1.2
 
 ### Patch Changes
