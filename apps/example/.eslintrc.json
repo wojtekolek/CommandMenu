@@ -7,7 +7,7 @@
   "settings": {
     "import/resolver": {
       "typescript": {
-        "project": "apps/web/tsconfig.json"
+        "project": "apps/example/tsconfig.json"
       }
     }
   }

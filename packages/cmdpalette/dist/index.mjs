@@ -1,31 +1,5 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// index.ts
-var cmdmenu_exports = {};
-__export(cmdmenu_exports, {
-  useCmdMenu: () => useCmdMenu
-});
-module.exports = __toCommonJS(cmdmenu_exports);
-
-// src/useCmdMenu.ts
-var import_react = require("react");
+// src/useCMDPalette.ts
+import { useEffect, useLayoutEffect as useLayoutEffectBase, useRef, useState } from "react";
 
 // src/utils.ts
 var isConfigWithGroups = (config) => {
@@ -80,13 +54,6 @@ var getFirstOption = (config) => {
     isConfigWithNestedData: false
   };
 };
-
-// src/useCmdMenu.ts
-var useLayoutEffect = typeof window === "undefined" ? import_react.useEffect : import_react.useLayoutEffect;
-var DOWN_KEY = "ArrowDown";
-var UP_KEY = "ArrowUp";
-var ENTER_KEY = "Enter";
-var BACK_KEY = "Backspace";
 var getItemsOrder = (preparedConfig) => {
   if (isListDataWithGroups(preparedConfig)) {
     return preparedConfig.flatMap(
@@ -100,19 +67,6 @@ var getItemsOrder = (preparedConfig) => {
     id,
     isConfigWithNestedData: !!(items == null ? void 0 : items.length)
   }));
-};
-var getCurrentList = (preparedConfig) => ({
-  preparedConfig,
-  data: preparedConfig,
-  itemsOrder: getItemsOrder(preparedConfig),
-  configLevelKey: []
-});
-var getInitialData = (config, setSelectedItem, goToNested) => {
-  const preparedConfig = getListData(config, setSelectedItem, goToNested);
-  return {
-    preparedConfig,
-    currentList: getCurrentList(preparedConfig)
-  };
 };
 var getFilteredList = (list, searchValue) => {
   if (isListDataWithGroups(list)) {
@@ -148,17 +102,37 @@ var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupIt
   }
   return [];
 });
-var useCmdMenu = ({ config }) => {
-  const [selectedItem, setSelectedItem] = (0, import_react.useState)(
+
+// src/useCMDPalette.ts
+var useLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffectBase;
+var DOWN_KEY = "ArrowDown";
+var UP_KEY = "ArrowUp";
+var ENTER_KEY = "Enter";
+var BACK_KEY = "Backspace";
+var getCurrentList = (preparedConfig) => ({
+  preparedConfig,
+  data: preparedConfig,
+  itemsOrder: getItemsOrder(preparedConfig),
+  configLevelKey: []
+});
+var getInitialData = (config, setSelectedItem, goToNested) => {
+  const preparedConfig = getListData(config, setSelectedItem, goToNested);
+  return {
+    preparedConfig,
+    currentList: getCurrentList(preparedConfig)
+  };
+};
+var useCMDPalette = ({ config }) => {
+  const [selectedItem, setSelectedItem] = useState(
     getFirstOption(config)
   );
   const goToNested = (passedItemId) => handleGoToNestedItems(passedItemId);
-  const state = (0, import_react.useRef)(getInitialData(config, setSelectedItem, goToNested));
+  const state = useRef(getInitialData(config, setSelectedItem, goToNested));
   const getState = () => state.current;
   const setCurrentListState = (newCurrentListData) => state.current.currentList = { ...state.current.currentList, ...newCurrentListData };
-  const listRef = (0, import_react.useRef)(null);
-  const searchRef = (0, import_react.useRef)(null);
-  const selectedItemRef = (0, import_react.useRef)(null);
+  const listRef = useRef(null);
+  const searchRef = useRef(null);
+  const selectedItemRef = useRef(null);
   useLayoutEffect(() => {
     if (listRef.current && searchRef.current && selectedItemRef.current) {
       const handleScrollSelectedIntoView = (selectedOptionRef) => {
@@ -263,7 +237,7 @@ var useCmdMenu = ({ config }) => {
     const newSelectedItem = itemsOrder.at(newSelectedItemIndex);
     return setSelectedItem(newSelectedItem);
   };
-  const handleMenuKeyDown = (event) => {
+  const handleListKeyDown = (event) => {
     switch (event.key) {
       case DOWN_KEY: {
         event.preventDefault();
@@ -286,12 +260,11 @@ var useCmdMenu = ({ config }) => {
     }
   };
   return {
-    isOpen: true,
     selectedItem: selectedItem == null ? void 0 : selectedItem.id,
     selectedItemRef,
-    menuProps: {
+    listProps: {
       ref: listRef,
-      onKeyDown: handleMenuKeyDown
+      onKeyDown: handleListKeyDown
     },
     searchProps: {
       autoFocus: true,
@@ -303,7 +276,6 @@ var useCmdMenu = ({ config }) => {
     preparedList: getState().currentList.data
   };
 };
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  useCmdMenu
-});
+export {
+  useCMDPalette
+};

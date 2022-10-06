@@ -22,7 +22,7 @@ importers:
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
       '@types/styled-components': ^5.1.26
-      cmdmenu: '*'
+      '@wojtekolek/cmdpalette': '*'
       copy-to-clipboard: ^3.3.2
       eslint: 7.32.0
       framer-motion: ^7.2.1
@@ -34,7 +34,7 @@ importers:
       typescript: ^4.8.2
     dependencies:
       '@styled-icons/feather': 10.46.0_56nicwxcbpehznvjhlpvpy75bu
-      cmdmenu: link:../../packages/cmdmenu
+      '@wojtekolek/cmdpalette': link:../../packages/cmdpalette
       copy-to-clipboard: 3.3.2
       framer-motion: 7.5.2_biqbaboplfbrettd7655fr4n2y
       next: 12.3.1_6tziyx3dehkoeijunclpkpolha
@@ -51,7 +51,7 @@ importers:
       next-transpile-modules: 9.0.0
       typescript: 4.8.4
 
-  packages/cmdmenu:
+  packages/cmdpalette:
     specifiers:
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
@@ -1396,7 +1396,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001416
-      electron-to-chromium: 1.4.273
+      electron-to-chromium: 1.4.274
       node-releases: 2.0.6
       update-browserslist-db: 1.0.10_browserslist@4.21.4
 
@@ -1721,8 +1721,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /electron-to-chromium/1.4.273:
-    resolution: {integrity: sha512-iEx72lv4P85PJ8HA9KEAss4o6ESK+hcxzM1cksZDo0H8KekaI+cloQyxOCASmHQO9ogmGyEELtBzxqqdeNwIgQ==}
+  /electron-to-chromium/1.4.274:
+    resolution: {integrity: sha512-Fgn7JZQzq85I81FpKUNxVLAzoghy8JZJ4NIue+YfUYBbu1AkpgzFvNwzF/ZNZH9ElkmJD0TSWu1F2gTpw/zZlg==}
 
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}

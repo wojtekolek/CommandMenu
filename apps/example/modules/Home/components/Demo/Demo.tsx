@@ -1,7 +1,7 @@
 import type { FunctionComponent, RefObject } from 'react'
 
-import { useCmdMenu } from 'cmdmenu'
-import type { ListItemData } from 'cmdmenu'
+import { useCMDPalette } from 'cmdpalette'
+import type { ListItemData } from 'cmdpalette'
 import styled from 'styled-components'
 
 import { Icon } from 'components/Icon'
@@ -144,13 +144,13 @@ const ListComponent: FunctionComponent<ListComponentProps> = ({
 }
 
 export const Demo: FunctionComponent = () => {
-  const { selectedItem, selectedItemRef, menuProps, searchProps, preparedList } = useCmdMenu({
+  const { selectedItem, selectedItemRef, listProps, searchProps, preparedList } = useCMDPalette({
     config
   })
 
   return (
     <PortalMenuWrapper>
-      <PortalMenuListWrappper {...menuProps}>
+      <PortalMenuListWrappper {...listProps}>
         <SearchInput {...searchProps} type="text" />
         <PortalMenuItems>
           {preparedList.map(({ isGroup, ...groupItemProps }) => {

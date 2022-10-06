@@ -24,14 +24,14 @@ const animationProps = {
 
 const Button = styled(ButtonBase)`
   height: 50px;
-  width: 105px;
+  width: 218px;
 `
 
 const ButtonTitleIcon = styled(Icon)`
   margin-right: ${({ theme }) => theme.spacing.ss1};
 `
 
-const PACKAGE_NAME = 'cmdmenu'
+const PACKAGE_NAME = '@wojtekolek/cmdpalette'
 
 export const PackageNameBadge: FunctionComponent = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false)

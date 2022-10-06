@@ -1,1 +1,1 @@
-export { PageMeta } from './PageMeta'
+export { PageMeta, LIBRARY_DESCRIPTION } from './PageMeta'

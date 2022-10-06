@@ -1,4 +1,4 @@
-import type { ConfigData } from 'cmdmenu'
+import type { ConfigData } from 'cmdpalette'
 import type { IconName } from 'components/Icon'
 
 export const config: ConfigData<IconName> = [

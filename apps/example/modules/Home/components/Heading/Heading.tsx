@@ -8,6 +8,7 @@ import { Badges } from 'components/Primitives/Badges'
 import { ExternalLink } from 'components/Link'
 import Logo from 'public/logo.svg'
 import { from } from 'utils/styles/responsiveness'
+import { LIBRARY_DESCRIPTION } from 'components/PageMeta'
 import { PackageNameBadge } from './components/PackageNameBadge'
 
 const HeadingWrapper = styled.div`
@@ -50,14 +51,14 @@ export const Heading: FunctionComponent = () => (
   <HeadingWrapper>
     <TitleWrapper>
       <LogoImage priority alt="logo" src={Logo} />
-      <Title>mdMenu</Title>
+      <Title>MDPalette</Title>
     </TitleWrapper>
-    <SubTitle>Headless UI for building command menus in React.</SubTitle>
+    <SubTitle>{LIBRARY_DESCRIPTION}</SubTitle>
     <Badges>
       <Badges.Badge>
         <Icon name="Github" />
-        <ExternalLink href="https://github.com/wojtekolek/cmdmenu">
-          github.com/wojtekolek/cmdmenu
+        <ExternalLink href="https://github.com/wojtekolek/cmdpalette">
+          github.com/wojtekolek/cmdpalette
         </ExternalLink>
       </Badges.Badge>
       <PackageNameBadge />
