@@ -48,8 +48,8 @@ export const colors = {
   background: {
     primary: '#000',
     secondary: '#59595920',
-    tertriary: '#292929',
-    quartenary: '#1F1F1F'
+    tertiary: '#292929',
+    quaternary: '#1F1F1F'
   },
   // text
   text: {

@@ -13,7 +13,7 @@ const PortalMenuWrapper = styled.div`
   width: 100%;
   min-height: 240px;
   max-height: 480px;
-  background-color: ${({ theme }) => theme.colors.background.tertriary};
+  background-color: ${({ theme }) => theme.colors.background.tertiary};
   border: 1px solid ${({ theme }) => theme.colors.misc.border};
   border-radius: ${({ theme }) => theme.radius.rad2};
   overflow: hidden;
@@ -51,7 +51,7 @@ const PortalMenuListItem = styled.li<PortalMenuListItemButtonStyleProps>`
   ${({ isSelected, theme }) =>
     isSelected &&
     `
-    background-color: ${theme.colors.background.quartenary};
+    background-color: ${theme.colors.background.quaternary};
   `}
 `
 
