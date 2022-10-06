@@ -8,10 +8,13 @@ type PageMetaProps = {
   children?: ReactNode
 }
 
-export const PageMeta: FunctionComponent<PageMetaProps> = ({ children }) => (
-  <Head>
-    <title>CMDPalette - {LIBRARY_DESCRIPTION}</title>
-    <meta name="description" content={LIBRARY_DESCRIPTION} />
-    {children}
-  </Head>
-)
+export const PageMeta: FunctionComponent<PageMetaProps> = ({ children }) => {
+  const title = `CMDPalette - ${LIBRARY_DESCRIPTION}`
+  return (
+    <Head>
+      <title>{title}</title>
+      <meta name="description" content={LIBRARY_DESCRIPTION} />
+      {children}
+    </Head>
+  )
+}
