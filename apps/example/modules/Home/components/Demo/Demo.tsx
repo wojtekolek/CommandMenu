@@ -8,7 +8,7 @@ import { Icon } from 'components/Icon'
 import { from } from 'utils/styles/responsiveness'
 import { config } from './config'
 
-const PortalMenuWrapper = styled.div`
+const CMDPaletteWrapper = styled.div`
   margin: 0 auto;
   width: 100%;
   min-height: 240px;
@@ -24,54 +24,11 @@ const PortalMenuWrapper = styled.div`
   }
 `
 
-type PortalMenuListItemButtonStyleProps = {
-  isSelected: boolean
-}
-
-const CommandMenuGroupItem = styled.li`
-  width: 100%;
-`
-
-const CommandMenuGroupItemLabel = styled.span`
-  display: block;
-  padding: ${({ theme }) => `${theme.spacing.ss1} ${theme.spacing.ss1}`};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.misc.border};
-  font-size: ${({ theme }) => theme.fontSize.fs1};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-`
-
-const PortalMenuListItem = styled.li<PortalMenuListItemButtonStyleProps>`
-  display: flex;
-  align-items: center;
-  padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss1}`};
-  border-radius: ${({ theme }) => theme.radius.rad1};
-  line-height: 40px;
-  width: 100%;
-
-  ${({ isSelected, theme }) =>
-    isSelected &&
-    `
-    background-color: ${theme.colors.background.quaternary};
-  `}
-`
-
-const PortalMenuListWrappper = styled.div`
+const CMDPaletteContentWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   height: 480px;
-`
-
-const PortalMenuItems = styled.ul`
-  flex: 1;
-  overflow-y: scroll;
-  list-style: none;
-  padding: ${({ theme }) => theme.spacing.ss1};
-  margin: ${({ theme }) => theme.spacing.ss0};
-`
-
-const GroupMenuItems = styled(PortalMenuItems)`
-  padding: ${({ theme }) => theme.spacing.ss0};
 `
 
 const SearchInput = styled.input.attrs({
@@ -90,29 +47,68 @@ const SearchInput = styled.input.attrs({
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  &:disabled {
-    opacity: 0.8;
-  }
-
   &::placeholder {
-    color: #808080;
+    color: ${({ theme }) => theme.colors.text.quaternary};
   }
 `
 
-const ItemIcon = styled(Icon).attrs({
+const CMDPaletteList = styled.ul`
+  flex: 1;
+  overflow-y: scroll;
+  list-style: none;
+  padding: ${({ theme }) => theme.spacing.ss1};
+  margin: ${({ theme }) => theme.spacing.ss0};
+`
+
+const CMDPaletteListGroupItem = styled.li`
+  width: 100%;
+`
+
+const CMDPaletteListGroupItemLabel = styled.span`
+  display: block;
+  padding: ${({ theme }) => `${theme.spacing.ss1} ${theme.spacing.ss1}`};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.misc.border};
+  font-size: ${({ theme }) => theme.fontSize.fs1};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+`
+
+const CMDPaletteGroupList = styled(CMDPaletteList)`
+  padding: ${({ theme }) => theme.spacing.ss0};
+`
+
+type PortalMenuListItemButtonStyleProps = {
+  isSelected: boolean
+}
+
+const CMDPaletteListItemWrapper = styled.li<PortalMenuListItemButtonStyleProps>`
+  display: flex;
+  align-items: center;
+  padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss1}`};
+  border-radius: ${({ theme }) => theme.radius.rad1};
+  line-height: 40px;
+  width: 100%;
+
+  ${({ isSelected, theme }) =>
+    isSelected &&
+    `
+    background-color: ${theme.colors.background.quaternary};
+  `}
+`
+
+const CMDPaletteListItemIcon = styled(Icon).attrs({
   size: 16
 })`
   color: ${({ theme }) => theme.colors.primary.default};
   margin-right: ${({ theme }) => theme.spacing.ss1};
 `
 
-const Label = styled.label`
-  font-size: 16px;
+const CMDPaletteListItemLabel = styled.label`
+  font-size: ${({ theme }) => theme.fontSize.fs2};
 `
 
-const Description = styled.span`
+const CMDPaletteListItemDescription = styled.span`
   margin-left: ${({ theme }) => theme.spacing.ss1};
-  font-size: 12px;
+  font-size: ${({ theme }) => theme.fontSize.fs1};
 `
 
 type ListComponentProps = {
@@ -120,7 +116,7 @@ type ListComponentProps = {
   selectedItemRef: RefObject<HTMLLIElement> | null
 } & ListItemData
 
-const ListComponent: FunctionComponent<ListComponentProps> = ({
+const CMDPaletteListItem: FunctionComponent<ListComponentProps> = ({
   id,
   label,
   icon,
@@ -131,15 +127,15 @@ const ListComponent: FunctionComponent<ListComponentProps> = ({
 }) => {
   const isSelected = id === selectedItem
   return (
-    <PortalMenuListItem
+    <CMDPaletteListItemWrapper
       {...itemProps}
       ref={isSelected ? selectedItemRef : null}
       isSelected={isSelected}
     >
-      {icon && <ItemIcon name={icon as any} />}
-      <Label>{label}</Label>
-      {description && <Description>{description}</Description>}
-    </PortalMenuListItem>
+      {icon && <CMDPaletteListItemIcon name={icon as any} />}
+      <CMDPaletteListItemLabel>{label}</CMDPaletteListItemLabel>
+      {description && <CMDPaletteListItemDescription>{description}</CMDPaletteListItemDescription>}
+    </CMDPaletteListItemWrapper>
   )
 }
 
@@ -149,30 +145,32 @@ export const Demo: FunctionComponent = () => {
   })
 
   return (
-    <PortalMenuWrapper>
-      <PortalMenuListWrappper {...listProps}>
+    <CMDPaletteWrapper>
+      <CMDPaletteContentWrapper {...listProps}>
         <SearchInput {...searchProps} type="text" />
-        <PortalMenuItems>
+        <CMDPaletteList>
           {preparedList.map(({ isGroup, ...groupItemProps }) => {
             if (isGroup && groupItemProps.groupItems) {
               return (
-                <CommandMenuGroupItem key={groupItemProps.id} id="group">
-                  <CommandMenuGroupItemLabel>{groupItemProps.label}</CommandMenuGroupItemLabel>
-                  <GroupMenuItems>
+                <CMDPaletteListGroupItem key={groupItemProps.id} id="group">
+                  <CMDPaletteListGroupItemLabel>
+                    {groupItemProps.label}
+                  </CMDPaletteListGroupItemLabel>
+                  <CMDPaletteGroupList>
                     {groupItemProps.groupItems.map((itemData) => (
-                      <ListComponent
+                      <CMDPaletteListItem
                         key={itemData.id}
                         selectedItem={selectedItem}
                         selectedItemRef={selectedItemRef}
                         {...itemData}
                       />
                     ))}
-                  </GroupMenuItems>
-                </CommandMenuGroupItem>
+                  </CMDPaletteGroupList>
+                </CMDPaletteListGroupItem>
               )
             }
             return (
-              <ListComponent
+              <CMDPaletteListItem
                 key={groupItemProps.id}
                 selectedItem={selectedItem}
                 selectedItemRef={selectedItemRef}
@@ -180,8 +178,8 @@ export const Demo: FunctionComponent = () => {
               />
             )
           })}
-        </PortalMenuItems>
-      </PortalMenuListWrappper>
-    </PortalMenuWrapper>
+        </CMDPaletteList>
+      </CMDPaletteContentWrapper>
+    </CMDPaletteWrapper>
   )
 }

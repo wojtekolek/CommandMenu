@@ -55,7 +55,8 @@ export const colors = {
   text: {
     primary: '#F7F7F7',
     secondary: '#E6E6E6',
-    tertiary: '#B8B8B8'
+    tertiary: '#B8B8B8',
+    quaternary: '#808080'
   },
   // rest
   misc: {
