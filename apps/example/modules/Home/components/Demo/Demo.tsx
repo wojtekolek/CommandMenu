@@ -140,13 +140,13 @@ const CMDPaletteListItem: FunctionComponent<ListComponentProps> = ({
 }
 
 export const Demo: FunctionComponent = () => {
-  const { selectedItem, selectedItemRef, listProps, searchProps, preparedList } = useCMDPalette({
+  const { selectedItem, selectedItemRef, wrapperProps, searchProps, preparedList } = useCMDPalette({
     config
   })
 
   return (
     <CMDPaletteWrapper>
-      <CMDPaletteContentWrapper {...listProps}>
+      <CMDPaletteContentWrapper {...wrapperProps}>
         <SearchInput {...searchProps} type="text" />
         <CMDPaletteList>
           {preparedList.map(({ isGroup, ...groupItemProps }) => {
