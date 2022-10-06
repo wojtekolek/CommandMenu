@@ -17,12 +17,12 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// index.ts
-var cmdpalette_exports = {};
-__export(cmdpalette_exports, {
+// src/index.ts
+var src_exports = {};
+__export(src_exports, {
   useCMDPalette: () => useCMDPalette
 });
-module.exports = __toCommonJS(cmdpalette_exports);
+module.exports = __toCommonJS(src_exports);
 
 // src/useCMDPalette.ts
 var import_react = require("react");

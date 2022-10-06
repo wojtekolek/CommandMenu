@@ -12,7 +12,6 @@ module.exports = withTM({
   },
   experimental: {
     legacyBrowsers: false,
-    browsersListForSwc: true,
-    images: { allowFutureImage: true }
+    browsersListForSwc: true
   }
 })
