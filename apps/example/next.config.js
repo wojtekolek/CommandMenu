@@ -1,7 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-const withTM = require('next-transpile-modules')(['@wojtekolek/cmdpalette'])
-
-module.exports = withTM({
+module.exports = {
   reactStrictMode: true,
   swcMinify: true,
   productionBrowserSourceMaps: true,
@@ -14,4 +11,4 @@ module.exports = withTM({
     legacyBrowsers: false,
     browsersListForSwc: true
   }
-})
+}
