@@ -8,7 +8,7 @@ import type {
   SetStateAction
 } from 'react'
 
-import type { ConfigData, ListData, ListProps, SearchProps, SelectedItemData } from './types'
+import type { ConfigData, ListData, WrapperProps, SearchProps, SelectedItemData } from './types'
 import {
   getFirstOption,
   getListData,
@@ -33,7 +33,7 @@ type UseCMDPaletteProps = {
 type UseCMDPaletteReturn = {
   selectedItem?: string
   selectedItemRef: RefObject<HTMLLIElement> | null
-  listProps: ListProps
+  wrapperProps: WrapperProps
   searchProps: SearchProps
   preparedList: ListData
 }
@@ -241,7 +241,7 @@ export const useCMDPalette = ({ config }: UseCMDPaletteProps): UseCMDPaletteRetu
   return {
     selectedItem: selectedItem?.id,
     selectedItemRef,
-    listProps: {
+    wrapperProps: {
       ref: listRef,
       onKeyDown: handleListKeyDown
     },

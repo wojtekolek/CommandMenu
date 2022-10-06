@@ -61,7 +61,7 @@ export type ListGroupData = {
 export type ListData = ListGroupData[] | ListItemData[]
 
 // Return types
-export type ListProps = {
+export type WrapperProps = {
   ref: RefObject<HTMLDivElement>
   onKeyDown: KeyboardEventHandler<HTMLDivElement>
 }
