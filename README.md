@@ -1,5 +1,5 @@
-# CommandPalette
+# CommandMenu
 
-This is an official repo of CommandPalette.
+This is an official repo of Command Menu.
 
-Demo: [commandpalette.wojtekolek.com](https://commandpalette.wojtekolek.com/)
+Demo: [commandmenu.wojtekolek.com](https://commandmenu.wojtekolek.com/)
