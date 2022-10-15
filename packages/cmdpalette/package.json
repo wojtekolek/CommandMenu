@@ -1,5 +1,5 @@
 {
-  "name": "@wojtekolek/cmdpalette",
+  "name": "commandpalette",
   "version": "0.1.4",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

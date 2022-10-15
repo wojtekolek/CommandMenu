@@ -1,4 +1,4 @@
-# cmdmenu
+# commandpalette
 
 ## 0.1.4
 

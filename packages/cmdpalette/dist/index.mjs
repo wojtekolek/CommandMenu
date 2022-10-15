@@ -1,4 +1,4 @@
-// src/useCMDPalette.ts
+// src/useCommandPalette.ts
 import { useEffect, useLayoutEffect as useLayoutEffectBase, useRef, useState } from "react";
 
 // src/utils.ts
@@ -103,7 +103,7 @@ var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupIt
   return [];
 });
 
-// src/useCMDPalette.ts
+// src/useCommandPalette.ts
 var useLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffectBase;
 var DOWN_KEY = "ArrowDown";
 var UP_KEY = "ArrowUp";
@@ -122,7 +122,7 @@ var getInitialData = (config, setSelectedItem, goToNested) => {
     currentList: getCurrentList(preparedConfig)
   };
 };
-var useCMDPalette = ({ config }) => {
+var useCommandPalette = ({ config }) => {
   const [selectedItem, setSelectedItem] = useState(
     getFirstOption(config)
   );
@@ -277,5 +277,5 @@ var useCMDPalette = ({ config }) => {
   };
 };
 export {
-  useCMDPalette
+  useCommandPalette
 };

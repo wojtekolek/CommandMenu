@@ -55,16 +55,16 @@ declare type SearchProps = {
     onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-declare type UseCMDPaletteProps = {
+declare type UseCommandPaletteProps = {
     config: ConfigData;
 };
-declare type UseCMDPaletteReturn = {
+declare type UseCommandPaletteReturn = {
     selectedItem?: string;
     selectedItemRef: RefObject<HTMLLIElement> | null;
     wrapperProps: WrapperProps;
     searchProps: SearchProps;
     preparedList: ListData;
 };
-declare const useCMDPalette: ({ config }: UseCMDPaletteProps) => UseCMDPaletteReturn;
+declare const useCommandPalette: ({ config }: UseCommandPaletteProps) => UseCommandPaletteReturn;
 
-export { ConfigData, ItemConfigData, ItemsGroupConfigData, ListItemData, useCMDPalette };
+export { ConfigData, ItemConfigData, ItemsGroupConfigData, ListItemData, useCommandPalette };

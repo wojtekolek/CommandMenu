@@ -20,11 +20,11 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
-  useCMDPalette: () => useCMDPalette
+  useCommandPalette: () => useCommandPalette
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/useCMDPalette.ts
+// src/useCommandPalette.ts
 var import_react = require("react");
 
 // src/utils.ts
@@ -129,7 +129,7 @@ var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupIt
   return [];
 });
 
-// src/useCMDPalette.ts
+// src/useCommandPalette.ts
 var useLayoutEffect = typeof window === "undefined" ? import_react.useEffect : import_react.useLayoutEffect;
 var DOWN_KEY = "ArrowDown";
 var UP_KEY = "ArrowUp";
@@ -148,7 +148,7 @@ var getInitialData = (config, setSelectedItem, goToNested) => {
     currentList: getCurrentList(preparedConfig)
   };
 };
-var useCMDPalette = ({ config }) => {
+var useCommandPalette = ({ config }) => {
   const [selectedItem, setSelectedItem] = (0, import_react.useState)(
     getFirstOption(config)
   );
@@ -304,5 +304,5 @@ var useCMDPalette = ({ config }) => {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  useCMDPalette
+  useCommandPalette
 });
