@@ -33,7 +33,7 @@ importers:
       typescript: ^4.8.2
     dependencies:
       '@styled-icons/feather': 10.46.0_56nicwxcbpehznvjhlpvpy75bu
-      commandmenu: link:../../packages/cmdpalette
+      commandmenu: link:../../packages/commandmenu
       copy-to-clipboard: 3.3.2
       framer-motion: 7.5.3_biqbaboplfbrettd7655fr4n2y
       next: 12.3.1_6tziyx3dehkoeijunclpkpolha
@@ -49,7 +49,7 @@ importers:
       eslint: 7.32.0
       typescript: 4.8.4
 
-  packages/cmdpalette:
+  packages/commandmenu:
     specifiers:
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6

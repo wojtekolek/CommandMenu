@@ -1,5 +1,6 @@
-import type { ConfigData } from '@wojtekolek/cmdpalette'
 import type { IconName } from 'components/Icon'
+
+import type { ConfigData } from '../../packages/commandmenu/dist'
 
 export const config: ConfigData<IconName> = [
   {

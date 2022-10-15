@@ -35,7 +35,7 @@ export const TopMenu: FunctionComponent = () => (
   <TopMenuWrapper>
     <TopMenuTitle>
       <LogoIcon alt="Logo" src={Logo} width={35} height={26} />
-      Command Palette
+      Command Menu
     </TopMenuTitle>
     <Badges>
       <Badges.Badge>

@@ -75,7 +75,7 @@ export const Heading: FunctionComponent = () => {
         <Title>
           Headless UI for building
           <br />
-          command palettes in React.
+          command menus in React.
         </Title>
       </AnimatedTitleWrapper>
       <AnimatedPackageNameWrapper>
