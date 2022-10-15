@@ -32,14 +32,14 @@ const CommandMenuWrapper = styled(motion.div).attrs({
   border: 1px solid ${({ theme }) => theme.colors.misc.border};
   border-radius: ${({ theme }) => theme.radius.rad2};
   overflow: hidden;
-  z-index: 999999;
+  z-index: -1;
 
   ${from('tablet')} {
     width: 640px;
   }
 `
 
-const CMDPaletteContentWrapper = styled.div`
+const CommandMenu = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -67,7 +67,7 @@ const SearchInput = styled.input.attrs({
   }
 `
 
-const CMDPaletteList = styled.ul`
+const CommandMenuList = styled.ul`
   flex: 1;
   overflow-y: scroll;
   list-style: none;
@@ -75,11 +75,11 @@ const CMDPaletteList = styled.ul`
   margin: ${({ theme }) => theme.spacing.ss0};
 `
 
-const CMDPaletteListGroupItem = styled.li`
+const CommandMenuListGroupItem = styled.li`
   width: 100%;
 `
 
-const CMDPaletteListGroupItemLabel = styled.span`
+const CommandMenuListGroupItemLabel = styled.span`
   display: block;
   padding: ${({ theme }) => `${theme.spacing.ss1} ${theme.spacing.ss1}`};
   border-bottom: 1px solid ${({ theme }) => theme.colors.misc.border};
@@ -87,15 +87,15 @@ const CMDPaletteListGroupItemLabel = styled.span`
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `
 
-const CMDPaletteGroupList = styled(CMDPaletteList)`
+const CommandMenuGroupList = styled(CommandMenuList)`
   padding: ${({ theme }) => theme.spacing.ss0};
 `
 
-type PortalMenuListItemButtonStyleProps = {
+type CommandMenuListItemButtonStyleProps = {
   isSelected: boolean
 }
 
-const CMDPaletteListItemWrapper = styled.li<PortalMenuListItemButtonStyleProps>`
+const CommandMenuListItemWrapper = styled.li<CommandMenuListItemButtonStyleProps>`
   display: flex;
   align-items: center;
   padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss1}`};
@@ -110,28 +110,28 @@ const CMDPaletteListItemWrapper = styled.li<PortalMenuListItemButtonStyleProps>`
   `}
 `
 
-const CMDPaletteListItemIcon = styled(Icon).attrs({
+const CommandMenuListItemIcon = styled(Icon).attrs({
   size: 16
 })`
   color: ${({ theme }) => theme.colors.primary.default};
   margin-right: ${({ theme }) => theme.spacing.ss1};
 `
 
-const CMDPaletteListItemLabel = styled.label`
+const CommandMenuListItemLabel = styled.label`
   font-size: ${({ theme }) => theme.fontSize.fs2};
 `
 
-const CMDPaletteListItemDescription = styled.span`
+const CommandMenuListItemDescription = styled.span`
   margin-left: ${({ theme }) => theme.spacing.ss1};
   font-size: ${({ theme }) => theme.fontSize.fs1};
 `
 
-type ListComponentProps = {
+type CommandMenuListItemProps = {
   selectedItem?: string
   selectedItemRef: RefObject<HTMLLIElement> | null
 } & ListItemData
 
-const CommandMenuListItem: FunctionComponent<ListComponentProps> = ({
+const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
   id,
   label,
   icon,
@@ -142,15 +142,17 @@ const CommandMenuListItem: FunctionComponent<ListComponentProps> = ({
 }) => {
   const isSelected = id === selectedItem
   return (
-    <CMDPaletteListItemWrapper
+    <CommandMenuListItemWrapper
       {...itemProps}
       ref={isSelected ? selectedItemRef : null}
       isSelected={isSelected}
     >
-      {icon && <CMDPaletteListItemIcon name={icon as any} />}
-      <CMDPaletteListItemLabel>{label}</CMDPaletteListItemLabel>
-      {description && <CMDPaletteListItemDescription>{description}</CMDPaletteListItemDescription>}
-    </CMDPaletteListItemWrapper>
+      {icon && <CommandMenuListItemIcon name={icon as any} />}
+      <CommandMenuListItemLabel>{label}</CommandMenuListItemLabel>
+      {description && (
+        <CommandMenuListItemDescription>{description}</CommandMenuListItemDescription>
+      )}
+    </CommandMenuListItemWrapper>
   )
 }
 
@@ -163,17 +165,17 @@ export const Demo: FunctionComponent = () => {
 
   return (
     <CommandMenuWrapper>
-      <CMDPaletteContentWrapper {...wrapperProps}>
+      <CommandMenu {...wrapperProps}>
         <SearchInput {...searchProps} type="text" />
-        <CMDPaletteList>
+        <CommandMenuList>
           {preparedList.map(({ isGroup, ...groupItemProps }) => {
             if (isGroup && groupItemProps.groupItems) {
               return (
-                <CMDPaletteListGroupItem key={groupItemProps.id} id="group">
-                  <CMDPaletteListGroupItemLabel>
+                <CommandMenuListGroupItem key={groupItemProps.id} id="group">
+                  <CommandMenuListGroupItemLabel>
                     {groupItemProps.label}
-                  </CMDPaletteListGroupItemLabel>
-                  <CMDPaletteGroupList>
+                  </CommandMenuListGroupItemLabel>
+                  <CommandMenuGroupList>
                     {groupItemProps.groupItems.map((itemData) => (
                       <CommandMenuListItem
                         key={itemData.id}
@@ -182,8 +184,8 @@ export const Demo: FunctionComponent = () => {
                         {...itemData}
                       />
                     ))}
-                  </CMDPaletteGroupList>
-                </CMDPaletteListGroupItem>
+                  </CommandMenuGroupList>
+                </CommandMenuListGroupItem>
               )
             }
             return (
@@ -195,8 +197,8 @@ export const Demo: FunctionComponent = () => {
               />
             )
           })}
-        </CMDPaletteList>
-      </CMDPaletteContentWrapper>
+        </CommandMenuList>
+      </CommandMenu>
     </CommandMenuWrapper>
   )
 }
