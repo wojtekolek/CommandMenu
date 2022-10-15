@@ -1,6 +1,6 @@
-import type { IconName } from 'components/Icon'
+import type { ConfigData } from 'commandmenu'
 
-import type { ConfigData } from '../../packages/commandmenu/dist'
+import type { IconName } from 'components/Icon'
 
 export const config: ConfigData<IconName> = [
   {
