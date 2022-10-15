@@ -1,10 +1,12 @@
 import type { FunctionComponent } from 'react'
+
 import styled from 'styled-components'
-import { Badges } from 'components/Primitives/Badges'
+
 import { Icon } from 'components/Icon'
 import { Image } from 'components/Image'
-import Logo from 'public/logo.svg'
 import { ExternalLink } from 'components/Link'
+import { Badges } from 'components/Primitives/Badges'
+import Logo from 'public/logo.svg'
 
 const TopMenuWrapper = styled.nav`
   display: flex;
@@ -37,9 +39,9 @@ export const TopMenu: FunctionComponent = () => (
     </TopMenuTitle>
     <Badges>
       <Badges.Badge>
-        <ExternalLink href="https://github.com/wojtekolek/cmdpalette">
+        <ExternalLink href="https://github.com/wojtekolek/commandmenu">
           <GithubIcon name="Github" />
-          github.com/wojtekolek/cmdpalette
+          github.com/wojtekolek/commandmenu
         </ExternalLink>
       </Badges.Badge>
     </Badges>

@@ -122,7 +122,7 @@ var getInitialData = (config, setSelectedItem, goToNested) => {
     currentList: getCurrentList(preparedConfig)
   };
 };
-var useCommandPalette = ({ config }) => {
+var useCommandMenu = ({ config }) => {
   const [selectedItem, setSelectedItem] = useState(
     getFirstOption(config)
   );
@@ -277,5 +277,5 @@ var useCommandPalette = ({ config }) => {
   };
 };
 export {
-  useCommandPalette
+  useCommandMenu
 };

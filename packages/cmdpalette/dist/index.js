@@ -20,7 +20,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
-  useCommandPalette: () => useCommandPalette
+  useCommandMenu: () => useCommandMenu
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -148,7 +148,7 @@ var getInitialData = (config, setSelectedItem, goToNested) => {
     currentList: getCurrentList(preparedConfig)
   };
 };
-var useCommandPalette = ({ config }) => {
+var useCommandMenu = ({ config }) => {
   const [selectedItem, setSelectedItem] = (0, import_react.useState)(
     getFirstOption(config)
   );
@@ -304,5 +304,5 @@ var useCommandPalette = ({ config }) => {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  useCommandPalette
+  useCommandMenu
 });

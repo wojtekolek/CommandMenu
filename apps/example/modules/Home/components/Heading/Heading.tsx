@@ -1,11 +1,15 @@
-import type { FunctionComponent } from 'react'
+import { FunctionComponent, useRef } from 'react'
 
+import { motion, useScroll, useTransform } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import styled from 'styled-components'
+
 import { Title } from 'components/Primitives'
 import { from } from 'utils/styles/responsiveness'
+
 import { CopyPackageName } from './components/CopyPackageName'
 
-const HeadingWrapper = styled.div`
+const HeadingWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,6 +22,35 @@ const HeadingWrapper = styled.div`
   }
 `
 
+const HEADER_ANIMATION_VARIANTS: Variants = {
+  initial: {
+    y: -50,
+    opacity: 0
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5
+    }
+  }
+}
+
+const AnimatedTitleWrapper = styled(motion.div).attrs(HEADER_ANIMATION_VARIANTS)``
+
+const AnimatedPackageNameWrapper = styled(motion.div).attrs({
+  initial: {
+    ...HEADER_ANIMATION_VARIANTS.initial
+  },
+  animate: {
+    ...HEADER_ANIMATION_VARIANTS.animate,
+    transition: {
+      duration: 0.5,
+      delay: 0.4
+    }
+  }
+})``
+
 const Separator = styled.div`
   width: 100%;
   height: 2px;
@@ -28,14 +61,27 @@ const Separator = styled.div`
   }
 `
 
-export const Heading: FunctionComponent = () => (
-  <HeadingWrapper>
-    <Title>
-      Headless UI for building
-      <br />
-      command palettes in React.
-    </Title>
-    <CopyPackageName />
-    <Separator />
-  </HeadingWrapper>
-)
+export const Heading: FunctionComponent = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start']
+  })
+  const opacity = useTransform(scrollYProgress, [1, 0], [0, 1])
+
+  return (
+    <HeadingWrapper ref={ref} style={{ opacity }}>
+      <AnimatedTitleWrapper>
+        <Title>
+          Headless UI for building
+          <br />
+          command palettes in React.
+        </Title>
+      </AnimatedTitleWrapper>
+      <AnimatedPackageNameWrapper>
+        <CopyPackageName />
+      </AnimatedPackageNameWrapper>
+      <Separator />
+    </HeadingWrapper>
+  )
+}

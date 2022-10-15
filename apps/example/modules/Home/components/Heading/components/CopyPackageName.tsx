@@ -1,9 +1,11 @@
 import { FunctionComponent, useState } from 'react'
+
 import copyToClipboard from 'copy-to-clipboard'
 import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
-import { Icon } from 'components/Icon'
+
 import { Button as ButtonBase } from 'components/Button'
+import { Icon } from 'components/Icon'
 
 const animationVariants = {
   initial: {
@@ -35,7 +37,7 @@ const ButtonTitle = styled(motion.span).attrs(ANIMATION_PROPS)`
   display: flex;
 `
 
-const PACKAGE_NAME = '@wojtekolek/cmdpalette'
+const PACKAGE_NAME = 'commandmenu'
 
 export const CopyPackageName: FunctionComponent = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false)
@@ -44,7 +46,10 @@ export const CopyPackageName: FunctionComponent = () => {
     copyToClipboard(PACKAGE_NAME)
     setIsCopied(true)
 
-    setTimeout(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined = undefined
+
+    timer = setTimeout(() => {
+      clearTimeout(timer)
       setIsCopied(false)
     }, 2000)
   }

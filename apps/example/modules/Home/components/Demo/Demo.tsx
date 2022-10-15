@@ -1,14 +1,29 @@
 import type { FunctionComponent, RefObject } from 'react'
 
-import { useCommandPalette } from 'commandpalette'
-import type { ListItemData } from 'commandpalette'
+import { useCommandMenu } from 'commandmenu'
+import type { ListItemData } from 'commandmenu'
+import { motion } from 'framer-motion'
 import styled from 'styled-components'
 
 import { Icon } from 'components/Icon'
 import { from } from 'utils/styles/responsiveness'
+
 import { config } from './config'
 
-const CMDPaletteWrapper = styled.div`
+const CommandMenuWrapper = styled(motion.div).attrs({
+  initial: {
+    y: -50,
+    opacity: 0
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      delay: 0.7
+    }
+  }
+})`
   margin: 0 auto;
   width: 100%;
   min-height: 240px;
@@ -116,7 +131,7 @@ type ListComponentProps = {
   selectedItemRef: RefObject<HTMLLIElement> | null
 } & ListItemData
 
-const CMDPaletteListItem: FunctionComponent<ListComponentProps> = ({
+const CommandMenuListItem: FunctionComponent<ListComponentProps> = ({
   id,
   label,
   icon,
@@ -140,13 +155,14 @@ const CMDPaletteListItem: FunctionComponent<ListComponentProps> = ({
 }
 
 export const Demo: FunctionComponent = () => {
-  const { selectedItem, selectedItemRef, wrapperProps, searchProps, preparedList } =
-    useCommandPalette({
+  const { selectedItem, selectedItemRef, wrapperProps, searchProps, preparedList } = useCommandMenu(
+    {
       config
-    })
+    }
+  )
 
   return (
-    <CMDPaletteWrapper>
+    <CommandMenuWrapper>
       <CMDPaletteContentWrapper {...wrapperProps}>
         <SearchInput {...searchProps} type="text" />
         <CMDPaletteList>
@@ -159,7 +175,7 @@ export const Demo: FunctionComponent = () => {
                   </CMDPaletteListGroupItemLabel>
                   <CMDPaletteGroupList>
                     {groupItemProps.groupItems.map((itemData) => (
-                      <CMDPaletteListItem
+                      <CommandMenuListItem
                         key={itemData.id}
                         selectedItem={selectedItem}
                         selectedItemRef={selectedItemRef}
@@ -171,7 +187,7 @@ export const Demo: FunctionComponent = () => {
               )
             }
             return (
-              <CMDPaletteListItem
+              <CommandMenuListItem
                 key={groupItemProps.id}
                 selectedItem={selectedItem}
                 selectedItemRef={selectedItemRef}
@@ -181,6 +197,6 @@ export const Demo: FunctionComponent = () => {
           })}
         </CMDPaletteList>
       </CMDPaletteContentWrapper>
-    </CMDPaletteWrapper>
+    </CommandMenuWrapper>
   )
 }

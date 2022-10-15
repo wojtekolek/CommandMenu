@@ -2,20 +2,20 @@
 import { useEffect, useLayoutEffect as useLayoutEffectBase, useRef, useState } from 'react'
 import type {
   ChangeEventHandler,
+  Dispatch,
   KeyboardEventHandler,
   RefObject,
-  Dispatch,
   SetStateAction
 } from 'react'
 
-import type { ConfigData, ListData, WrapperProps, SearchProps, SelectedItemData } from './types'
+import type { ConfigData, ListData, SearchProps, SelectedItemData, WrapperProps } from './types'
 import {
-  getFirstOption,
-  getListData,
-  getItemsOrder,
+  findIndexes,
   getFilteredList,
-  getPropByPath,
-  findIndexes
+  getFirstOption,
+  getItemsOrder,
+  getListData,
+  getPropByPath
 } from './utils'
 
 const useLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffectBase
@@ -61,11 +61,11 @@ const getInitialData = (
   }
 }
 
-type UseCommandPaletteProps = {
+type UseCommandMenuProps = {
   config: ConfigData
 }
 
-type UseCommandPaletteReturn = {
+type UseCommandMenuReturn = {
   selectedItem?: string
   selectedItemRef: RefObject<HTMLLIElement> | null
   wrapperProps: WrapperProps
@@ -73,7 +73,7 @@ type UseCommandPaletteReturn = {
   preparedList: ListData
 }
 
-export const useCommandPalette = ({ config }: UseCommandPaletteProps): UseCommandPaletteReturn => {
+export const useCommandMenu = ({ config }: UseCommandMenuProps): UseCommandMenuReturn => {
   const [selectedItem, setSelectedItem] = useState<SelectedItemData | undefined>(
     getFirstOption(config)
   )

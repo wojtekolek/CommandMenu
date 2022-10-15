@@ -1,2 +1,2 @@
-export { useCommandPalette } from './useCommandPalette'
+export { useCommandMenu } from './useCommandPalette'
 export type { ItemsGroupConfigData, ItemConfigData, ConfigData, ListItemData } from './types'

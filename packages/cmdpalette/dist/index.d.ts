@@ -55,16 +55,16 @@ declare type SearchProps = {
     onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-declare type UseCommandPaletteProps = {
+declare type UseCommandMenuProps = {
     config: ConfigData;
 };
-declare type UseCommandPaletteReturn = {
+declare type UseCommandMenuReturn = {
     selectedItem?: string;
     selectedItemRef: RefObject<HTMLLIElement> | null;
     wrapperProps: WrapperProps;
     searchProps: SearchProps;
     preparedList: ListData;
 };
-declare const useCommandPalette: ({ config }: UseCommandPaletteProps) => UseCommandPaletteReturn;
+declare const useCommandMenu: ({ config }: UseCommandMenuProps) => UseCommandMenuReturn;
 
-export { ConfigData, ItemConfigData, ItemsGroupConfigData, ListItemData, useCommandPalette };
+export { ConfigData, ItemConfigData, ItemsGroupConfigData, ListItemData, useCommandMenu };

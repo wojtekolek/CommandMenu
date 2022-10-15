@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@styled-icons/feather": "^10.34.0",
-    "commandpalette": "*",
+    "commandmenu": "*",
     "copy-to-clipboard": "^3.3.2",
     "framer-motion": "^7.2.1",
     "next": "^12.2.3",
