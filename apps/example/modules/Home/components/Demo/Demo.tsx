@@ -24,26 +24,24 @@ const CommandMenuWrapper = styled(motion.div).attrs({
     }
   }
 })`
-  margin: 0 auto;
-  width: 100%;
-  min-height: 240px;
-  max-height: 480px;
-  background-color: ${({ theme }) => theme.colors.background.tertiary};
-  border: 1px solid ${({ theme }) => theme.colors.misc.border};
-  border-radius: ${({ theme }) => theme.radius.rad2};
-  overflow: hidden;
-  z-index: -1;
-
-  ${from('tablet')} {
-    width: 640px;
-  }
+  display: flex;
+  justify-content: center;
 `
 
 const CommandMenu = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 240px;
   height: 480px;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.background.tertiary};
+  border: 1px solid ${({ theme }) => theme.colors.misc.border};
+  border-radius: ${({ theme }) => theme.radius.rad2};
+
+  ${from('tablet')} {
+    width: 640px;
+  }
 `
 
 const SearchInput = styled.input.attrs({
