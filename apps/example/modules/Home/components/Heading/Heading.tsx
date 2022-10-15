@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Title } from 'components/Primitives'
 import { from } from 'utils/styles/responsiveness'
 
-import { CopyPackageName } from './components/CopyPackageName'
+import { PackageName } from './components/PackageName'
 
 const HeadingWrapper = styled(motion.div)`
   display: flex;
@@ -79,7 +79,7 @@ export const Heading: FunctionComponent = () => {
         </Title>
       </AnimatedTitleWrapper>
       <AnimatedPackageNameWrapper>
-        <CopyPackageName />
+        <PackageName />
       </AnimatedPackageNameWrapper>
       <Separator />
     </HeadingWrapper>

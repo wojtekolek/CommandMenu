@@ -16,13 +16,6 @@ const animationVariants = {
   }
 }
 
-const ANIMATION_PROPS = {
-  variants: animationVariants,
-  initial: 'initial',
-  animate: 'animate',
-  exit: 'initial'
-}
-
 const Button = styled(ButtonBase)`
   height: 50px;
   color: ${({ theme }) => theme.colors.text.tertiary};
@@ -33,13 +26,18 @@ const ButtonTitleIcon = styled(Icon)`
   margin-right: ${({ theme }) => theme.spacing.ss1};
 `
 
-const ButtonTitle = styled(motion.span).attrs(ANIMATION_PROPS)`
+const ButtonTitle = styled(motion.div).attrs({
+  variants: animationVariants,
+  initial: 'initial',
+  animate: 'animate',
+  exit: 'initial'
+})`
   display: flex;
 `
 
 const PACKAGE_NAME = 'commandmenu'
 
-export const CopyPackageName: FunctionComponent = () => {
+export const PackageName: FunctionComponent = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false)
 
   const copyPackageNameToClipboard = () => {
@@ -56,11 +54,11 @@ export const CopyPackageName: FunctionComponent = () => {
 
   return (
     <Button onClick={copyPackageNameToClipboard}>
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="wait">
         {isCopied ? (
-          <ButtonTitle>Copied</ButtonTitle>
+          <ButtonTitle key="copied">Copied!</ButtonTitle>
         ) : (
-          <ButtonTitle>
+          <ButtonTitle key="normal">
             <ButtonTitleIcon name="Copy" />
             {PACKAGE_NAME}
           </ButtonTitle>
