@@ -21,6 +21,7 @@ const Badge = styled.li`
   line-height: 50px;
   padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss2}`};
   border-radius: ${({ theme }) => theme.radius.rad3};
+  border: 1px solid ${({ theme }) => theme.colors.misc.border};
   background-color: ${({ theme }) => theme.colors.background.secondary};
 
   svg {

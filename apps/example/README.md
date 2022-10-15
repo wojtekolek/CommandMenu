@@ -1,1 +1,1 @@
-## CMDPalette Example
+## CommandPalette Example

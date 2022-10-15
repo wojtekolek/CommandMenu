@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   padding: ${({ theme }) => theme.spacing.ss0};
   font-size: ${({ theme }) => theme.fontSize.fs2};
   cursor: pointer;
-  transition: color 0.3s, background-color 0.3s;
+  transition: opacity 0.3s;
   outline: none;
 
   &:hover {

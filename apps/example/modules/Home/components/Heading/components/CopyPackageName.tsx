@@ -2,7 +2,6 @@ import { FunctionComponent, useState } from 'react'
 import copyToClipboard from 'copy-to-clipboard'
 import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
-import { Badges } from 'components/Primitives/Badges'
 import { Icon } from 'components/Icon'
 import { Button as ButtonBase } from 'components/Button'
 
@@ -15,7 +14,7 @@ const animationVariants = {
   }
 }
 
-const animationProps = {
+const ANIMATION_PROPS = {
   variants: animationVariants,
   initial: 'initial',
   animate: 'animate',
@@ -24,16 +23,21 @@ const animationProps = {
 
 const Button = styled(ButtonBase)`
   height: 50px;
-  width: 218px;
+  color: ${({ theme }) => theme.colors.text.tertiary};
 `
 
 const ButtonTitleIcon = styled(Icon)`
+  flex-shrink: 0;
   margin-right: ${({ theme }) => theme.spacing.ss1};
+`
+
+const ButtonTitle = styled(motion.span).attrs(ANIMATION_PROPS)`
+  display: flex;
 `
 
 const PACKAGE_NAME = '@wojtekolek/cmdpalette'
 
-export const PackageNameBadge: FunctionComponent = () => {
+export const CopyPackageName: FunctionComponent = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false)
 
   const copyPackageNameToClipboard = () => {
@@ -46,19 +50,17 @@ export const PackageNameBadge: FunctionComponent = () => {
   }
 
   return (
-    <Badges.Badge>
-      <Button onClick={copyPackageNameToClipboard}>
-        <AnimatePresence mode="wait" initial={false}>
-          {isCopied ? (
-            <motion.span {...animationProps}>Copied</motion.span>
-          ) : (
-            <motion.span {...animationProps}>
-              <ButtonTitleIcon name="Copy" />
-              {PACKAGE_NAME}
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </Button>
-    </Badges.Badge>
+    <Button onClick={copyPackageNameToClipboard}>
+      <AnimatePresence mode="wait" initial={false}>
+        {isCopied ? (
+          <ButtonTitle>Copied</ButtonTitle>
+        ) : (
+          <ButtonTitle>
+            <ButtonTitleIcon name="Copy" />
+            {PACKAGE_NAME}
+          </ButtonTitle>
+        )}
+      </AnimatePresence>
+    </Button>
   )
 }

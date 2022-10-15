@@ -5,6 +5,7 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { Footer } from 'components/Footer'
 import { Normalize } from 'utils/styles/Normalize'
 import { theme } from 'utils/styles/theme'
+import { TopMenu } from 'components/TopMenu'
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -12,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: ${({ theme }) => theme.colors.background.primary};
 
     #__next {
@@ -25,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const LayoutMain = styled.main`
-  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss2}`};
+  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10} ${theme.spacing.ss5}`};
 `
 
 type LayoutProps = {
@@ -36,6 +37,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({ children }) => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
     <Normalize />
+    <TopMenu />
     <LayoutMain>{children}</LayoutMain>
     <Footer />
   </ThemeProvider>

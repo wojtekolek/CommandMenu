@@ -9,13 +9,13 @@ export const spacing = {
   ss7: '56px',
   ss8: '64px',
   ss9: '72px',
-  ss10: '80px'
+  ss10: '128px'
 } as const
 
 export const fontSize = {
   fs1: '12px',
   fs2: '16px',
-  fs3: '24px',
+  fs3: '21px',
   fs4: '32px',
   fs5: '40px',
   fs6: '48px',
@@ -36,7 +36,7 @@ export const zIndex = {
 export const radius = {
   rad1: '4px',
   rad2: '8px',
-  rad3: '16px'
+  rad3: '24px'
 } as const
 
 export const colors = {
@@ -46,24 +46,23 @@ export const colors = {
   },
   // background
   background: {
-    primary: '#000',
-    secondary: '#59595920',
+    primary: '#131313',
+    secondary: '#1B1B1B',
     tertiary: '#292929',
     quaternary: '#1F1F1F'
   },
   // text
   text: {
-    primary: '#F7F7F7',
+    primary: '#E1E1E1',
     secondary: '#E6E6E6',
     tertiary: '#B8B8B8',
     quaternary: '#808080'
   },
   // rest
   misc: {
-    border: '#525252',
-    pageGradient:
-      'radial-gradient(85.3% 65.4% at 5.4% 6.1%, rgb(54, 54, 54), rgb(31, 31, 31)), url(/noise.svg)',
-    footerGradient: 'linear-gradient(rgba(0,0,0,0), rgb(56, 56, 56));',
+    border: '#303030',
+    pageGradient: 'radial-gradient(85% 65% at 5% 6%, #313131, #131313)',
+    footerGradient: 'linear-gradient(#131313, #383838);',
     separatorGradient: 'linear-gradient(42deg, rgb(66, 66, 66), rgb(216, 179, 100));'
   }
 } as const

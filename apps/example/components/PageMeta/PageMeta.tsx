@@ -9,7 +9,7 @@ type PageMetaProps = {
 }
 
 export const PageMeta: FunctionComponent<PageMetaProps> = ({ children }) => {
-  const title = `CMDPalette - ${LIBRARY_DESCRIPTION}`
+  const title = `Command Palette — ${LIBRARY_DESCRIPTION}`
   return (
     <Head>
       <title>{title}</title>

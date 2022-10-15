@@ -1,5 +1,5 @@
-# CMDPalette
+# CommandPalette
 
-This is an official repo of CMDPalette.
+This is an official repo of CommandPalette.
 
-Demo: [cmdpalette.wojtekolek.com](https://cmdpalette.wojtekolek.com/)
+Demo: [commandpalette.wojtekolek.com](https://commandpalette.wojtekolek.com/)

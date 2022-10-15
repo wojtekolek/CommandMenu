@@ -1,7 +1,7 @@
 import type { FunctionComponent, RefObject } from 'react'
 
-import { useCMDPalette } from '@wojtekolek/cmdpalette'
-import type { ListItemData } from '@wojtekolek/cmdpalette'
+import { useCommandPalette } from 'commandpalette'
+import type { ListItemData } from 'commandpalette'
 import styled from 'styled-components'
 
 import { Icon } from 'components/Icon'
@@ -140,9 +140,10 @@ const CMDPaletteListItem: FunctionComponent<ListComponentProps> = ({
 }
 
 export const Demo: FunctionComponent = () => {
-  const { selectedItem, selectedItemRef, wrapperProps, searchProps, preparedList } = useCMDPalette({
-    config
-  })
+  const { selectedItem, selectedItemRef, wrapperProps, searchProps, preparedList } =
+    useCommandPalette({
+      config
+    })
 
   return (
     <CMDPaletteWrapper>

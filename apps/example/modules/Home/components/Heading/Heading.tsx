@@ -1,15 +1,9 @@
 import type { FunctionComponent } from 'react'
 
 import styled from 'styled-components'
-import { Icon } from 'components/Icon'
-import { Image } from 'components/Image'
-import { SubTitle as SubTitleBase, Title } from 'components/Primitives'
-import { Badges } from 'components/Primitives/Badges'
-import { ExternalLink } from 'components/Link'
-import Logo from 'public/logo.svg'
+import { Title } from 'components/Primitives'
 import { from } from 'utils/styles/responsiveness'
-import { LIBRARY_DESCRIPTION } from 'components/PageMeta'
-import { PackageNameBadge } from './components/PackageNameBadge'
+import { CopyPackageName } from './components/CopyPackageName'
 
 const HeadingWrapper = styled.div`
   display: flex;
@@ -18,23 +12,10 @@ const HeadingWrapper = styled.div`
   margin-top: ${({ theme }) => theme.spacing.ss8};
   margin-bottom: ${({ theme }) => theme.spacing.ss4};
   gap: ${({ theme }) => theme.spacing.ss3};
-`
 
-const TitleWrapper = styled.div`
-  display: flex;
-`
-
-const LogoImage = styled(Image)`
-  width: 75px;
-  height: auto;
-
-  ${from('tablet')} {
-    width: 115px;
+  ${Title} {
+    text-align: center;
   }
-`
-
-const SubTitle = styled(SubTitleBase)`
-  text-align: center;
 `
 
 const Separator = styled.div`
@@ -49,20 +30,12 @@ const Separator = styled.div`
 
 export const Heading: FunctionComponent = () => (
   <HeadingWrapper>
-    <TitleWrapper>
-      <LogoImage priority alt="logo" src={Logo} />
-      <Title>MDPalette</Title>
-    </TitleWrapper>
-    <SubTitle>{LIBRARY_DESCRIPTION}</SubTitle>
-    <Badges>
-      <Badges.Badge>
-        <Icon name="Github" />
-        <ExternalLink href="https://github.com/wojtekolek/cmdpalette">
-          github.com/wojtekolek/cmdpalette
-        </ExternalLink>
-      </Badges.Badge>
-      <PackageNameBadge />
-    </Badges>
+    <Title>
+      Headless UI for building
+      <br />
+      command palettes in React.
+    </Title>
+    <CopyPackageName />
     <Separator />
   </HeadingWrapper>
 )
