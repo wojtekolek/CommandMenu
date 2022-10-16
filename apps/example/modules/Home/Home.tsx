@@ -7,8 +7,7 @@ import { Demo } from './components/Demo'
 import { Heading } from './components/Heading'
 
 const HomeSection = styled.section`
-  padding-bottom: ${({ theme }) => theme.spacing.ss4};
-  overflow: hidden;
+  padding-bottom: ${({ theme }) => theme.spacing.ss8};
 `
 
 const DemoWrapper = styled(motion.div)``
@@ -17,7 +16,7 @@ export const Home: FunctionComponent = () => {
   const { scrollYProgress } = useScroll({
     offset: ['start start', 'end start']
   })
-  const y = useTransform(scrollYProgress, [0, 1], [0, 240])
+  const y = useTransform(scrollYProgress, [0, 1], [0, 500])
   const opacity = useTransform(scrollYProgress, [1, 0], [0, 1])
 
   return (

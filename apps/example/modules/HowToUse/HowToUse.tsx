@@ -1,28 +1,16 @@
-import type { FunctionComponent } from 'react'
+import { FunctionComponent, useRef } from 'react'
 
+import { motion, useScroll, useTransform } from 'framer-motion'
 import styled from 'styled-components'
 
-import { CodeSnippet } from 'components/CodeSnippet'
-import { Message, SectionTitle } from 'components/Primitives'
+import { AnimatedSection } from 'components/Primitives'
 
-const HowToUseContentItemWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.ss2};
-`
+import { HowToUseItem } from './components/HowToUseItem'
+import { HOW_TO_USE_DATA } from './constants'
 
-const HowToUseContentItem: FunctionComponent = () => (
-  <HowToUseContentItemWrapper>
-    <Message>
-      Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo
-      lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat
-      placerat. In iaculis arcu eros, eget tempus orci facilisis id.
-    </Message>
-    <CodeSnippet>Soon...</CodeSnippet>
-  </HowToUseContentItemWrapper>
-)
+const HowToUseSectionWrapper = styled.div``
 
-const HowToUseWrapper = styled.section`
+const HowToUseWrapper = styled(AnimatedSection)`
   padding: ${({ theme }) => theme.spacing.ss8};
   border-radius: ${({ theme }) => theme.radius.rad3};
   border: 1px solid ${({ theme }) => theme.colors.misc.border};
@@ -34,27 +22,56 @@ const HowToUseContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.ss4};
-  margin-top: ${({ theme }) => theme.spacing.ss4};
 `
 
-export const HowToUse: FunctionComponent = () => (
-  <HowToUseWrapper>
-    <SectionTitle>How to use it?</SectionTitle>
-    <HowToUseContent>
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-      <HowToUseContentItem />
-    </HowToUseContent>
-  </HowToUseWrapper>
-)
+const SectionTitleWrapper = styled.div`
+  padding-top: ${({ theme }) => theme.spacing.ss8};
+  padding-bottom: ${({ theme }) => theme.spacing.ss10};
+  overflow: hidden;
+`
+
+const SectionTitle = styled(motion.h3).attrs({
+  initial: {
+    opacity: 0
+  },
+  whileInView: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      delay: 0.2
+    }
+  }
+})`
+  text-align: center;
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  font-size: ${({ theme }) => theme.fontSize.fs5};
+  color: ${({ theme }) => theme.colors.text.tertiary};
+`
+
+export const HowToUse: FunctionComponent = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'center end']
+  })
+  const y = useTransform(scrollYProgress, [0, 1], [0, 180])
+
+  return (
+    <HowToUseSectionWrapper ref={ref}>
+      <SectionTitleWrapper>
+        <SectionTitle style={{ y }}>How to use it?</SectionTitle>
+      </SectionTitleWrapper>
+      <HowToUseWrapper id="howToUse">
+        <HowToUseContent>
+          {HOW_TO_USE_DATA.map(({ message, codeMarkdown }, index) => (
+            <HowToUseItem
+              key={`${index}_how_to_use`}
+              message={message}
+              codeMarkdown={codeMarkdown}
+            />
+          ))}
+        </HowToUseContent>
+      </HowToUseWrapper>
+    </HowToUseSectionWrapper>
+  )
+}
