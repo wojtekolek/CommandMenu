@@ -61,7 +61,7 @@ export const HowToUse: FunctionComponent = () => {
       <SectionTitleWrapper>
         <SectionTitle style={{ y }}>How to use it?</SectionTitle>
       </SectionTitleWrapper>
-      <HowToUseWrapper id="howToUse">
+      <HowToUseWrapper id="howToUseBasic">
         <HowToUseContent>
           {HOW_TO_USE_DATA.map(({ message, codeMarkdown }, index) => (
             <HowToUseItem

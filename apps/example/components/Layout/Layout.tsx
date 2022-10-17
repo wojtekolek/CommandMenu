@@ -1,11 +1,12 @@
 import type { FunctionComponent, ReactNode } from 'react'
 
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 
 import { Footer } from 'components/Footer'
-import { Normalize } from 'utils/styles/Normalize'
-import { theme } from 'utils/styles/theme'
 import { TopMenu } from 'components/TopMenu'
+import { Normalize } from 'utils/styles/Normalize'
+import { from } from 'utils/styles/responsiveness'
+import { theme } from 'utils/styles/theme'
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -26,7 +27,11 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const LayoutMain = styled.main`
-  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10} ${theme.spacing.ss5}`};
+  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss8} ${theme.spacing.ss3}`};
+
+  ${from('desktop')} {
+    margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10} ${theme.spacing.ss5}`};
+  }
 `
 
 type LayoutProps = {

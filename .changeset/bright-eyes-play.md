@@ -1,0 +1,5 @@
+---
+'commandmenu': patch
+---
+
+Rename props

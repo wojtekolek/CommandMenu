@@ -6,7 +6,7 @@ type HowToUseData = {
 const BASIC: HowToUseData = {
   message:
     'Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. In iaculis arcu eros, eget tempus orci facilisis id.',
-  codeMarkdown: `const { selectedItem, selectedItemRef, wrapperProps, searchProps, preparedList } = useCommandMenu({ config })`
+  codeMarkdown: `const { selectedItem, selectedItemRef, menuProps, searchProps, list } = useCommandMenu({ config })`
 }
 
 const CONFIG: HowToUseData = {
@@ -41,10 +41,10 @@ const USAGE: HowToUseData = {
   message:
     'Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. In iaculis arcu eros, eget tempus orci facilisis id.',
   codeMarkdown: `return (
-  <CommandMenu {...wrapperProps}>
+  <CommandMenu {...menuProps}>
     <SearchInput {...searchProps} type="text" />
     <CommandMenuList>
-      {preparedList.map(({ id, label, icon, description }) => {
+      {list.map(({ id, label, icon, description }) => {
         const isSelected = id === selectedItem
         return (
           <CommandMenuListItemWrapper
@@ -52,10 +52,12 @@ const USAGE: HowToUseData = {
             ref={isSelected ? selectedItemRef : null}
             isSelected={isSelected}
           >
-            {icon && <CommandMenuListItemIcon name={icon as any} />}
+            {icon && <CommandMenuListItemIcon name={icon} />}
             <CommandMenuListItemLabel>{label}</CommandMenuListItemLabel>
             {description && (
-              <CommandMenuListItemDescription>{description}</CommandMenuListItemDescription>
+              <CommandMenuListItemDescription>
+                {description}
+              </CommandMenuListItemDescription>
             )}
           </CommandMenuListItemWrapper>
         )

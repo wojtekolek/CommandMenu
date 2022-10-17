@@ -155,18 +155,16 @@ const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
 }
 
 export const Demo: FunctionComponent = () => {
-  const { selectedItem, selectedItemRef, wrapperProps, searchProps, preparedList } = useCommandMenu(
-    {
-      config
-    }
-  )
+  const { selectedItem, selectedItemRef, menuProps, searchProps, list } = useCommandMenu({
+    config
+  })
 
   return (
     <CommandMenuWrapper>
-      <CommandMenu {...wrapperProps}>
+      <CommandMenu {...menuProps}>
         <SearchInput {...searchProps} type="text" />
         <CommandMenuList>
-          {preparedList.map(({ isGroup, ...groupItemProps }) => {
+          {list.map(({ isGroup, ...groupItemProps }) => {
             if (isGroup && groupItemProps.groupItems) {
               return (
                 <CommandMenuListGroupItem key={groupItemProps.id} id="group">

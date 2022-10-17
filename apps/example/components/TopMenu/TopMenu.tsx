@@ -7,13 +7,18 @@ import { Image } from 'components/Image'
 import { ExternalLink } from 'components/Link'
 import { Badges } from 'components/Primitives/Badges'
 import Logo from 'public/logo.svg'
+import { from } from 'utils/styles/responsiveness'
 
 const TopMenuWrapper = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 120px;
-  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10}`};
+  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss8}`};
+
+  ${from('desktop')} {
+    margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10}`};
+  }
 `
 
 const TopMenuTitle = styled.div`
