@@ -43,7 +43,7 @@ declare type ListGroupData = {
     description?: never;
 };
 declare type ListData = ListGroupData[] | ListItemData[];
-declare type WrapperProps = {
+declare type MenuProps = {
     ref: RefObject<HTMLDivElement>;
     onKeyDown: KeyboardEventHandler<HTMLDivElement>;
 };
@@ -61,9 +61,9 @@ declare type UseCommandMenuProps = {
 declare type UseCommandMenuReturn = {
     selectedItem?: string;
     selectedItemRef: RefObject<HTMLLIElement> | null;
-    wrapperProps: WrapperProps;
+    menuProps: MenuProps;
     searchProps: SearchProps;
-    preparedList: ListData;
+    list: ListData;
 };
 declare const useCommandMenu: ({ config }: UseCommandMenuProps) => UseCommandMenuReturn;
 

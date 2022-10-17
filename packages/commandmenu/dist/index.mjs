@@ -259,21 +259,26 @@ var useCommandMenu = ({ config }) => {
       }
     }
   };
+  const getMenuProps = () => ({
+    ref: listRef,
+    onKeyDown: handleListKeyDown
+  });
+  const getSearchProps = () => {
+    const { searchPlaceholder, searchValue } = getState().currentList;
+    return {
+      autoFocus: true,
+      placeholder: searchPlaceholder ?? "Type to search...",
+      value: searchValue ?? "",
+      ref: searchRef,
+      onChange: handleSearchChange
+    };
+  };
   return {
     selectedItem: selectedItem == null ? void 0 : selectedItem.id,
     selectedItemRef,
-    wrapperProps: {
-      ref: listRef,
-      onKeyDown: handleListKeyDown
-    },
-    searchProps: {
-      autoFocus: true,
-      placeholder: getState().currentList.searchPlaceholder ?? "Type to search...",
-      value: getState().currentList.searchValue ?? "",
-      ref: searchRef,
-      onChange: handleSearchChange
-    },
-    preparedList: getState().currentList.data
+    menuProps: getMenuProps(),
+    searchProps: getSearchProps(),
+    list: getState().currentList.data
   };
 };
 export {
