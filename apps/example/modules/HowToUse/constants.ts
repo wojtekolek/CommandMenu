@@ -5,44 +5,45 @@ type HowToUseData = {
 
 const BASIC: HowToUseData = {
   message:
-    'Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. In iaculis arcu eros, eget tempus orci facilisis id.',
-  codeMarkdown: `const { selectedItem, selectedItemRef, menuProps, searchProps, list } = useCommandMenu({ config })`
+    'The package provides you with a whole logic to build your own command menu.\n\nIt returns an object with props for each element like the menu itself, search input and list with all needed props for each menu element.',
+  codeMarkdown: `const { selectedItem, selectedItemRef, menuProps, searchProps, list } = 
+  useCommandMenu({ config })`
 }
 
 const CONFIG: HowToUseData = {
   message:
-    'Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. In iaculis arcu eros, eget tempus orci facilisis id.',
+    'To provide full functionality, you need to pass a config array with all items you would like to display in the menu.\n The simplest version of it could look like this:',
   codeMarkdown: `const config: ConfigData<IconName> = [
   {
     id: 'github',
     label: 'Github',
     icon: 'Github',
     description: 'Check github',
-    onSelect: () => console.log('clicked test2')
+    onSelect: () => console.log('open github')
   },
   {
-    id: 'framer',
-    label: 'Framer',
-    icon: 'Framer',
-    description: 'Open Framer',
-    onSelect: () => console.log('clicked test3')
+    id: 'spotifyPlay',
+    label: 'Spotify play',
+    icon: 'Play',
+    description: 'Play songs on Spotify',
+    onSelect: () => console.log('spotify play')
   },
   {
-    id: 'figma',
-    label: 'Figma',
-    icon: 'Figma',
-    description: 'Open Figma',
-    onSelect: () => console.log('clicked test4')
+    id: 'spotifyNext',
+    label: 'Spotify next',
+    icon: 'Next',
+    description: 'Next song on Spotify',
+    onSelect: () => console.log('spotify next')
   },
 ]`
 }
 
 const USAGE: HowToUseData = {
   message:
-    'Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. In iaculis arcu eros, eget tempus orci facilisis id.',
+    'The usage of the returned props data from the hook is straightforward. You need to spread the menuProps, searchProps and map through the list to render all necessary menu items.',
   codeMarkdown: `return (
   <CommandMenu {...menuProps}>
-    <SearchInput {...searchProps} type="text" />
+    <SearchInput {...searchProps} />
     <CommandMenuList>
       {list.map(({ id, label, icon, description }) => {
         const isSelected = id === selectedItem
