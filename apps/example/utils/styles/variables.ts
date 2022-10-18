@@ -9,7 +9,8 @@ export const spacing = {
   ss7: '56px',
   ss8: '64px',
   ss9: '72px',
-  ss10: '128px'
+  ss10: '128px',
+  ss11: '200px'
 } as const
 
 export const fontSize = {
@@ -42,7 +43,8 @@ export const radius = {
 export const colors = {
   // primary
   primary: {
-    default: '#FFD78A'
+    default: '#FFD78A',
+    background: '#a4926e'
   },
   // background
   background: {
@@ -53,7 +55,7 @@ export const colors = {
   },
   // text
   text: {
-    primary: '#E1E1E1',
+    primary: '#F1F1F1',
     secondary: '#E6E6E6',
     tertiary: '#B8B8B8',
     quaternary: '#808080'
@@ -63,7 +65,8 @@ export const colors = {
     border: '#303030',
     pageGradient: 'radial-gradient(85% 65% at 5% 6%, #313131, #131313)',
     footerGradient: 'linear-gradient(#131313, #383838);',
-    separatorGradient: 'linear-gradient(42deg, rgb(66, 66, 66), rgb(216, 179, 100));'
+    separatorGradient: 'linear-gradient(42deg, rgb(66, 66, 66), rgb(216, 179, 100));',
+    textDropShadow: 'drop-shadow(#3B3B3B 0px 8px 16px)'
   }
 } as const
 

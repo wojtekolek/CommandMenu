@@ -19,7 +19,6 @@ export const Normalize = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
-    letter-spacing: 2;
     -webkit-font-smoothing: antialiased;
 
     button,

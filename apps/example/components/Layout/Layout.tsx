@@ -5,7 +5,6 @@ import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { Footer } from 'components/Footer'
 import { TopMenu } from 'components/TopMenu'
 import { Normalize } from 'utils/styles/Normalize'
-import { from } from 'utils/styles/responsiveness'
 import { theme } from 'utils/styles/theme'
 
 const GlobalStyle = createGlobalStyle`
@@ -26,13 +25,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const LayoutMain = styled.main`
-  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss8} ${theme.spacing.ss3}`};
-
-  ${from('desktop')} {
-    margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10} ${theme.spacing.ss5}`};
-  }
-`
+const LayoutMain = styled.main``
 
 type LayoutProps = {
   children: ReactNode

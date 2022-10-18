@@ -4,8 +4,17 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import styled from 'styled-components'
 
-const AnimatedSectionWrapper = styled(motion.div)`
+const AnimatedSectionWrapper = styled(motion.section)`
   position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: ${({ theme }) => theme.spacing.ss0};
+    opacity: 0.1;
+    filter: url('/noise.svg#noiseFilter');
+  }
 `
 
 type AnimatedSectionProps = {
