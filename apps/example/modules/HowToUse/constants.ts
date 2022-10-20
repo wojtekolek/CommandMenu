@@ -65,7 +65,80 @@ const USAGE: HowToUseData = {
       })}
     </CommandMenuList>
   </CommandMenu>
-  )`
+)`
 }
 
 export const HOW_TO_USE_DATA = [BASIC, CONFIG, USAGE]
+
+const GROUPS: HowToUseData = {
+  message:
+    'If you would like to group items on your list, you can easly do that, just wrap them in group object config and you are ready to go!',
+  codeMarkdown: `{
+  id: 'favs',
+  label: 'Favorites',
+  groupItems: [
+    {
+      id: 'github',
+      label: 'Github',
+      icon: 'Github',
+      description: 'Check github',
+      onSelect: () => console.log('open github')
+    },
+    {
+      id: 'spotifyPlay',
+      label: 'Spotify play',
+      icon: 'Play',
+      description: 'Play songs on Spotify',
+      onSelect: () => console.log('spotify play')
+    },
+    {
+      id: 'spotifyNext',
+      label: 'Spotify next',
+      icon: 'Next',
+      description: 'Next song on Spotify',
+      onSelect: () => console.log('spotify next')
+    },
+  ]
+},
+`
+}
+
+const NESTED: HowToUseData = {
+  message:
+    'There are also a possibility to add nested menus if you would like to have more than one option related to certain item.',
+  codeMarkdown: `{
+  id: 'spotify',
+  label: 'Spotify',
+  icon: 'Music',
+  description: 'Control Spotify',
+  items: [
+    {
+      id: 'spotifyPlay',
+      label: 'Play',
+      icon: 'Play',
+      onSelect: () => console.log('spotify play')
+    },
+    {
+      id: 'spotifyPause',
+      label: 'Pause',
+      icon: 'Pause',
+      onSelect: () => console.log('spotify pasue')
+    },
+    {
+      id: 'spotifyNext',
+      label: 'Next',
+      icon: 'ArrowRight',
+      onSelect: () => console.log('spotify next')
+    },
+    {
+      id: 'spotifyPrevious',
+      label: 'Previous',
+      icon: 'ArrowLeft',
+      onSelect: () => console.log('spotify prev')
+    },
+  ]
+}
+  `
+}
+
+export const ADVANCED_USE_DATA = [GROUPS, NESTED]

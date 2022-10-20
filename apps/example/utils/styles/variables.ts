@@ -66,7 +66,7 @@ export const colors = {
     pageGradient: 'radial-gradient(85% 65% at 5% 6%, #313131, #131313)',
     footerGradient: 'linear-gradient(#131313, #383838);',
     separatorGradient: 'linear-gradient(42deg, rgb(66, 66, 66), rgb(216, 179, 100));',
-    textDropShadow: 'drop-shadow(#3B3B3B 0px 8px 16px)'
+    textDropShadow: 'drop-shadow(#3B3B3B 0px 4px 8px)'
   }
 } as const
 

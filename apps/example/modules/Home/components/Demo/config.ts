@@ -11,7 +11,7 @@ export const config: ConfigData<IconName> = [
         id: 'spotify',
         label: 'Spotify',
         icon: 'Music',
-        description: 'Control spotify',
+        description: 'Control Spotify',
         placeholder: 'Search in spotify...',
         items: [
           {
