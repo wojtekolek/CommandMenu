@@ -1,5 +1,12 @@
 # commandpalette
 
+## 0.1.5
+
+### Patch Changes
+
+- bd101e4: Rename props
+- c20c611: Update readme
+
 ## 0.1.4
 
 ### Patch Changes
