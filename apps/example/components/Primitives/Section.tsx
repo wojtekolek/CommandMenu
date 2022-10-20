@@ -8,13 +8,13 @@ const AnimatedSectionWrapper = styled(motion.section)`
   position: relative;
   overflow: hidden;
 
-  &::after {
+  /* &::after {
     content: '';
     position: absolute;
     inset: ${({ theme }) => theme.spacing.ss0};
-    opacity: 0.1;
+    opacity: 0.2;
     filter: url('/noise.svg#noiseFilter');
-  }
+  } */
 `
 
 type AnimatedSectionProps = {
