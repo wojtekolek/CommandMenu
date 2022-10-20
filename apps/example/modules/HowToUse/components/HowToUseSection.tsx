@@ -7,16 +7,24 @@ import styled from 'styled-components'
 import { AnimatedSection, HeadingsColorStyles } from 'components/Primitives'
 import { from } from 'utils/styles/responsiveness'
 
-const HowToUseSectionWrapper = styled.div``
+const HowToUseSectionWrapper = styled.div`
+  overflow-x: hidden;
+`
 
 const HowToUseWrapper = styled(AnimatedSection)`
-  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss8} ${theme.spacing.ss3}`};
+  padding: ${({ theme }) => theme.spacing.ss4};
+  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss2} ${theme.spacing.ss3}`};
+
+  ${from('tablet')} {
+    padding: ${({ theme }) => theme.spacing.ss4};
+    margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss6} ${theme.spacing.ss3}`};
+  }
 
   ${from('desktop')} {
+    padding: ${({ theme }) => theme.spacing.ss8};
     margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10} ${theme.spacing.ss5}`};
   }
 
-  padding: ${({ theme }) => theme.spacing.ss8};
   border-radius: ${({ theme }) => theme.radius.rad3};
   border: 1px solid ${({ theme }) => theme.colors.misc.border};
   background-color: ${({ theme }) => `${theme.colors.background.secondary}80`};

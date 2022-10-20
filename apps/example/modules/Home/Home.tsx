@@ -3,11 +3,21 @@ import type { FunctionComponent } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import styled from 'styled-components'
 
+import { from } from 'utils/styles/responsiveness'
+
 import { Demo } from './components/Demo'
 import { Heading } from './components/Heading'
 
 const HomeSection = styled.section`
-  padding-bottom: ${({ theme }) => theme.spacing.ss8};
+  padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss2} ${theme.spacing.ss8}`};
+
+  ${from('tablet')} {
+    padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss6} ${theme.spacing.ss8}`};
+  }
+
+  ${from('desktop')} {
+    padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10} ${theme.spacing.ss8}`};
+  }
 `
 
 const DemoWrapper = styled(motion.div)``
