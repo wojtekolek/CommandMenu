@@ -14,8 +14,13 @@ export const HowToUse: FunctionComponent = () => (
     </HowToUseSection>
     <AdvancedHeading />
     <HowToUseSection title="Grouping and nested menus">
-      {ADVANCED_USE_DATA.map(({ message, codeMarkdown }, index) => (
-        <HowToUseItem key={`${index}_advanced_use`} message={message} codeMarkdown={codeMarkdown} />
+      {ADVANCED_USE_DATA.map(({ message, codeMarkdown, title }, index) => (
+        <HowToUseItem
+          key={`${index}_advanced_use`}
+          title={title}
+          message={message}
+          codeMarkdown={codeMarkdown}
+        />
       ))}
     </HowToUseSection>
   </>

@@ -14,12 +14,12 @@ export const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSize.fs5};
 `
 
-export const SubTitle = styled.h2`
+export const SubTitle = styled.h3`
   font-size: ${({ theme }) => theme.fontSize.fs3};
   color: ${({ theme }) => theme.colors.text.secondary};
 `
 
-export const SectionTitle = styled.h3`
+export const SectionTitle = styled.h2`
   ${HeadingsColorStyles}
   font-weight: ${({ theme }) => theme.fontWeight.regular};
   font-size: ${({ theme }) => theme.fontSize.fs4};

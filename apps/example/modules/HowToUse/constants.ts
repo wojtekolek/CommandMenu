@@ -1,7 +1,4 @@
-type HowToUseData = {
-  message: string
-  codeMarkdown: string
-}
+import type { HowToUseData } from './types'
 
 const BASIC: HowToUseData = {
   message:
@@ -71,6 +68,7 @@ const USAGE: HowToUseData = {
 export const HOW_TO_USE_DATA = [BASIC, CONFIG, USAGE]
 
 const GROUPS: HowToUseData = {
+  title: 'Groups',
   message:
     'If you would like to group items on your list, you can easly do that, just wrap them in group object config and you are ready to go!',
   codeMarkdown: `{
@@ -103,9 +101,46 @@ const GROUPS: HowToUseData = {
 `
 }
 
-const NESTED: HowToUseData = {
+const GROUPS_RETURN: HowToUseData = {
   message:
-    'There are also a possibility to add nested menus if you would like to have more than one option related to certain item.',
+    'After changing the command menu config, the last step will be only to render group elements inside another list. You can achieve this with something like the code below: ',
+  codeMarkdown: `<CommandMenuList>
+  {list.map(({ isGroup, ...groupItemProps }) => {
+    if (isGroup && groupItemProps.groupItems) {
+      return (
+        <CommandMenuListGroupItem key={groupItemProps.id} id="group">
+          <CommandMenuListGroupItemLabel>
+            {groupItemProps.label}
+          </CommandMenuListGroupItemLabel>
+          <CommandMenuGroupList>
+            {groupItemProps.groupItems.map((itemData) => (
+              <CommandMenuListItem
+                key={itemData.id}
+                selectedItem={selectedItem}
+                selectedItemRef={selectedItemRef}
+                {...itemData}
+              />
+            ))}
+          </CommandMenuGroupList>
+        </CommandMenuListGroupItem>
+      )
+    }
+    return (
+      <CommandMenuListItem
+        key={groupItemProps.id}
+        selectedItem={selectedItem}
+        selectedItemRef={selectedItemRef}
+        {...(groupItemProps as ListItemData)}
+      />
+    )
+  })}
+</CommandMenuList>`
+}
+
+const NESTED: HowToUseData = {
+  title: 'Nested menus',
+  message:
+    'There is also a possibility to add nested menus if you would like to have more than one option related to a certain item. Of course, you can add nested menus multiple on each level.\nAfter adding a proper config, this feature should work out of the box so you are ready to rock!',
   codeMarkdown: `{
   id: 'spotify',
   label: 'Spotify',
@@ -141,4 +176,4 @@ const NESTED: HowToUseData = {
   `
 }
 
-export const ADVANCED_USE_DATA = [GROUPS, NESTED]
+export const ADVANCED_USE_DATA = [GROUPS, GROUPS_RETURN, NESTED]

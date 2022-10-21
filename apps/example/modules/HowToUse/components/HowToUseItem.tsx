@@ -3,7 +3,9 @@ import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 import { CodeSnippet } from 'components/CodeSnippet'
-import { Message } from 'components/Primitives'
+import { Message, SubTitle } from 'components/Primitives'
+
+import type { HowToUseData } from '../types'
 
 const HowToUseItemWrapper = styled.div`
   display: flex;
@@ -11,13 +13,15 @@ const HowToUseItemWrapper = styled.div`
   gap: ${({ theme }) => theme.spacing.ss2};
 `
 
-type HowToUseItemProps = {
-  message: string
-  codeMarkdown: string
-}
+type HowToUseItemProps = HowToUseData
 
-export const HowToUseItem: FunctionComponent<HowToUseItemProps> = ({ message, codeMarkdown }) => (
+export const HowToUseItem: FunctionComponent<HowToUseItemProps> = ({
+  message,
+  codeMarkdown,
+  title
+}) => (
   <HowToUseItemWrapper>
+    {title && <SubTitle>{title}</SubTitle>}
     <Message>{message}</Message>
     <CodeSnippet>{codeMarkdown}</CodeSnippet>
   </HowToUseItemWrapper>
