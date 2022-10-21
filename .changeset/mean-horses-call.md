@@ -1,5 +1,0 @@
----
-'commandmenu': patch
----
-
-Update readme
