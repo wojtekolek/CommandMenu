@@ -20,6 +20,8 @@ import {
 
 const useLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffectBase
 
+const SEARCH_PLACEHOLDER = 'Type to search...'
+
 export const DOWN_KEY = 'ArrowDown'
 export const UP_KEY = 'ArrowUp'
 export const ENTER_KEY = 'Enter'
@@ -63,6 +65,7 @@ const getInitialData = (
 
 type UseCommandMenuProps = {
   config: ConfigData
+  searchPlaceholder?: string
 }
 
 type UseCommandMenuReturn = {
@@ -73,7 +76,10 @@ type UseCommandMenuReturn = {
   list: ListData
 }
 
-export const useCommandMenu = ({ config }: UseCommandMenuProps): UseCommandMenuReturn => {
+export const useCommandMenu = ({
+  config,
+  searchPlaceholder = SEARCH_PLACEHOLDER
+}: UseCommandMenuProps): UseCommandMenuReturn => {
   const [selectedItem, setSelectedItem] = useState<SelectedItemData | undefined>(
     getFirstOption(config)
   )
@@ -244,11 +250,11 @@ export const useCommandMenu = ({ config }: UseCommandMenuProps): UseCommandMenuR
   })
 
   const getSearchProps = () => {
-    const { searchPlaceholder, searchValue } = getState().currentList
+    const { searchPlaceholder: listSearchPlaceholder, searchValue } = getState().currentList
 
     return {
       autoFocus: true,
-      placeholder: searchPlaceholder ?? 'Type to search...',
+      placeholder: listSearchPlaceholder ?? searchPlaceholder,
       value: searchValue ?? '',
       ref: searchRef,
       onChange: handleSearchChange

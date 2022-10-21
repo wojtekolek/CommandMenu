@@ -1,4 +1,4 @@
-// src/useCommandPalette.ts
+// src/useCommandMenu.ts
 import { useEffect, useLayoutEffect as useLayoutEffectBase, useRef, useState } from "react";
 
 // src/utils.ts
@@ -103,8 +103,9 @@ var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupIt
   return [];
 });
 
-// src/useCommandPalette.ts
+// src/useCommandMenu.ts
 var useLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffectBase;
+var SEARCH_PLACEHOLDER = "Type to search...";
 var DOWN_KEY = "ArrowDown";
 var UP_KEY = "ArrowUp";
 var ENTER_KEY = "Enter";
@@ -122,7 +123,10 @@ var getInitialData = (config, setSelectedItem, goToNested) => {
     currentList: getCurrentList(preparedConfig)
   };
 };
-var useCommandMenu = ({ config }) => {
+var useCommandMenu = ({
+  config,
+  searchPlaceholder = SEARCH_PLACEHOLDER
+}) => {
   const [selectedItem, setSelectedItem] = useState(
     getFirstOption(config)
   );
@@ -264,10 +268,10 @@ var useCommandMenu = ({ config }) => {
     onKeyDown: handleListKeyDown
   });
   const getSearchProps = () => {
-    const { searchPlaceholder, searchValue } = getState().currentList;
+    const { searchPlaceholder: listSearchPlaceholder, searchValue } = getState().currentList;
     return {
       autoFocus: true,
-      placeholder: searchPlaceholder ?? "Type to search...",
+      placeholder: listSearchPlaceholder ?? searchPlaceholder,
       value: searchValue ?? "",
       ref: searchRef,
       onChange: handleSearchChange

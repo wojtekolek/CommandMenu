@@ -57,6 +57,7 @@ declare type SearchProps = {
 
 declare type UseCommandMenuProps = {
     config: ConfigData;
+    searchPlaceholder?: string;
 };
 declare type UseCommandMenuReturn = {
     selectedItem?: string;
@@ -65,6 +66,6 @@ declare type UseCommandMenuReturn = {
     searchProps: SearchProps;
     list: ListData;
 };
-declare const useCommandMenu: ({ config }: UseCommandMenuProps) => UseCommandMenuReturn;
+declare const useCommandMenu: ({ config, searchPlaceholder }: UseCommandMenuProps) => UseCommandMenuReturn;
 
 export { ConfigData, ItemConfigData, ItemsGroupConfigData, ListItemData, useCommandMenu };
