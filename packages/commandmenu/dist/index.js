@@ -1,8 +1,37 @@
 "use strict";
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __objRest = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && __getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
+        target[prop] = source[prop];
+    }
+  return target;
+};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -40,7 +69,7 @@ var prepareListOption = (config, setSelectedItem, goToNested) => config.map(({ i
   const isConfigWithNestedData = !!(items == null ? void 0 : items.length);
   return {
     id,
-    label,
+    label: typeof label === "function" ? label("") : label,
     icon,
     description,
     onPointerMove: () => setSelectedItem({
@@ -96,12 +125,14 @@ var getItemsOrder = (preparedConfig) => {
 };
 var getFilteredList = (list, searchValue) => {
   if (isListDataWithGroups(list)) {
-    const fillteredItems = list.map(({ groupItems, ...data3 }) => ({
-      ...data3,
-      groupItems: groupItems == null ? void 0 : groupItems.filter(
-        ({ label }) => label.toLowerCase().includes(searchValue.toLowerCase())
-      )
-    }));
+    const fillteredItems = list.map((_a) => {
+      var _b = _a, { groupItems } = _b, data3 = __objRest(_b, ["groupItems"]);
+      return __spreadProps(__spreadValues({}, data3), {
+        groupItems: groupItems == null ? void 0 : groupItems.filter(
+          ({ label }) => label.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      });
+    });
     const data2 = fillteredItems.filter(({ groupItems }) => groupItems == null ? void 0 : groupItems.length);
     return {
       data: data2,
@@ -159,7 +190,7 @@ var useCommandMenu = ({
   const goToNested = (passedItemId) => handleGoToNestedItems(passedItemId);
   const state = (0, import_react.useRef)(getInitialData(config, setSelectedItem, goToNested));
   const getState = () => state.current;
-  const setCurrentListState = (newCurrentListData) => state.current.currentList = { ...state.current.currentList, ...newCurrentListData };
+  const setCurrentListState = (newCurrentListData) => state.current.currentList = __spreadValues(__spreadValues({}, state.current.currentList), newCurrentListData);
   const listRef = (0, import_react.useRef)(null);
   const searchRef = (0, import_react.useRef)(null);
   const selectedItemRef = (0, import_react.useRef)(null);
@@ -297,8 +328,8 @@ var useCommandMenu = ({
     const { searchPlaceholder: listSearchPlaceholder, searchValue } = getState().currentList;
     return {
       autoFocus: true,
-      placeholder: listSearchPlaceholder ?? searchPlaceholder,
-      value: searchValue ?? "",
+      placeholder: listSearchPlaceholder != null ? listSearchPlaceholder : searchPlaceholder,
+      value: searchValue != null ? searchValue : "",
       ref: searchRef,
       onChange: handleSearchChange
     };

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Message = styled.p`
   color: ${({ theme }) => theme.colors.text.secondary};
@@ -8,4 +8,4 @@ export const Message = styled.p`
   strong {
     color: ${({ theme }) => theme.colors.primary.default};
   }
-`
+`;

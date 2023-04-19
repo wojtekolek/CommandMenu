@@ -1,1 +1,1 @@
-export { CodeSnippet } from './CodeSnippet'
+export { CodeSnippet } from "./CodeSnippet";

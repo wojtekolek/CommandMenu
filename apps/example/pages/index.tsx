@@ -1,13 +1,13 @@
-import type { NextPage } from 'next'
+import type { NextPage } from "next";
 
-import { Home } from 'modules/Home'
-import { HowToUse } from 'modules/HowToUse'
+import { Home } from "modules/Home";
+import { HowToUse } from "modules/HowToUse";
 
 const HomePage: NextPage = () => (
   <>
     <Home />
     <HowToUse />
   </>
-)
+);
 
-export default HomePage
+export default HomePage;

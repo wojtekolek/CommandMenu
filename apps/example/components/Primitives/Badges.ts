@@ -1,5 +1,6 @@
-import styled from 'styled-components'
-import { from } from 'utils/styles/responsiveness'
+import styled from "styled-components";
+
+import { from } from "utils/styles/responsiveness";
 
 const BadgesBase = styled.ul`
   display: flex;
@@ -8,11 +9,11 @@ const BadgesBase = styled.ul`
   list-style: none;
   gap: ${({ theme }) => theme.spacing.ss2};
 
-  ${from('tablet')} {
+  ${from("tablet")} {
     flex-direction: row;
     gap: ${({ theme }) => theme.spacing.ss4};
   }
-`
+`;
 
 const Badge = styled.li`
   display: flex;
@@ -27,8 +28,8 @@ const Badge = styled.li`
   svg {
     color: ${({ theme }) => theme.colors.text.primary};
   }
-`
+`;
 
 export const Badges = Object.assign(BadgesBase, {
-  Badge
-})
+  Badge,
+});

@@ -1,6 +1,6 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent } from "react";
 
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const FooterWrapper = styled.footer`
   display: flex;
@@ -9,20 +9,20 @@ const FooterWrapper = styled.footer`
   justify-content: center;
   height: 120px;
   background: ${({ theme }) => theme.colors.misc.footerGradient};
-`
+`;
 
 const FooterText = styled.span`
   color: ${({ theme }) => theme.colors.text.secondary};
-`
+`;
 
 const CopyrightYear = styled.span`
   margin-left: ${({ theme }) => theme.spacing.ss2};
   color: ${({ theme }) => theme.colors.text.tertiary};
-`
+`;
 
 const AuthorWebsiteLink = styled.a.attrs({
-  href: 'https://wojtekolek.com',
-  target: '_blank'
+  href: "https://wojtekolek.com",
+  target: "_blank",
 })`
   color: ${({ theme }) => theme.colors.text.secondary};
   text-decoration: underline dashed 1px;
@@ -31,9 +31,9 @@ const AuthorWebsiteLink = styled.a.attrs({
   &:hover {
     opacity: 0.8;
   }
-`
+`;
 
-const YEAR = new Date().getFullYear()
+const YEAR = new Date().getFullYear();
 
 export const Footer: FunctionComponent = () => (
   <FooterWrapper>
@@ -42,4 +42,4 @@ export const Footer: FunctionComponent = () => (
       <CopyrightYear>{YEAR} ©</CopyrightYear>
     </FooterText>
   </FooterWrapper>
-)
+);

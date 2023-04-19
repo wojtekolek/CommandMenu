@@ -1,4 +1,4 @@
-import { boxShadows, colors, fontSize, fontWeight, radius, spacing, zIndex } from './variables'
+import { boxShadows, colors, fontSize, fontWeight, radius, spacing, zIndex } from "./variables";
 
 export const theme = {
   colors,
@@ -7,5 +7,5 @@ export const theme = {
   spacing,
   radius,
   boxShadows,
-  fontWeight
-}
+  fontWeight,
+};

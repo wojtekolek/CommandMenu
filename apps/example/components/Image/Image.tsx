@@ -1,9 +1,9 @@
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from "react";
 
-import NextImage, { ImageProps as NextImageProps } from 'next/future/image'
+import NextImage, { type ImageProps as NextImageProps } from "next/image";
 
-type ImageProps = NextImageProps & {
-  alt: string
-}
+export type ImageProps = NextImageProps & {
+  alt: string;
+};
 
-export const Image: FunctionComponent<ImageProps> = (props) => <NextImage {...props} />
+export const Image: FunctionComponent<ImageProps> = (props) => <NextImage {...props} />;

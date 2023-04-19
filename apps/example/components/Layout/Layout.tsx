@@ -1,11 +1,11 @@
-import type { FunctionComponent, ReactNode } from 'react'
+import type { FunctionComponent, ReactNode } from "react";
 
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 
-import { Footer } from 'components/Footer'
-import { TopMenu } from 'components/TopMenu'
-import { Normalize } from 'utils/styles/Normalize'
-import { theme } from 'utils/styles/theme'
+import { Footer } from "components/Footer";
+import { TopMenu } from "components/TopMenu";
+import { Normalize } from "utils/styles/Normalize";
+import { theme } from "utils/styles/theme";
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -23,13 +23,13 @@ const GlobalStyle = createGlobalStyle`
       min-height: 100vh;
     }
   }
-`
+`;
 
-const LayoutMain = styled.main``
+const LayoutMain = styled.main``;
 
 type LayoutProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const Layout: FunctionComponent<LayoutProps> = ({ children }) => (
   <ThemeProvider theme={theme}>
@@ -39,4 +39,4 @@ export const Layout: FunctionComponent<LayoutProps> = ({ children }) => (
     <LayoutMain>{children}</LayoutMain>
     <Footer />
   </ThemeProvider>
-)
+);

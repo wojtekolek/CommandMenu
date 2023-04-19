@@ -19,14 +19,12 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
   },
-  "include": [
-    "next-env.d.ts",
-    "components/**/*",
-    "modules/**/*",
-    "pages/**/*",
-    "utils/**/*",
-    "types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", ".eslintrc.cjs"],
   "exclude": ["dist", ".next", "out", "next.config.js", "node_modules"],
 }

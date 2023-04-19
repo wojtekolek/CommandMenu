@@ -1,9 +1,9 @@
-import { FunctionComponent, useRef } from 'react'
+import { FunctionComponent, useRef } from "react";
 
-import { motion, useScroll, useTransform } from 'framer-motion'
-import styled from 'styled-components'
+import { motion, useScroll, useTransform } from "framer-motion";
+import styled from "styled-components";
 
-import { Title } from 'components/Primitives'
+import { Title } from "components/Primitives";
 
 const AdvancedHeadingWrapper = styled(motion.div)`
   display: flex;
@@ -14,16 +14,16 @@ const AdvancedHeadingWrapper = styled(motion.div)`
   ${Title} {
     text-align: center;
   }
-`
+`;
 
 export const AdvancedHeading: FunctionComponent = () => {
-  const ref = useRef(null)
+  const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start center', 'center center']
-  })
-  const y = useTransform(scrollYProgress, [0, 1], [-50, 0])
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
+    offset: ["start center", "center center"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [-50, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
     <AdvancedHeadingWrapper ref={ref} style={{ y, opacity }}>
@@ -32,5 +32,5 @@ export const AdvancedHeading: FunctionComponent = () => {
         something more advanced...
       </Title>
     </AdvancedHeadingWrapper>
-  )
-}
+  );
+};

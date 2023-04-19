@@ -1,16 +1,16 @@
-export const MOBILE_BREAKPOINT = '768px'
-export const TABLET_BREAKPOINT = '769px'
-export const DESKTOP_BREAKPOINT = '1024px'
-export const DESKTOP_FULLHD_BREAKPOINT = '1408px'
+export const MOBILE_BREAKPOINT = "768px";
+export const TABLET_BREAKPOINT = "769px";
+export const DESKTOP_BREAKPOINT = "1024px";
+export const DESKTOP_FULLHD_BREAKPOINT = "1408px";
 
 export const breakpoints = {
   mobile: MOBILE_BREAKPOINT,
   tablet: TABLET_BREAKPOINT,
   desktop: DESKTOP_BREAKPOINT,
-  desktopFullHD: DESKTOP_FULLHD_BREAKPOINT
-} as const
+  desktopFullHD: DESKTOP_FULLHD_BREAKPOINT,
+} as const;
 
-type BreakpointName = keyof typeof breakpoints
+type BreakpointName = keyof typeof breakpoints;
 
 /**
  * Available breakpoints:
@@ -23,7 +23,7 @@ type BreakpointName = keyof typeof breakpoints
  */
 export const upTo = (name: BreakpointName) => `
   @media (max-width: ${breakpoints[name]})
-`
+`;
 
 /**
  * Available breakpoints:
@@ -36,7 +36,7 @@ export const upTo = (name: BreakpointName) => `
  */
 export const from = (name: BreakpointName) => `
   @media (min-width: ${breakpoints[name]})
-`
+`;
 
 /**
  * Available breakpoints:
@@ -50,4 +50,4 @@ export const from = (name: BreakpointName) => `
  */
 export const between = (minName: BreakpointName, maxName: BreakpointName) => `
   @media (min-width: ${breakpoints[minName]}) and (max-width: ${breakpoints[maxName]})
-`
+`;

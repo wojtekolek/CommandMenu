@@ -1,32 +1,32 @@
-import type { FunctionComponent, RefObject } from 'react'
+import type { FunctionComponent, RefObject } from "react";
 
-import { useCommandMenu } from 'commandmenu'
-import type { ListItemData } from 'commandmenu'
-import { motion } from 'framer-motion'
-import styled from 'styled-components'
+import { useCommandMenu } from "commandmenu";
+import type { ListItemData } from "commandmenu";
+import { motion } from "framer-motion";
+import styled from "styled-components";
 
-import { Icon } from 'components/Icon'
-import { from } from 'utils/styles/responsiveness'
+import { Icon } from "components/Icon";
+import { from } from "utils/styles/responsiveness";
 
-import { config } from './config'
+import { config } from "./config";
 
 const CommandMenuWrapper = styled(motion.div).attrs({
   initial: {
     y: -50,
-    opacity: 0
+    opacity: 0,
   },
   animate: {
     y: 0,
     opacity: 1,
     transition: {
       duration: 0.5,
-      delay: 0.7
-    }
-  }
+      delay: 0.7,
+    },
+  },
 })`
   display: flex;
   justify-content: center;
-`
+`;
 
 const CommandMenu = styled.div`
   position: relative;
@@ -39,13 +39,13 @@ const CommandMenu = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.misc.border};
   border-radius: ${({ theme }) => theme.radius.rad2};
 
-  ${from('tablet')} {
+  ${from("tablet")} {
     width: 640px;
   }
-`
+`;
 
 const SearchInput = styled.input.attrs({
-  type: 'text'
+  type: "text",
 })`
   width: 100%;
   background-color: transparent;
@@ -63,7 +63,7 @@ const SearchInput = styled.input.attrs({
   &::placeholder {
     color: ${({ theme }) => theme.colors.text.quaternary};
   }
-`
+`;
 
 const CommandMenuList = styled.ul`
   flex: 1;
@@ -71,11 +71,11 @@ const CommandMenuList = styled.ul`
   list-style: none;
   padding: ${({ theme }) => theme.spacing.ss1};
   margin: ${({ theme }) => theme.spacing.ss0};
-`
+`;
 
 const CommandMenuListGroupItem = styled.li`
   width: 100%;
-`
+`;
 
 const CommandMenuListGroupItemLabel = styled.span`
   display: block;
@@ -83,15 +83,15 @@ const CommandMenuListGroupItemLabel = styled.span`
   border-bottom: 1px solid ${({ theme }) => theme.colors.misc.border};
   font-size: ${({ theme }) => theme.fontSize.fs1};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
-`
+`;
 
 const CommandMenuGroupList = styled(CommandMenuList)`
   padding: ${({ theme }) => theme.spacing.ss0};
-`
+`;
 
 type CommandMenuListItemButtonStyleProps = {
-  isSelected: boolean
-}
+  isSelected: boolean;
+};
 
 const CommandMenuListItemWrapper = styled.li<CommandMenuListItemButtonStyleProps>`
   display: flex;
@@ -106,28 +106,28 @@ const CommandMenuListItemWrapper = styled.li<CommandMenuListItemButtonStyleProps
     `
     background-color: ${theme.colors.background.quaternary};
   `}
-`
+`;
 
 const CommandMenuListItemIcon = styled(Icon).attrs({
-  size: 16
+  size: 16,
 })`
   color: ${({ theme }) => theme.colors.primary.default};
   margin-right: ${({ theme }) => theme.spacing.ss1};
-`
+`;
 
 const CommandMenuListItemLabel = styled.label`
   font-size: ${({ theme }) => theme.fontSize.fs2};
-`
+`;
 
 const CommandMenuListItemDescription = styled.span`
   margin-left: ${({ theme }) => theme.spacing.ss1};
   font-size: ${({ theme }) => theme.fontSize.fs1};
-`
+`;
 
 type CommandMenuListItemProps = {
-  selectedItem?: string
-  selectedItemRef: RefObject<HTMLLIElement> | null
-} & ListItemData
+  selectedItem?: string;
+  selectedItemRef: RefObject<HTMLLIElement> | null;
+} & ListItemData;
 
 const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
   id,
@@ -138,7 +138,7 @@ const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
   selectedItem,
   ...itemProps
 }) => {
-  const isSelected = id === selectedItem
+  const isSelected = id === selectedItem;
   return (
     <CommandMenuListItemWrapper
       {...itemProps}
@@ -151,13 +151,13 @@ const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
         <CommandMenuListItemDescription>{description}</CommandMenuListItemDescription>
       )}
     </CommandMenuListItemWrapper>
-  )
-}
+  );
+};
 
 export const Demo: FunctionComponent = () => {
   const { selectedItem, selectedItemRef, menuProps, searchProps, list } = useCommandMenu({
-    config
-  })
+    config,
+  });
 
   return (
     <CommandMenuWrapper>
@@ -182,7 +182,7 @@ export const Demo: FunctionComponent = () => {
                     ))}
                   </CommandMenuGroupList>
                 </CommandMenuListGroupItem>
-              )
+              );
             }
             return (
               <CommandMenuListItem
@@ -191,10 +191,10 @@ export const Demo: FunctionComponent = () => {
                 selectedItemRef={selectedItemRef}
                 {...(groupItemProps as ListItemData)}
               />
-            )
+            );
           })}
         </CommandMenuList>
       </CommandMenu>
     </CommandMenuWrapper>
-  )
-}
+  );
+};

@@ -1,13 +1,13 @@
-import { FunctionComponent, useRef } from 'react'
+import { FunctionComponent, useRef } from "react";
 
-import { motion, useScroll, useTransform } from 'framer-motion'
-import type { Variants } from 'framer-motion'
-import styled from 'styled-components'
+import { motion, useScroll, useTransform } from "framer-motion";
+import type { Variants } from "framer-motion";
+import styled from "styled-components";
 
-import { Title } from 'components/Primitives'
-import { from } from 'utils/styles/responsiveness'
+import { Title } from "components/Primitives";
+import { from } from "utils/styles/responsiveness";
 
-import { PackageName } from './components/PackageName'
+import { PackageName } from "./components/PackageName";
 
 const HeadingWrapper = styled(motion.div)`
   display: flex;
@@ -20,54 +20,54 @@ const HeadingWrapper = styled(motion.div)`
   ${Title} {
     text-align: center;
   }
-`
+`;
 
 const HEADER_ANIMATION_VARIANTS: Variants = {
   initial: {
     y: -50,
-    opacity: 0
+    opacity: 0,
   },
   animate: {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.5
-    }
-  }
-}
+      duration: 0.5,
+    },
+  },
+};
 
-const AnimatedTitleWrapper = styled(motion.div).attrs(HEADER_ANIMATION_VARIANTS)``
+const AnimatedTitleWrapper = styled(motion.div).attrs(HEADER_ANIMATION_VARIANTS)``;
 
 const AnimatedPackageNameWrapper = styled(motion.div).attrs({
   initial: {
-    ...HEADER_ANIMATION_VARIANTS.initial
+    ...HEADER_ANIMATION_VARIANTS.initial,
   },
   animate: {
     ...HEADER_ANIMATION_VARIANTS.animate,
     transition: {
       duration: 0.5,
-      delay: 0.4
-    }
-  }
-})``
+      delay: 0.4,
+    },
+  },
+})``;
 
 const Separator = styled.div`
   width: 100%;
   height: 2px;
   background: ${({ theme }) => theme.colors.misc.separatorGradient};
 
-  ${from('tablet')} {
+  ${from("tablet")} {
     width: 80%;
   }
-`
+`;
 
 export const Heading: FunctionComponent = () => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start start', 'end start']
-  })
-  const opacity = useTransform(scrollYProgress, [1, 0], [0, 1])
+    offset: ["start start", "end start"],
+  });
+  const opacity = useTransform(scrollYProgress, [1, 0], [0, 1]);
 
   return (
     <HeadingWrapper ref={ref} style={{ opacity }}>
@@ -83,5 +83,5 @@ export const Heading: FunctionComponent = () => {
       </AnimatedPackageNameWrapper>
       <Separator />
     </HeadingWrapper>
-  )
-}
+  );
+};

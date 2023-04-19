@@ -19,11 +19,12 @@
     "dist/**"
   ],
   "devDependencies": {
-    "@types/react": "^18.0.17",
-    "@types/react-dom": "^18.0.6",
-    "eslint": "^7.32.0",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@wojtekolek/eslint-config": "^2.0.11",
+    "eslint": "^8.38.0",
     "react": "18.2.0",
-    "tsup": "^6.2.3",
-    "typescript": "^4.8.2"
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.4"
   }
 }

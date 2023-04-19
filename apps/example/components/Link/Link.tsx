@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const StyledLink = styled.a`
   display: block;
@@ -13,11 +13,11 @@ const StyledLink = styled.a`
   &:active {
     transform: scale(0.99);
   }
-`
+`;
 
 export const ExternalLink = styled(StyledLink).attrs({
-  target: '_blank',
-  rel: 'noopener'
+  target: "_blank",
+  rel: "noopener",
 })`
   color: ${({ theme }) => theme.colors.text.primary};
-`
+`;

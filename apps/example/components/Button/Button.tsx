@@ -1,8 +1,8 @@
-import type { FunctionComponent, MouseEventHandler, PropsWithChildren } from 'react'
+import type { FunctionComponent, MouseEventHandler, PropsWithChildren } from "react";
 
-import styled from 'styled-components'
+import styled from "styled-components";
 
-import type { RequireOnlyOne } from 'utils/utilityTypes'
+import type { RequireOnlyOne } from "utils/utilityTypes";
 
 const StyledButton = styled.button`
   display: inline-block;
@@ -27,35 +27,35 @@ const StyledButton = styled.button`
     cursor: not-allowed;
     opacity: 0.6;
   }
-`
+`;
 
 type ButtonPropsBase = PropsWithChildren<{
-  className?: string
-  testid?: string
-  title?: string
-  type?: 'submit' | 'reset' | 'button'
-  disabled?: boolean
-  onClick?: () => void
-}>
+  className?: string;
+  testid?: string;
+  title?: string;
+  type?: "submit" | "reset" | "button";
+  disabled?: boolean;
+  onClick?: () => void;
+}>;
 
-type ButtonProps = RequireOnlyOne<ButtonPropsBase, 'children' | 'title'>
+type ButtonProps = RequireOnlyOne<ButtonPropsBase, "children" | "title">;
 
 export const Button: FunctionComponent<ButtonProps> = ({
   disabled,
   onClick,
   testid,
   className,
-  type = 'button',
+  type = "button",
   children,
-  title
+  title,
 }) => {
   const handleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
     if (!disabled && onClick) {
-      event.preventDefault()
-      return onClick()
+      event.preventDefault();
+      return onClick();
     }
-    return null
-  }
+    return null;
+  };
 
   return (
     <StyledButton
@@ -67,5 +67,5 @@ export const Button: FunctionComponent<ButtonProps> = ({
     >
       {children || title}
     </StyledButton>
-  )
-}
+  );
+};

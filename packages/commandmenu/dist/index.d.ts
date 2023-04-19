@@ -1,28 +1,29 @@
 import { MouseEvent, RefObject, KeyboardEventHandler, ChangeEventHandler } from 'react';
 
-declare type ItemCommonConfigData<IconName = string> = {
+type ItemCommonConfigData<IconName = string> = {
     id: string;
     icon?: IconName;
     label: string;
     description?: string;
 };
-declare type ItemConfigData<IconName = string> = ItemCommonConfigData<IconName> & {
+type ItemConfigData<IconName = string> = Omit<ItemCommonConfigData<IconName>, "label"> & {
     placeholder?: never;
+    label: ((typedValue: string) => string) | string;
     items?: never;
     onSelect: (event: MouseEvent<HTMLLIElement>) => void;
 };
-declare type ItemWithNestedListConfigData<IconName = string> = ItemCommonConfigData<IconName> & {
+type ItemWithNestedListConfigData<IconName = string> = ItemCommonConfigData<IconName> & {
     onSelect?: never;
     placeholder: string;
     items: Array<ItemWithNestedListConfigData<IconName> | ItemConfigData<IconName>>;
 };
-declare type ItemsGroupConfigData<IconName = string> = {
+type ItemsGroupConfigData<IconName = string> = {
     id: string;
     label: string;
     groupItems: Array<ItemConfigData<IconName> | ItemWithNestedListConfigData<IconName>>;
 };
-declare type ConfigData<IconName = string> = ItemsGroupConfigData<IconName>[] | ItemConfigData<IconName>[];
-declare type ListItemData = {
+type ConfigData<IconName = string> = ItemsGroupConfigData<IconName>[] | ItemConfigData<IconName>[];
+type ListItemData = {
     id: string;
     label: string;
     icon?: string;
@@ -33,7 +34,7 @@ declare type ListItemData = {
     isGroup?: never;
     groupItems?: never;
 };
-declare type ListGroupData = {
+type ListGroupData = {
     id: string;
     label: string;
     isGroup: boolean;
@@ -42,12 +43,12 @@ declare type ListGroupData = {
     icon?: never;
     description?: never;
 };
-declare type ListData = ListGroupData[] | ListItemData[];
-declare type MenuProps = {
+type ListData = ListGroupData[] | ListItemData[];
+type MenuProps = {
     ref: RefObject<HTMLDivElement>;
     onKeyDown: KeyboardEventHandler<HTMLDivElement>;
 };
-declare type SearchProps = {
+type SearchProps = {
     autoFocus: boolean;
     placeholder: string;
     value?: string;
@@ -55,17 +56,17 @@ declare type SearchProps = {
     onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-declare type UseCommandMenuProps = {
+type UseCommandMenuProps = {
     config: ConfigData;
     searchPlaceholder?: string;
 };
-declare type UseCommandMenuReturn = {
+type UseCommandMenuReturn = {
     selectedItem?: string;
     selectedItemRef: RefObject<HTMLLIElement> | null;
     menuProps: MenuProps;
     searchProps: SearchProps;
     list: ListData;
 };
-declare const useCommandMenu: ({ config, searchPlaceholder }: UseCommandMenuProps) => UseCommandMenuReturn;
+declare const useCommandMenu: ({ config, searchPlaceholder, }: UseCommandMenuProps) => UseCommandMenuReturn;
 
 export { ConfigData, ItemConfigData, ItemsGroupConfigData, ListItemData, useCommandMenu };

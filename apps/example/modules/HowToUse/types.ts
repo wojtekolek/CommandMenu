@@ -1,5 +1,5 @@
 export type HowToUseData = {
-  title?: string
-  message: string
-  codeMarkdown: string
-}
+  title?: string;
+  message: string;
+  codeMarkdown: string;
+};

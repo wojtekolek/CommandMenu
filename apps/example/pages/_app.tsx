@@ -1,9 +1,9 @@
-import type { AppProps as NextAppProps } from 'next/app'
+import type { AppProps as NextAppProps } from "next/app";
 
-import { Layout } from 'components/Layout'
-import { PageMeta } from 'components/PageMeta'
+import { Layout } from "components/Layout";
+import { PageMeta } from "components/PageMeta";
 
-type AppProps = NextAppProps
+type AppProps = NextAppProps;
 
 const App = ({ Component, pageProps }: AppProps) => (
   <>
@@ -12,6 +12,6 @@ const App = ({ Component, pageProps }: AppProps) => (
       <Component {...pageProps} />
     </Layout>
   </>
-)
+);
 
-export default App
+export default App;

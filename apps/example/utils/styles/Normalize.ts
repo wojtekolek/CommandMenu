@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export const Normalize = createGlobalStyle`
   * {
@@ -205,4 +205,4 @@ export const Normalize = createGlobalStyle`
     max-width: 100%;
     height: auto;
   }
-`
+`;

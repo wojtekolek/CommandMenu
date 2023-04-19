@@ -12,10 +12,10 @@
     "publish-package": "turbo run build lint --filter=example^... && changeset publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.25.0",
-    "@wojtekolek/eslint-config": "^1.4.5",
-    "prettier": "latest",
-    "turbo": "latest"
+    "@changesets/cli": "^2.26.1",
+    "@wojtekolek/eslint-config": "^2.0.11",
+    "prettier": "^2.8.7",
+    "turbo": "1.9.3"
   },
   "engines": {
     "npm": ">=7.0.0",

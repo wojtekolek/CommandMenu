@@ -1,9 +1,9 @@
-import type { FunctionComponent } from 'react'
+import type { FunctionComponent } from "react";
 
-import { AdvancedHeading } from './components/AdvancedHeading'
-import { HowToUseItem } from './components/HowToUseItem'
-import { HowToUseSection } from './components/HowToUseSection'
-import { ADVANCED_USE_DATA, HOW_TO_USE_DATA } from './constants'
+import { AdvancedHeading } from "./components/AdvancedHeading";
+import { HowToUseItem } from "./components/HowToUseItem";
+import { HowToUseSection } from "./components/HowToUseSection";
+import { ADVANCED_USE_DATA, HOW_TO_USE_DATA } from "./constants";
 
 export const HowToUse: FunctionComponent = () => (
   <>
@@ -24,4 +24,4 @@ export const HowToUse: FunctionComponent = () => (
       ))}
     </HowToUseSection>
   </>
-)
+);
