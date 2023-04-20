@@ -4,6 +4,8 @@ import { useCommandMenu } from "commandmenu";
 import type { ListItemData } from "commandmenu";
 import { AnimationProps, motion } from "framer-motion";
 
+import { cn } from "utils/styles/utils";
+
 import { config } from "./config";
 
 const COMMAND_MENU_ANIMATION_PROPS: AnimationProps = {
@@ -41,13 +43,23 @@ const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
     <li
       {...itemProps}
       ref={isSelected ? selectedItemRef : null}
-      className={`text-primary-600 dark:text-primary-200 flex w-full cursor-default items-center rounded p-2 ${
-        isSelected ? "bg-secondary-400/20 dark:bg-secondary-600/70 dark:text-primary-50" : ""
-      }`}
+      className={cn(
+        "text-primary-800 dark:text-primary-200 flex w-full cursor-default items-center rounded p-2",
+        isSelected ? "bg-secondary-400/20 dark:bg-secondary-600/70 dark:text-primary-50" : "",
+      )}
     >
       {icon && <div className="mr-2">{icon}</div>}
       <div className="text-base">{label}</div>
-      {description && <div className="dark:text-primary-300 ml-2 text-xs">{description}</div>}
+      {description && (
+        <div
+          className={cn(
+            "dark:text-primary-300 text-primary-600  ml-2 text-xs",
+            isSelected ? "dark:text-primary-100 text-primary-700" : "",
+          )}
+        >
+          {description}
+        </div>
+      )}
     </li>
   );
 };
