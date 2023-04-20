@@ -10,7 +10,7 @@ type TitleProps = {
 export const H1: FunctionComponent<TitleProps> = ({ className, children }) => (
   <h1
     className={cn(
-      "from-primary-50 bg-gradient-to-br bg-clip-text text-4xl font-medium text-transparent drop-shadow",
+      "from-primary-50 to-primary-400 bg-gradient-to-br bg-clip-text text-4xl font-medium text-transparent drop-shadow",
       className,
     )}
   >
