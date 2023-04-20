@@ -3,6 +3,7 @@ import type { FunctionComponent, RefObject } from "react";
 import { useCommandMenu } from "commandmenu";
 import type { ListItemData } from "commandmenu";
 import { AnimationProps, motion } from "framer-motion";
+import { SearchIcon } from "lucide-react";
 
 import { cn } from "utils/styles/utils";
 
@@ -80,37 +81,44 @@ export const Demo: FunctionComponent = () => {
           type="text"
           className="border-b-1 border-primary-600 placeholder:text-primary-600 dark:placeholder:text-primary-300 w-full text-ellipsis bg-transparent px-3 py-2 outline-none"
         />
-        <ul className="m-0 flex-1 list-none overflow-y-auto p-2">
-          {list.map(({ isGroup, ...groupItemProps }) => {
-            if (isGroup && groupItemProps.groupItems) {
+        {list.length ? (
+          <ul className="m-0 flex-1 list-none overflow-y-auto p-2">
+            {list.map(({ isGroup, ...groupItemProps }) => {
+              if (isGroup && groupItemProps.groupItems) {
+                return (
+                  <li key={groupItemProps.id} id="group" className="w-full">
+                    <div className="border-b-1 border-primary-400 mb-2 p-1 text-xs font-semibold">
+                      {groupItemProps.label}
+                    </div>
+                    <ul className="m-0 list-none p-0">
+                      {groupItemProps.groupItems.map((itemData) => (
+                        <CommandMenuListItem
+                          key={itemData.id}
+                          selectedItem={selectedItem}
+                          selectedItemRef={selectedItemRef}
+                          {...itemData}
+                        />
+                      ))}
+                    </ul>
+                  </li>
+                );
+              }
               return (
-                <li key={groupItemProps.id} id="group" className="w-full">
-                  <div className="border-b-1 border-primary-400 mb-2 p-1 text-xs font-semibold">
-                    {groupItemProps.label}
-                  </div>
-                  <ul className="m-0 list-none p-0">
-                    {groupItemProps.groupItems.map((itemData) => (
-                      <CommandMenuListItem
-                        key={itemData.id}
-                        selectedItem={selectedItem}
-                        selectedItemRef={selectedItemRef}
-                        {...itemData}
-                      />
-                    ))}
-                  </ul>
-                </li>
+                <CommandMenuListItem
+                  key={groupItemProps.id}
+                  selectedItem={selectedItem}
+                  selectedItemRef={selectedItemRef}
+                  {...(groupItemProps as ListItemData)}
+                />
               );
-            }
-            return (
-              <CommandMenuListItem
-                key={groupItemProps.id}
-                selectedItem={selectedItem}
-                selectedItemRef={selectedItemRef}
-                {...(groupItemProps as ListItemData)}
-              />
-            );
-          })}
-        </ul>
+            })}
+          </ul>
+        ) : (
+          <div className="flex flex-1 flex-col items-center justify-center">
+            <SearchIcon className="mb-2" />
+            <span className="text-primary-300">No results</span>
+          </div>
+        )}
       </div>
     </motion.div>
   );
