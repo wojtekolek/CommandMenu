@@ -1,20 +1,10 @@
-import { FunctionComponent, useRef } from "react";
+"use client";
+
+import { type FunctionComponent, useRef } from "react";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import styled from "styled-components";
 
-import { Title } from "components/Primitives";
-
-const AdvancedHeadingWrapper = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: ${({ theme }) => `${theme.spacing.ss10} ${theme.spacing.ss0}`};
-
-  ${Title} {
-    text-align: center;
-  }
-`;
+import { H1 } from "components/Primitives";
 
 export const AdvancedHeading: FunctionComponent = () => {
   const ref = useRef(null);
@@ -26,11 +16,11 @@ export const AdvancedHeading: FunctionComponent = () => {
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <AdvancedHeadingWrapper ref={ref} style={{ y, opacity }}>
-      <Title>
+    <motion.div ref={ref} className="flex items-center justify-center py-10" style={{ y, opacity }}>
+      <H1 className="text-center">
         Ah, you are looking for <br />
         something more advanced...
-      </Title>
-    </AdvancedHeadingWrapper>
+      </H1>
+    </motion.div>
   );
 };

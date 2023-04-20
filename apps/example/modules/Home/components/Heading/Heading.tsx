@@ -1,28 +1,13 @@
-import { FunctionComponent, useRef } from "react";
+import { type FunctionComponent, useRef } from "react";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import type { Variants } from "framer-motion";
-import styled from "styled-components";
 
-import { Title } from "components/Primitives";
-import { from } from "utils/styles/responsiveness";
+import { H1 } from "components/Primitives";
 
 import { PackageName } from "./components/PackageName";
 
-const HeadingWrapper = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: ${({ theme }) => theme.spacing.ss8};
-  margin-bottom: ${({ theme }) => theme.spacing.ss4};
-  gap: ${({ theme }) => theme.spacing.ss3};
-
-  ${Title} {
-    text-align: center;
-  }
-`;
-
-const HEADER_ANIMATION_VARIANTS: Variants = {
+const TITLE_ANIMATION_PROPS: Variants = {
   initial: {
     y: -50,
     opacity: 0,
@@ -36,30 +21,16 @@ const HEADER_ANIMATION_VARIANTS: Variants = {
   },
 };
 
-const AnimatedTitleWrapper = styled(motion.div).attrs(HEADER_ANIMATION_VARIANTS)``;
-
-const AnimatedPackageNameWrapper = styled(motion.div).attrs({
-  initial: {
-    ...HEADER_ANIMATION_VARIANTS.initial,
-  },
+const PACKAGE_NAME_ANIMATION_PROPS: Variants = {
+  initial: TITLE_ANIMATION_PROPS.initial,
   animate: {
-    ...HEADER_ANIMATION_VARIANTS.animate,
+    ...TITLE_ANIMATION_PROPS.animate,
     transition: {
       duration: 0.5,
       delay: 0.4,
     },
   },
-})``;
-
-const Separator = styled.div`
-  width: 100%;
-  height: 2px;
-  background: ${({ theme }) => theme.colors.misc.separatorGradient};
-
-  ${from("tablet")} {
-    width: 80%;
-  }
-`;
+};
 
 export const Heading: FunctionComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -70,18 +41,22 @@ export const Heading: FunctionComponent = () => {
   const opacity = useTransform(scrollYProgress, [1, 0], [0, 1]);
 
   return (
-    <HeadingWrapper ref={ref} style={{ opacity }}>
-      <AnimatedTitleWrapper>
-        <Title>
+    <motion.div
+      className="mb-8 mt-16 flex flex-col items-center gap-6"
+      ref={ref}
+      style={{ opacity }}
+    >
+      <motion.div {...TITLE_ANIMATION_PROPS}>
+        <H1 className="text-center">
           Headless UI for building
           <br />
           command menus in React.
-        </Title>
-      </AnimatedTitleWrapper>
-      <AnimatedPackageNameWrapper>
+        </H1>
+      </motion.div>
+      <motion.div {...PACKAGE_NAME_ANIMATION_PROPS}>
         <PackageName />
-      </AnimatedPackageNameWrapper>
-      <Separator />
-    </HeadingWrapper>
+      </motion.div>
+      <div className="from-secondary-400 tablet:w-4/5 h-[2px] w-full bg-gradient-to-l" />
+    </motion.div>
   );
 };

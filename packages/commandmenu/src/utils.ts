@@ -69,12 +69,15 @@ export const getFlatListData = (listData: ListData): ListItemData[] => {
 export const getFirstOption = (config: ConfigData): SelectedItemData => {
   const INITIAL_INDEX = 0;
   if (isConfigWithGroups(config)) {
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
     const item = config.at(INITIAL_INDEX)?.groupItems.at(INITIAL_INDEX)!;
     return {
       id: item.id,
       isConfigWithNestedData: true,
     };
   }
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const item = config.at(INITIAL_INDEX)!;
   return {
     id: item.id,

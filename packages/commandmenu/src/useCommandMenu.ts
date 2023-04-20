@@ -108,6 +108,7 @@ export const useCommandMenu = ({
             selectedOptionDimensions.bottom > listDimensions.bottom);
 
         if (selectedItemRef.current?.parentElement?.firstChild === selectedItemRef.current) {
+          // eslint-disable-next-line max-len
           // Find a better option to handle this, maybe a more generic one? Without the need for a #group
           return selectedItemRef.current?.closest("#group")?.firstElementChild?.scrollIntoView({
             block: "nearest",

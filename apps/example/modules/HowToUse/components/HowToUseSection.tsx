@@ -1,64 +1,11 @@
+"use client";
+
 import type { FunctionComponent, ReactNode } from "react";
 import { useRef } from "react";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import styled from "styled-components";
 
-import { AnimatedSection, HeadingsColorStyles } from "components/Primitives";
-import { from } from "utils/styles/responsiveness";
-
-const HowToUseSectionWrapper = styled.div`
-  overflow-x: hidden;
-`;
-
-const HowToUseWrapper = styled(AnimatedSection)`
-  padding: ${({ theme }) => theme.spacing.ss4};
-  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss2} ${theme.spacing.ss3}`};
-
-  ${from("tablet")} {
-    padding: ${({ theme }) => theme.spacing.ss4};
-    margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss6} ${theme.spacing.ss3}`};
-  }
-
-  ${from("desktop")} {
-    padding: ${({ theme }) => theme.spacing.ss8};
-    margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10} ${theme.spacing.ss5}`};
-  }
-
-  border-radius: ${({ theme }) => theme.radius.rad3};
-  border: 1px solid ${({ theme }) => theme.colors.misc.border};
-  background-color: ${({ theme }) => `${theme.colors.background.secondary}80`};
-  z-index: ${({ theme }) => theme.zIndex.onTopOfInitial};
-`;
-
-const HowToUseContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.ss4};
-`;
-
-const SectionTitleWrapper = styled.div`
-  transform: ${({ theme }) => `translateY(${theme.spacing.ss10})`};
-`;
-
-const BottomBorder = styled(motion.div)`
-  height: 400px;
-  background: ${({
-    theme,
-  }) => `conic-gradient(from 90deg at 80% 50%, ${theme.colors.background.primary}00, ${theme.colors.primary.background}),
-    conic-gradient(from 270deg at 20% 50%, ${theme.colors.primary.background}, ${theme.colors.background.primary}00)`};
-  mask-image: ${({ theme }) =>
-    `radial-gradient(100% 50% at center center, ${theme.colors.primary.background}, transparent)`};
-  background-position-x: 0%, 100%;
-  background-size: 50% 100%, 50% 100%;
-  background-repeat: no-repeat;
-`;
-
-const SectionTitle = styled(motion.h3)`
-  ${HeadingsColorStyles}
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.fs5};
-`;
+import { AnimatedSection } from "components/Primitives";
 
 type HowToUseSectionProps = {
   title: string;
@@ -69,22 +16,22 @@ export const HowToUseSection: FunctionComponent<HowToUseSectionProps> = ({ title
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start center", "end center"],
+    offset: ["start end", "start center"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 180]);
-  const scale = useTransform(scrollYProgress, [0.5, 1], [1, 2]);
-  const opacity = useTransform(scrollYProgress, [0.5, 1], [0.1, 0.4]);
+  const y = useTransform(scrollYProgress, [0, 1], [-120, 0]);
   const titleOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <HowToUseSectionWrapper>
-      <SectionTitleWrapper ref={ref}>
-        <SectionTitle style={{ y, opacity: titleOpacity }}>{title}</SectionTitle>
-        <BottomBorder style={{ scale, opacity, rotate: 180 }} />
-      </SectionTitleWrapper>
-      <HowToUseWrapper id="howToUseBasic">
-        <HowToUseContent>{children}</HowToUseContent>
-      </HowToUseWrapper>
-    </HowToUseSectionWrapper>
+    <div ref={ref} className="mt-80">
+      <motion.h2 className="mb-6 text-center text-4xl" style={{ y, opacity: titleOpacity }}>
+        {title}
+      </motion.h2>
+      <AnimatedSection
+        id="howToUseBasic"
+        className="border-1 border-primary-400 dark:bg-primary-900 dark:border-primary-800 bg-primary-100 mx-auto mb-6 max-w-4xl rounded-md p-6"
+      >
+        <div className="flex flex-col gap-8">{children}</div>
+      </AnimatedSection>
+    </div>
   );
 };

@@ -1,8 +1,25 @@
 import type { ConfigData } from "commandmenu";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CloudDrizzle,
+  Figma,
+  Framer,
+  Github,
+  Instagram,
+  Moon,
+  MoreVertical,
+  Music,
+  Pause,
+  Play,
+  Plus,
+  Settings,
+  Share,
+  Sun,
+  Twitter,
+} from "lucide-react";
 
-import type { IconName } from "components/Icon";
-
-export const config: ConfigData<IconName> = [
+export const config: ConfigData = [
   {
     id: "favs",
     label: "Favorites",
@@ -10,46 +27,43 @@ export const config: ConfigData<IconName> = [
       {
         id: "spotify",
         label: "Spotify",
-        icon: "Music",
+        icon: <Music />,
         description: "Control Spotify",
         placeholder: "Search in spotify...",
         items: [
           {
             id: "spotifyAddPlaylist",
-            label: (value) => {
-              console.log(value);
-              return "Add playlist";
-            },
-            icon: "Plus",
+            label: "Add playlist",
+            icon: <Plus />,
             onSelect: () => console.log("spotify play"),
           },
           {
             id: "spotifyPlay",
             label: "Play",
-            icon: "Play",
+            icon: <Play />,
             onSelect: () => console.log("spotify play"),
           },
           {
             id: "spotifyPause",
             label: "Pause",
-            icon: "Pause",
+            icon: <Pause />,
             onSelect: () => console.log("spotify pasue"),
           },
           {
             id: "spotifyNext",
             label: "Next",
-            icon: "ArrowRight",
+            icon: <ArrowRight />,
             onSelect: () => console.log("spotify next"),
           },
           {
             id: "spotifyPrevious",
             label: "Previous",
-            icon: "ArrowLeft",
+            icon: <ArrowLeft />,
             onSelect: () => console.log("spotify prev"),
           },
           {
             id: "spotifyMore",
-            icon: "MoreVertical",
+            icon: <MoreVertical />,
             label: "More...",
             placeholder: "Search in spotify more...",
             items: [
@@ -114,14 +128,14 @@ export const config: ConfigData<IconName> = [
       {
         id: "instagram",
         label: "Instagram",
-        icon: "Instagram",
+        icon: <Instagram />,
         description: "Check instagram",
         onSelect: () => console.log("clicked instagram"),
       },
       {
         id: "twitter",
         label: "Twitter",
-        icon: "Twitter",
+        icon: <Twitter />,
         description: "Check twitter",
         onSelect: () => console.log("clicked twitter"),
       },
@@ -134,14 +148,14 @@ export const config: ConfigData<IconName> = [
       {
         id: "weather",
         label: "Weather",
-        icon: "CloudLightning",
+        icon: <CloudDrizzle />,
         description: "Check todays weather",
         onSelect: () => console.log("clicked test1"),
       },
       {
         id: "share",
         label: "Share",
-        icon: "Share",
+        icon: <Share />,
         description: "Share smth",
         placeholder: "Show me more options mate...",
         items: [
@@ -165,42 +179,42 @@ export const config: ConfigData<IconName> = [
       {
         id: "github",
         label: "Github",
-        icon: "Github",
+        icon: <Github />,
         description: "Check github",
         onSelect: () => console.log("clicked test2"),
       },
       {
         id: "framer",
         label: "Framer",
-        icon: "Framer",
+        icon: <Framer />,
         description: "Open Framer",
         onSelect: () => console.log("clicked test3"),
       },
       {
         id: "figma",
         label: "Figma",
-        icon: "Figma",
+        icon: <Figma />,
         description: "Open Figma",
         onSelect: () => console.log("clicked test4"),
       },
       {
         id: "lightMode",
         label: "Light mode",
-        icon: "Sun",
+        icon: <Sun />,
         description: "Switch to light mode",
         onSelect: () => console.log("clicked test7"),
       },
       {
         id: "darkMode",
         label: "Dark mode",
-        icon: "Moon",
+        icon: <Moon />,
         description: "Switch to dark mode",
         onSelect: () => console.log("clicked test8"),
       },
       {
         id: "configuration",
         label: "Configuration",
-        icon: "Settings",
+        icon: <Settings />,
         description: "Change smth",
         onSelect: () => console.log("clicked test9"),
       },

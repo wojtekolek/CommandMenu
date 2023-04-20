@@ -1,45 +1,20 @@
-import { FunctionComponent } from "react";
+import type { FunctionComponent } from "react";
 
-import styled from "styled-components";
-
-const FooterWrapper = styled.footer`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-  background: ${({ theme }) => theme.colors.misc.footerGradient};
-`;
-
-const FooterText = styled.span`
-  color: ${({ theme }) => theme.colors.text.secondary};
-`;
-
-const CopyrightYear = styled.span`
-  margin-left: ${({ theme }) => theme.spacing.ss2};
-  color: ${({ theme }) => theme.colors.text.tertiary};
-`;
-
-const AuthorWebsiteLink = styled.a.attrs({
-  href: "https://wojtekolek.com",
-  target: "_blank",
-})`
-  color: ${({ theme }) => theme.colors.text.secondary};
-  text-decoration: underline dashed 1px;
-  transition: opacity 0.3s;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
+import { ExternalLink } from "components/Link";
 
 const YEAR = new Date().getFullYear();
 
 export const Footer: FunctionComponent = () => (
-  <FooterWrapper>
-    <FooterText>
-      Made with 🖤 by <AuthorWebsiteLink>Wojtek Olek</AuthorWebsiteLink>
-      <CopyrightYear>{YEAR} ©</CopyrightYear>
-    </FooterText>
-  </FooterWrapper>
+  <footer className="from-primary-200 dark:from-primary-900 flex h-32 flex-col items-center justify-center bg-gradient-to-t">
+    <div className="text-primary-800 dark:text-primary-200">
+      Made with 🖤 by{" "}
+      <ExternalLink
+        href="https://wojtekolek.com"
+        className="text-secondary-600 dark:text-secondary-400 underline decoration-dashed"
+      >
+        Wojtek Olek
+      </ExternalLink>
+      <span className="text-primary-500 ml-2">{YEAR} ©</span>
+    </div>
+  </footer>
 );

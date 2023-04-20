@@ -2,15 +2,11 @@ import type { FunctionComponent, RefObject } from "react";
 
 import { useCommandMenu } from "commandmenu";
 import type { ListItemData } from "commandmenu";
-import { motion } from "framer-motion";
-import styled from "styled-components";
-
-import { Icon } from "components/Icon";
-import { from } from "utils/styles/responsiveness";
+import { AnimationProps, motion } from "framer-motion";
 
 import { config } from "./config";
 
-const CommandMenuWrapper = styled(motion.div).attrs({
+const COMMAND_MENU_ANIMATION_PROPS: AnimationProps = {
   initial: {
     y: -50,
     opacity: 0,
@@ -23,106 +19,7 @@ const CommandMenuWrapper = styled(motion.div).attrs({
       delay: 0.7,
     },
   },
-})`
-  display: flex;
-  justify-content: center;
-`;
-
-const CommandMenu = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 240px;
-  height: 480px;
-  width: 100%;
-  background-color: ${({ theme }) => theme.colors.background.tertiary};
-  border: 1px solid ${({ theme }) => theme.colors.misc.border};
-  border-radius: ${({ theme }) => theme.radius.rad2};
-
-  ${from("tablet")} {
-    width: 640px;
-  }
-`;
-
-const SearchInput = styled.input.attrs({
-  type: "text",
-})`
-  width: 100%;
-  background-color: transparent;
-  padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss2}`};
-  line-height: 40px;
-  color: ${({ theme }) => theme.colors.text.primary};
-  border-color: transparent;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.primary.default};
-  outline: none;
-  font-size: ${({ theme }) => theme.fontSize.fs2};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.text.quaternary};
-  }
-`;
-
-const CommandMenuList = styled.ul`
-  flex: 1;
-  overflow-y: scroll;
-  list-style: none;
-  padding: ${({ theme }) => theme.spacing.ss1};
-  margin: ${({ theme }) => theme.spacing.ss0};
-`;
-
-const CommandMenuListGroupItem = styled.li`
-  width: 100%;
-`;
-
-const CommandMenuListGroupItemLabel = styled.span`
-  display: block;
-  padding: ${({ theme }) => `${theme.spacing.ss1} ${theme.spacing.ss1}`};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.misc.border};
-  font-size: ${({ theme }) => theme.fontSize.fs1};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-`;
-
-const CommandMenuGroupList = styled(CommandMenuList)`
-  padding: ${({ theme }) => theme.spacing.ss0};
-`;
-
-type CommandMenuListItemButtonStyleProps = {
-  isSelected: boolean;
 };
-
-const CommandMenuListItemWrapper = styled.li<CommandMenuListItemButtonStyleProps>`
-  display: flex;
-  align-items: center;
-  padding: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss1}`};
-  border-radius: ${({ theme }) => theme.radius.rad1};
-  line-height: 40px;
-  width: 100%;
-
-  ${({ isSelected, theme }) =>
-    isSelected &&
-    `
-    background-color: ${theme.colors.background.quaternary};
-  `}
-`;
-
-const CommandMenuListItemIcon = styled(Icon).attrs({
-  size: 16,
-})`
-  color: ${({ theme }) => theme.colors.primary.default};
-  margin-right: ${({ theme }) => theme.spacing.ss1};
-`;
-
-const CommandMenuListItemLabel = styled.label`
-  font-size: ${({ theme }) => theme.fontSize.fs2};
-`;
-
-const CommandMenuListItemDescription = styled.span`
-  margin-left: ${({ theme }) => theme.spacing.ss1};
-  font-size: ${({ theme }) => theme.fontSize.fs1};
-`;
 
 type CommandMenuListItemProps = {
   selectedItem?: string;
@@ -139,18 +36,19 @@ const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
   ...itemProps
 }) => {
   const isSelected = id === selectedItem;
+
   return (
-    <CommandMenuListItemWrapper
+    <li
       {...itemProps}
       ref={isSelected ? selectedItemRef : null}
-      isSelected={isSelected}
+      className={`text-primary-600 dark:text-primary-200 flex w-full cursor-default items-center rounded p-2 ${
+        isSelected ? "bg-secondary-400/20 dark:bg-secondary-600/70 dark:text-primary-50" : ""
+      }`}
     >
-      {icon && <CommandMenuListItemIcon name={icon as any} />}
-      <CommandMenuListItemLabel>{label}</CommandMenuListItemLabel>
-      {description && (
-        <CommandMenuListItemDescription>{description}</CommandMenuListItemDescription>
-      )}
-    </CommandMenuListItemWrapper>
+      {icon && <div className="mr-2">{icon}</div>}
+      <div className="text-base">{label}</div>
+      {description && <div className="dark:text-primary-300 ml-2 text-xs">{description}</div>}
+    </li>
   );
 };
 
@@ -160,18 +58,25 @@ export const Demo: FunctionComponent = () => {
   });
 
   return (
-    <CommandMenuWrapper>
-      <CommandMenu {...menuProps}>
-        <SearchInput {...searchProps} type="text" />
-        <CommandMenuList>
+    <motion.div className="flex justify-center" {...COMMAND_MENU_ANIMATION_PROPS}>
+      <div
+        className="bg-primary-100 dark:bg-primary-900 dark:border-primary-700 border-1 border-primary-300 tablet:w-[640px] relative flex h-[480px] min-h-[240px] w-full flex-col rounded-lg shadow"
+        {...menuProps}
+      >
+        <input
+          {...searchProps}
+          type="text"
+          className="border-b-1 border-primary-600 placeholder:text-primary-600 dark:placeholder:text-primary-300 w-full text-ellipsis bg-transparent px-3 py-2 outline-none"
+        />
+        <ul className="m-0 flex-1 list-none overflow-y-auto p-2">
           {list.map(({ isGroup, ...groupItemProps }) => {
             if (isGroup && groupItemProps.groupItems) {
               return (
-                <CommandMenuListGroupItem key={groupItemProps.id} id="group">
-                  <CommandMenuListGroupItemLabel>
+                <li key={groupItemProps.id} id="group" className="w-full">
+                  <div className="border-b-1 border-primary-400 mb-2 p-1 text-xs font-semibold">
                     {groupItemProps.label}
-                  </CommandMenuListGroupItemLabel>
-                  <CommandMenuGroupList>
+                  </div>
+                  <ul className="m-0 list-none p-0">
                     {groupItemProps.groupItems.map((itemData) => (
                       <CommandMenuListItem
                         key={itemData.id}
@@ -180,8 +85,8 @@ export const Demo: FunctionComponent = () => {
                         {...itemData}
                       />
                     ))}
-                  </CommandMenuGroupList>
-                </CommandMenuListGroupItem>
+                  </ul>
+                </li>
               );
             }
             return (
@@ -193,8 +98,8 @@ export const Demo: FunctionComponent = () => {
               />
             );
           })}
-        </CommandMenuList>
-      </CommandMenu>
-    </CommandMenuWrapper>
+        </ul>
+      </div>
+    </motion.div>
   );
 };

@@ -1,71 +1,30 @@
-import type { FunctionComponent, MouseEventHandler, PropsWithChildren } from "react";
+import type { FunctionComponent, MouseEventHandler, ReactNode } from "react";
 
-import styled from "styled-components";
+import { type ClassName, cn } from "utils/styles/utils";
 
-import type { RequireOnlyOne } from "utils/utilityTypes";
-
-const StyledButton = styled.button`
-  display: inline-block;
-  color: ${({ theme }) => theme.colors.text.primary};
-  background-color: transparent;
-  border: none;
-  padding: ${({ theme }) => theme.spacing.ss0};
-  font-size: ${({ theme }) => theme.fontSize.fs2};
-  cursor: pointer;
-  transition: opacity 0.3s;
-  outline: none;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  &:active {
-    transform: scale(0.99);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
-`;
-
-type ButtonPropsBase = PropsWithChildren<{
-  className?: string;
+type ButtonProps = {
+  className: ClassName;
   testid?: string;
-  title?: string;
   type?: "submit" | "reset" | "button";
   disabled?: boolean;
-  onClick?: () => void;
-}>;
-
-type ButtonProps = RequireOnlyOne<ButtonPropsBase, "children" | "title">;
+  onClick?: MouseEventHandler;
+  children: ReactNode;
+};
 
 export const Button: FunctionComponent<ButtonProps> = ({
-  disabled,
-  onClick,
-  testid,
   className,
-  type = "button",
+  testid,
   children,
-  title,
-}) => {
-  const handleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
-    if (!disabled && onClick) {
-      event.preventDefault();
-      return onClick();
-    }
-    return null;
-  };
-
-  return (
-    <StyledButton
-      data-testid={testid}
-      className={className}
-      disabled={disabled}
-      onClick={handleClick}
-      type={type}
-    >
-      {children || title}
-    </StyledButton>
-  );
-};
+  ...props
+}) => (
+  <button
+    {...props}
+    data-testid={testid}
+    className={cn(
+      "text-primary-900 dark:text-primary-100 inline-flex border-none bg-transparent p-0 transition-all hover:opacity-80 active:scale-95",
+      className,
+    )}
+  >
+    {children}
+  </button>
+);

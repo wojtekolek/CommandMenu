@@ -1,66 +1,25 @@
 import type { FunctionComponent } from "react";
 
-import styled from "styled-components";
+import { Github } from "lucide-react";
 
-import { Icon } from "components/Icon";
 import { Image } from "components/Image";
 import { ExternalLink } from "components/Link";
-import { Badges as BadgesBase } from "components/Primitives/Badges";
+import { Badges } from "components/Primitives";
 import Logo from "public/logo.svg";
-import { from } from "utils/styles/responsiveness";
-
-const TopMenuWrapper = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 120px;
-  margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss2}`};
-
-  ${from("tablet")} {
-    margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss6}`};
-  }
-
-  ${from("desktop")} {
-    margin: ${({ theme }) => `${theme.spacing.ss0} ${theme.spacing.ss10}`};
-  }
-`;
-
-const TopMenuTitle = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: ${({ theme }) => theme.fontSize.fs3};
-  color: ${({ theme }) => theme.colors.text.primary};
-`;
-
-const LogoIcon = styled(Image)`
-  margin-right: ${({ theme }) => theme.spacing.ss1};
-`;
-
-const GithubIcon = styled(Icon)`
-  margin-right: ${({ theme }) => theme.spacing.ss1};
-`;
-
-const Badges = styled(BadgesBase)`
-  display: none;
-
-  ${from("tablet")} {
-    display: block;
-  }
-` as typeof BadgesBase;
 
 export const TopMenu: FunctionComponent = () => (
-  <TopMenuWrapper>
-    <TopMenuTitle>
-      <LogoIcon alt="Logo" src={Logo} width={35} height={26} />
+  <div className="tablet:my-6 desktop:my-10 mx-8 my-4 flex items-center justify-between">
+    <div className="flex items-center text-lg">
+      <Image className="mr-2" alt="Logo" src={Logo} width={35} height={26} />
       Command Menu
-    </TopMenuTitle>
-    <Badges>
+    </div>
+    <Badges className="tablet:flex hidden">
       <Badges.Badge>
         <ExternalLink href="https://github.com/wojtekolek/commandmenu">
-          <GithubIcon name="Github" />
+          <Github className="mr-2" />
           github.com/wojtekolek/commandmenu
         </ExternalLink>
       </Badges.Badge>
     </Badges>
-  </TopMenuWrapper>
+  </div>
 );

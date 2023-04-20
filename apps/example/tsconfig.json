@@ -23,8 +23,21 @@
       {
         "name": "next"
       }
-    ],
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", ".eslintrc.cjs"],
-  "exclude": ["dist", ".next", "out", "next.config.js", "node_modules"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    ".eslintrc.cjs",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    ".next",
+    "out",
+    "next.config.mjs",
+    "node_modules"
+  ]
 }

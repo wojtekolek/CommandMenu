@@ -1,23 +1,25 @@
-import styled from "styled-components";
+import type { FunctionComponent, ReactNode } from "react";
 
-const StyledLink = styled.a`
-  display: block;
-  color: ${({ theme }) => theme.colors.text.primary};
-  white-space: nowrap;
-  transition: opacity 0.3s;
+import { cn } from "utils/styles/utils";
 
-  &:hover {
-    opacity: 0.8;
-  }
+type ExternalLinkProps = {
+  className?: string;
+  href: string;
+  children: ReactNode;
+};
 
-  &:active {
-    transform: scale(0.99);
-  }
-`;
-
-export const ExternalLink = styled(StyledLink).attrs({
-  target: "_blank",
-  rel: "noopener",
-})`
-  color: ${({ theme }) => theme.colors.text.primary};
-`;
+export const ExternalLink: FunctionComponent<ExternalLinkProps> = ({
+  className,
+  href,
+  children,
+}) => (
+  <a
+    className={cn(
+      "text-primary-900 dark:text-primary-100 inline-flex border-none bg-transparent p-0 transition-all hover:opacity-80 active:scale-95",
+      className,
+    )}
+    href={href}
+  >
+    {children}
+  </a>
+);

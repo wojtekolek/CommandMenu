@@ -1,32 +1,32 @@
-import { MouseEvent, RefObject, KeyboardEventHandler, ChangeEventHandler } from 'react';
+import { MouseEvent, ReactNode, RefObject, KeyboardEventHandler, ChangeEventHandler } from 'react';
 
-type ItemCommonConfigData<IconName = string> = {
+type ItemCommonConfigData = {
     id: string;
-    icon?: IconName;
+    icon?: ReactNode;
     label: string;
     description?: string;
 };
-type ItemConfigData<IconName = string> = Omit<ItemCommonConfigData<IconName>, "label"> & {
+type ItemConfigData = Omit<ItemCommonConfigData, "label"> & {
     placeholder?: never;
     label: ((typedValue: string) => string) | string;
     items?: never;
     onSelect: (event: MouseEvent<HTMLLIElement>) => void;
 };
-type ItemWithNestedListConfigData<IconName = string> = ItemCommonConfigData<IconName> & {
+type ItemWithNestedListConfigData = ItemCommonConfigData & {
     onSelect?: never;
     placeholder: string;
-    items: Array<ItemWithNestedListConfigData<IconName> | ItemConfigData<IconName>>;
+    items: Array<ItemWithNestedListConfigData | ItemConfigData>;
 };
-type ItemsGroupConfigData<IconName = string> = {
+type ItemsGroupConfigData = {
     id: string;
     label: string;
-    groupItems: Array<ItemConfigData<IconName> | ItemWithNestedListConfigData<IconName>>;
+    groupItems: Array<ItemConfigData | ItemWithNestedListConfigData>;
 };
-type ConfigData<IconName = string> = ItemsGroupConfigData<IconName>[] | ItemConfigData<IconName>[];
+type ConfigData = ItemsGroupConfigData[] | ItemConfigData[] | ItemWithNestedListConfigData[];
 type ListItemData = {
     id: string;
     label: string;
-    icon?: string;
+    icon?: ReactNode;
     description?: string;
     onPointerMove: () => void;
     onClick: (event: MouseEvent<HTMLLIElement>) => void;
