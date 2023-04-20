@@ -9,10 +9,7 @@ type ParagraphProps = {
 
 export const Paragraph: FunctionComponent<ParagraphProps> = ({ className, children }) => (
   <p
-    className={cn(
-      "text-primary-700 dark:text-primary-200 [&>strong]:text-secondary-600 whitespace-pre-wrap",
-      className,
-    )}
+    className={cn("text-primary-200 [&>strong]:text-secondary-600 whitespace-pre-wrap", className)}
   >
     {children}
   </p>

@@ -45,19 +45,14 @@ const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
       {...itemProps}
       ref={isSelected ? selectedItemRef : null}
       className={cn(
-        "text-primary-800 dark:text-primary-200 flex w-full cursor-default items-center rounded p-2",
-        isSelected ? "bg-secondary-400/20 dark:bg-secondary-600/70 dark:text-primary-50" : "",
+        "text-primary-200 flex w-full cursor-default items-center rounded p-2",
+        isSelected ? "bg-secondary-600/70 text-primary-50" : "",
       )}
     >
       {icon && <div className="mr-2">{icon}</div>}
       <div className="text-base">{label}</div>
       {description && (
-        <div
-          className={cn(
-            "dark:text-primary-300 text-primary-600  ml-2 text-xs",
-            isSelected ? "dark:text-primary-100 text-primary-700" : "",
-          )}
-        >
+        <div className={cn("text-primary-300  ml-2 text-xs", isSelected ? "text-primary-100" : "")}>
           {description}
         </div>
       )}
@@ -73,13 +68,12 @@ export const Demo: FunctionComponent = () => {
   return (
     <motion.div className="flex justify-center" {...COMMAND_MENU_ANIMATION_PROPS}>
       <div
-        className="bg-primary-100 dark:bg-primary-900 dark:border-primary-700 border-1 border-primary-300 tablet:w-[640px] relative flex h-[480px] min-h-[240px] w-full flex-col rounded-lg shadow"
+        className="bg-primary-900  border-1 border-primary-700 tablet:w-[640px] relative flex h-[480px] min-h-[240px] w-full flex-col rounded-lg shadow"
         {...menuProps}
       >
         <input
           {...searchProps}
-          type="text"
-          className="border-b-1 border-primary-600 placeholder:text-primary-600 dark:placeholder:text-primary-300 w-full text-ellipsis bg-transparent px-3 py-2 outline-none"
+          className="border-b-1 border-primary-600 placeholder:text-primary-300 w-full text-ellipsis bg-transparent px-3 py-2 outline-none"
         />
         {list.length ? (
           <ul className="m-0 flex-1 list-none overflow-y-auto p-2">

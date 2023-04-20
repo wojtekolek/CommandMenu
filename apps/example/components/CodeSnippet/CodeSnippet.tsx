@@ -12,7 +12,7 @@ type CodeSnippetProps = {
 
 export const CodeSnippet: FunctionComponent<CodeSnippetProps> = ({ children }) => (
   <div className="from-secondary-400/5 rounded-lg bg-gradient-to-br p-3">
-    <div className="bg-primary-100-100/20 dark:bg-primary-950/20 m-0 overflow-x-auto rounded p-4 backdrop-blur-sm">
+    <div className="bg-primary-950/20 m-0 overflow-x-auto rounded p-4 backdrop-blur-sm">
       <SyntaxHighlighter
         showLineNumbers
         language="typescript"

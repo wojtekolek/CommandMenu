@@ -15,7 +15,7 @@ export const ExternalLink: FunctionComponent<ExternalLinkProps> = ({
 }) => (
   <a
     className={cn(
-      "text-primary-900 dark:text-primary-100 inline-flex border-none bg-transparent p-0 transition-all hover:opacity-80 active:scale-95",
+      "text-primary-100 inline-flex border-none bg-transparent p-0 transition-all hover:opacity-80 active:scale-95",
       className,
     )}
     href={href}

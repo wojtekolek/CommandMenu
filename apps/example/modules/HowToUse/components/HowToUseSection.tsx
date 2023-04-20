@@ -28,7 +28,7 @@ export const HowToUseSection: FunctionComponent<HowToUseSectionProps> = ({ title
       </motion.h2>
       <AnimatedSection
         id="howToUseBasic"
-        className="border-1 border-primary-400 dark:bg-primary-900 dark:border-primary-800 bg-primary-100 mx-auto mb-6 max-w-4xl rounded-md p-6"
+        className="border-1 border-primary-800 bg-primary-900 mx-auto mb-6 max-w-4xl rounded-md p-6"
       >
         <div className="flex flex-col gap-8">{children}</div>
       </AnimatedSection>

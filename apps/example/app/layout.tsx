@@ -41,7 +41,7 @@ type RootLayoutProps = {
 const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
   <html
     lang="en"
-    className={`${font.variable} bg-primary-50 font-montserrat text-primary-900 dark:bg-primary-950 dark:text-primary-50 selection:text-secondary-500 dark:selection:text-primary-100 selection:bg-secondary-100 dark:selection:bg-secondary-900 font-normal antialiased`}
+    className={`${font.variable} bg-primary-950 font-montserrat text-primary-50 selection:text-primary-100 selection:bg-secondary-900 font-normal antialiased`}
   >
     <body>
       <TopMenu />
