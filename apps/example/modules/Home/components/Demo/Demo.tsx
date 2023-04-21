@@ -81,7 +81,7 @@ export const Demo: FunctionComponent = () => {
               if (isGroup && groupItemProps.groupItems) {
                 return (
                   <li key={groupItemProps.id} id="group" className="w-full">
-                    <div className="border-b-1 border-primary-400 my-2 p-1 text-xs font-semibold">
+                    <div className="border-b-1 border-primary-400 mb-2 p-1 pt-3 text-xs font-semibold">
                       {groupItemProps.label}
                     </div>
                     <ul className="m-0 list-none p-0">
