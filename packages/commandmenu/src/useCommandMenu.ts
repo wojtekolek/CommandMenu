@@ -20,7 +20,7 @@ import {
 
 const useLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffectBase;
 
-const SEARCH_PLACEHOLDER = "Type to search...";
+const SEARCH_PLACEHOLDER = "Search for commands...";
 
 export const DOWN_KEY = "ArrowDown";
 export const UP_KEY = "ArrowUp";

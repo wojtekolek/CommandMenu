@@ -42,7 +42,7 @@ export const PackageName: FunctionComponent = () => {
       <AnimatePresence mode="wait">
         {isCopied ? (
           <motion.div {...BUTTON_ANIMATION_PROPS} key="copied">
-            Copied!
+            Have fun!
           </motion.div>
         ) : (
           <motion.div {...BUTTON_ANIMATION_PROPS} className="flex items-center" key="normal">

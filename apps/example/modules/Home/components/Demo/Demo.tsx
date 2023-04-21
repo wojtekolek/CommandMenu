@@ -49,7 +49,7 @@ const CommandMenuListItem: FunctionComponent<CommandMenuListItemProps> = ({
         isSelected ? "bg-secondary-600/70 text-primary-50" : "",
       )}
     >
-      {icon && <div className="mr-2">{icon}</div>}
+      {icon && <div className="mr-3">{icon}</div>}
       <div className="text-base">{label}</div>
       {description && (
         <div className={cn("text-primary-300  ml-2 text-xs", isSelected ? "text-primary-100" : "")}>
@@ -68,12 +68,12 @@ export const Demo: FunctionComponent = () => {
   return (
     <motion.div className="flex justify-center" {...COMMAND_MENU_ANIMATION_PROPS}>
       <div
-        className="bg-primary-900  border-1 border-primary-700 tablet:w-[640px] relative flex h-[480px] min-h-[240px] w-full flex-col rounded-lg shadow"
+        className="tablet:w-[640px] border-gradient relative flex h-[480px] min-h-[240px] w-full flex-col rounded-lg shadow"
         {...menuProps}
       >
         <input
           {...searchProps}
-          className="border-b-1 border-primary-600 placeholder:text-primary-300 w-full text-ellipsis bg-transparent px-3 py-2 outline-none"
+          className="border-b-1 border-primary-600 placeholder:text-primary-300 w-full text-ellipsis bg-transparent p-3 outline-none"
         />
         {list.length ? (
           <ul className="m-0 flex-1 list-none overflow-y-auto p-2">
@@ -81,7 +81,7 @@ export const Demo: FunctionComponent = () => {
               if (isGroup && groupItemProps.groupItems) {
                 return (
                   <li key={groupItemProps.id} id="group" className="w-full">
-                    <div className="border-b-1 border-primary-400 mb-2 p-1 text-xs font-semibold">
+                    <div className="border-b-1 border-primary-400 my-2 p-1 text-xs font-semibold">
                       {groupItemProps.label}
                     </div>
                     <ul className="m-0 list-none p-0">

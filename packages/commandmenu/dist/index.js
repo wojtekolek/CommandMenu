@@ -162,7 +162,7 @@ var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupIt
 
 // src/useCommandMenu.ts
 var useLayoutEffect = typeof window === "undefined" ? import_react.useEffect : import_react.useLayoutEffect;
-var SEARCH_PLACEHOLDER = "Type to search...";
+var SEARCH_PLACEHOLDER = "Search for commands...";
 var DOWN_KEY = "ArrowDown";
 var UP_KEY = "ArrowUp";
 var ENTER_KEY = "Enter";

@@ -16,7 +16,11 @@ export const AdvancedHeading: FunctionComponent = () => {
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <motion.div ref={ref} className="flex items-center justify-center py-10" style={{ y, opacity }}>
+    <motion.div
+      ref={ref}
+      className="-z-10 flex items-center justify-center py-2"
+      style={{ y, opacity }}
+    >
       <H1 className="text-center">
         Ah, you are looking for <br />
         something more advanced...

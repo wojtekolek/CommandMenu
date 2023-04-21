@@ -13,7 +13,7 @@ export const HowToUse: FunctionComponent = () => (
       ))}
     </HowToUseSection>
     <AdvancedHeading />
-    <HowToUseSection title="Grouping and nested menus">
+    <HowToUseSection title="Grouping and nested menus" className="mt-80">
       {ADVANCED_USE_DATA.map(({ message, codeMarkdown, title }, index) => (
         <HowToUseItem
           key={`${index}_advanced_use`}
