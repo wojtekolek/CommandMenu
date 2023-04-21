@@ -1,5 +1,6 @@
 import type { FunctionComponent, ReactNode } from "react";
 
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 
@@ -47,6 +48,7 @@ const RootLayout: FunctionComponent<RootLayoutProps> = ({ children }) => (
       <TopMenu />
       <main className="tablet:mx-8 mx-4 my-6 p-0">{children}</main>
       <Footer />
+      <Analytics />
     </body>
   </html>
 );

@@ -66,9 +66,9 @@ export const Demo: FunctionComponent = () => {
   });
 
   return (
-    <motion.div className="flex justify-center" {...COMMAND_MENU_ANIMATION_PROPS}>
+    <motion.div className="relative flex justify-center" {...COMMAND_MENU_ANIMATION_PROPS}>
       <div
-        className="tablet:w-[640px] border-gradient relative flex h-[480px] min-h-[240px] w-full flex-col rounded-lg shadow"
+        className="tablet:w-[640px] border-gradient relative flex h-[480px] min-h-[240px] w-full flex-col overflow-hidden rounded-lg shadow"
         {...menuProps}
       >
         <input
@@ -113,6 +113,7 @@ export const Demo: FunctionComponent = () => {
             <span className="text-primary-300">No results</span>
           </div>
         )}
+        <div className="from-primary-900/70 absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t" />
       </div>
     </motion.div>
   );

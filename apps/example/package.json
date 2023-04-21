@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.0.0",
     "commandmenu": "*",
     "copy-to-clipboard": "^3.3.2",
     "framer-motion": "^10.12.4",
