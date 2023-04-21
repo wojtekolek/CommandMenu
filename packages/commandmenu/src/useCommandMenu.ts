@@ -248,6 +248,10 @@ export const useCommandMenu = ({
   const getMenuProps = () => ({
     ref: listRef,
     onKeyDown: handleListKeyDown,
+    onClick: () => {
+      // Ensure that the input will be focused always when the user is in the menu context
+      searchRef.current?.focus();
+    },
   });
 
   const getSearchProps = () => {

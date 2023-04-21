@@ -299,7 +299,11 @@ var useCommandMenu = ({
   };
   const getMenuProps = () => ({
     ref: listRef,
-    onKeyDown: handleListKeyDown
+    onKeyDown: handleListKeyDown,
+    onClick: () => {
+      var _a;
+      (_a = searchRef.current) == null ? void 0 : _a.focus();
+    }
   });
   const getSearchProps = () => {
     const { searchPlaceholder: listSearchPlaceholder, searchValue } = getState().currentList;
