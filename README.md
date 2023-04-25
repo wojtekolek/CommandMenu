@@ -1,6 +1,7 @@
 # CommandMenu
 
-This package offers a hook for creating a customized command menu.\n\nThe package returns an object that includes properties for every element in the menu, such as the menu itself, the search input, and a list of all the necessary properties for each menu item which enables you to easily build a command menu tailored to your specific needs.
+This package offers a hook for creating a customized command menu.
+The package returns an object that includes properties for every element in the menu, such as the menu itself, the search input, and a list of all the necessary properties for each menu item which enables you to easily build a command menu tailored to your specific needs.
 
 Demo: [commandmenu.wojtekolek.com](https://commandmenu.wojtekolek.com/)
 
