@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon-32x32.png",
     apple: "/apple-touch-icon.png",
   },
-  manifest: `${URL}/favicons/site.webmanifest`,
+  manifest: `${URL}/site.webmanifest`,
   authors: [
     {
       name: "Wojtek Olek",
