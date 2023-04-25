@@ -1,5 +1,11 @@
 # commandpalette
 
+## 0.1.7
+
+### Patch Changes
+
+- 9f2537a: Added type guard
+
 ## 0.1.6
 
 ### Patch Changes
