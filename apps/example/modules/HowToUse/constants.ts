@@ -4,6 +4,7 @@ const BASIC: HowToUseData = {
   message:
     "This package offers a hook for creating a customized command menu.\n\nIt returns an object that includes properties for every element in the menu, such as the menu itself, the search input, and a list of all the necessary properties for each menu item which enables you to easily build a command menu tailored to your specific needs.",
   codeMarkdown: `import { useCommandMenu } from "commandmenu";
+import { config } from "./config";
   
 const { selectedItem, selectedItemRef, menuProps, searchProps, list } = 
   useCommandMenu({ config })`,

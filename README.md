@@ -53,8 +53,9 @@ const config: ConfigData<IconName> = [
 ```
 
 ```typescript
-// CommandMenu.tss
+// CommandMenu.tsx
 import { useCommandMenu } from "commandmenu";
+import { config } from "./config";
   
 const { selectedItem, selectedItemRef, menuProps, searchProps, list } = 
   useCommandMenu({ config })
