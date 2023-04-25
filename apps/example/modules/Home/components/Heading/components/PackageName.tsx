@@ -39,7 +39,7 @@ export const PackageName: FunctionComponent = () => {
 
   return (
     <Button className="leading-10" onClick={copyPackageNameToClipboard}>
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         {isCopied ? (
           <motion.div {...BUTTON_ANIMATION_PROPS} key="copied">
             Have fun!

@@ -7,6 +7,7 @@ import {
   Figma,
   Framer,
   Github,
+  Heart,
   Instagram,
   Moon,
   MoreVertical,
@@ -63,64 +64,22 @@ export const config: ConfigData = [
             onSelect: () => console.log("spotify prev"),
           },
           {
-            id: "spotifyMore",
+            id: "spotifyActions",
             icon: <MoreVertical />,
-            label: "More...",
-            placeholder: "Search in spotify more...",
+            label: "Actions",
+            placeholder: "What you would like to do?",
             items: [
               {
-                id: "spotifyMoreActionOne",
-                label: "Action one",
-                onSelect: () => console.log("spotify more action one"),
+                id: "spotifyShare",
+                icon: <Share />,
+                label: "Share",
+                onSelect: () => console.log("spotify share clicked"),
               },
               {
-                id: "spotifyMoreActionTwo",
-                label: "Action two",
-                onSelect: () => console.log("spotify more action two"),
-              },
-              {
-                id: "spotifyMoreActionMore",
-                label: "More...",
-                placeholder: "Search in more actions...",
-                items: [
-                  {
-                    id: "spotifyMoreActionMoreActionMore1",
-                    label: "More 1",
-                    onSelect: () => console.log("spotifyMoreActionMoreActionMore1 clicked"),
-                  },
-                  {
-                    id: "spotifyMoreActionMoreActionMore2",
-                    label: "More 2",
-                    onSelect: () => console.log("spotifyMoreActionMoreActionMore2 clicked"),
-                  },
-                  {
-                    id: "spotifyMoreActionMoreActionMore3",
-                    label: "More 3",
-                    onSelect: () => console.log("spotifyMoreActionMoreActionMore3 clicked"),
-                  },
-                  {
-                    id: "spotifyMoreActionMoreActionMoreMore",
-                    label: "More...",
-                    placeholder: "Show me more options mate...",
-                    items: [
-                      {
-                        id: "spotifyMoreActionMoreActionMoreMore1",
-                        label: "More 1",
-                        onSelect: () => console.log("spotifyMoreActionMoreActionMore1 clicked"),
-                      },
-                      {
-                        id: "spotifyMoreActionMoreActionMoreMore2",
-                        label: "More 2",
-                        onSelect: () => console.log("spotifyMoreActionMoreActionMore2 clicked"),
-                      },
-                      {
-                        id: "spotifyMoreActionMoreActionMoreMore3",
-                        label: "More 3",
-                        onSelect: () => console.log("spotifyMoreActionMoreActionMore3 clicked"),
-                      },
-                    ],
-                  },
-                ],
+                id: "spotifyLike",
+                icon: <Heart />,
+                label: "Like",
+                onSelect: () => console.log("spotify like clicked"),
               },
             ],
           },

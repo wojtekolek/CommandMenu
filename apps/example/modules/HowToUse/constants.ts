@@ -105,20 +105,20 @@ const GROUPS_RETURN: HowToUseData = {
   message:
     "After changing the command menu config, the last step will be only to render group elements inside another list. You can achieve this with something like the code below: ",
   codeMarkdown: `<CommandMenuList>
-  {list.map(({ isGroup, ...groupItemProps }) => {
-    if (isGroup && groupItemProps.groupItems) {
+  {list.map((item) => {
+    if (isGroupItem(item)) {
       return (
-        <CommandMenuListGroupItem key={groupItemProps.id} id="group">
+        <CommandMenuListGroupItem key={item.id} id="group">
           <CommandMenuListGroupItemLabel>
-            {groupItemProps.label}
+            {item.label}
           </CommandMenuListGroupItemLabel>
           <CommandMenuGroupList>
-            {groupItemProps.groupItems.map((itemData) => (
+            {item.groupItems.map((groupItem) => (
               <CommandMenuListItem
-                key={itemData.id}
+                key={groupItem.id}
                 selectedItem={selectedItem}
                 selectedItemRef={selectedItemRef}
-                {...itemData}
+                {...groupItem}
               />
             ))}
           </CommandMenuGroupList>
@@ -127,10 +127,10 @@ const GROUPS_RETURN: HowToUseData = {
     }
     return (
       <CommandMenuListItem
-        key={groupItemProps.id}
+        key={item.id}
         selectedItem={selectedItem}
         selectedItemRef={selectedItemRef}
-        {...(groupItemProps as ListItemData)}
+        {...item}
       />
     )
   })}
