@@ -1,5 +1,0 @@
----
-"commandmenu": minor
----
-
-Final readme

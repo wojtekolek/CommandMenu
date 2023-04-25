@@ -1,5 +1,11 @@
 # commandpalette
 
+## 0.2.0
+
+### Minor Changes
+
+- ef01b96: Final readme
+
 ## 0.1.8
 
 ### Patch Changes
