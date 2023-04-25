@@ -2,42 +2,47 @@ import type { HowToUseData } from "./types";
 
 const BASIC: HowToUseData = {
   message:
-    "The package provides you with a whole logic to build your own command menu.\n\nIt returns an object with props for each element like the menu itself, search input and list with all needed props for each menu element.",
+    "This package offers a hook for creating a customized command menu.\n\nThe package returns an object that includes properties for every element in the menu, such as the menu itself, the search input, and a list of all the necessary properties for each menu item which enables you to easily build a command menu tailored to your specific needs.",
   codeMarkdown: `const { selectedItem, selectedItemRef, menuProps, searchProps, list } = 
   useCommandMenu({ config })`,
 };
 
 const CONFIG: HowToUseData = {
   message:
-    "To provide full functionality, you need to pass a config array with all items you would like to display in the menu.\n The simplest version of it could look like this:",
-  codeMarkdown: `const config: ConfigData<IconName> = [
+    "In order to fully utilize the functionality of this package, you must pass a configuration array that includes all the items you wish to display in the menu. A basic example of this configuration array might look something like the following:",
+  codeMarkdown: `
+  import type { ConfigData } from "commandmenu";
+import type { IconName } from "components/Icon";
+
+const config: ConfigData<IconName> = [
   {
     id: 'github',
     label: 'Github',
     icon: 'Github',
     description: 'Check github',
-    onSelect: () => console.log('open github')
+    onSelect: () => console.log('github selected')
   },
   {
     id: 'spotifyPlay',
     label: 'Spotify play',
     icon: 'Play',
     description: 'Play songs on Spotify',
-    onSelect: () => console.log('spotify play')
+    onSelect: () => console.log('spotify play selected')
   },
   {
     id: 'spotifyNext',
     label: 'Spotify next',
     icon: 'Next',
     description: 'Next song on Spotify',
-    onSelect: () => console.log('spotify next')
+    onSelect: () => console.log('spotify next selected')
   },
-]`,
+]
+  `,
 };
 
 const USAGE: HowToUseData = {
   message:
-    "The usage of the returned props data from the hook is straightforward. You need to spread the menuProps, searchProps and map through the list to render all necessary menu items.",
+    "Utilizing the props data returned by the hook is a straightforward process. Simply spread the `menuProps` and `searchProps`, then map through the list in order to render all the necessary menu items.",
   codeMarkdown: `return (
   <CommandMenu {...menuProps}>
     <SearchInput {...searchProps} />
@@ -70,7 +75,7 @@ export const HOW_TO_USE_DATA = [BASIC, CONFIG, USAGE];
 const GROUPS: HowToUseData = {
   title: "Groups",
   message:
-    "If you would like to group items on your list, you can easly do that, just wrap them in group object config and you are ready to go!",
+    "If you wish to group items in your menu, it's easy to do so by wrapping them in a group object configuration. Once you've done this, you're ready to go!",
   codeMarkdown: `{
   id: 'favs',
   label: 'Favorites',
@@ -103,44 +108,49 @@ const GROUPS: HowToUseData = {
 
 const GROUPS_RETURN: HowToUseData = {
   message:
-    "After changing the command menu config, the last step will be only to render group elements inside another list. You can achieve this with something like the code below: ",
-  codeMarkdown: `<CommandMenuList>
-  {list.map((item) => {
-    if (isGroupItem(item)) {
-      return (
-        <CommandMenuListGroupItem key={item.id} id="group">
-          <CommandMenuListGroupItemLabel>
-            {item.label}
-          </CommandMenuListGroupItemLabel>
-          <CommandMenuGroupList>
-            {item.groupItems.map((groupItem) => (
-              <CommandMenuListItem
-                key={groupItem.id}
-                selectedItem={selectedItem}
-                selectedItemRef={selectedItemRef}
-                {...groupItem}
-              />
-            ))}
-          </CommandMenuGroupList>
-        </CommandMenuListGroupItem>
-      )
-    }
-    return (
-      <CommandMenuListItem
-        key={item.id}
-        selectedItem={selectedItem}
-        selectedItemRef={selectedItemRef}
-        {...item}
-      />
-    )
-  })}
-</CommandMenuList>`,
+    "Once you've updated the command menu configuration, the final step is to simply render the group elements inside another list. This can be accomplished using code similar to the following:",
+  codeMarkdown: `return (
+    <CommandMenu {...menuProps}>
+      <SearchInput {...searchProps} />
+      <CommandMenuList>
+        {list.map((item) => {
+          if (isGroupItem(item)) {
+            return (
+              <CommandMenuListGroupItem key={item.id} id="group">
+                <CommandMenuListGroupItemLabel>
+                  {item.label}
+                </CommandMenuListGroupItemLabel>
+                <CommandMenuGroupList>
+                  {item.groupItems.map((groupItem) => (
+                    <CommandMenuListItem
+                      key={groupItem.id}
+                      selectedItem={selectedItem}
+                      selectedItemRef={selectedItemRef}
+                      {...groupItem}
+                    />
+                  ))}
+                </CommandMenuGroupList>
+              </CommandMenuListGroupItem>
+            )
+          }
+          return (
+            <CommandMenuListItem
+              key={item.id}
+              selectedItem={selectedItem}
+              selectedItemRef={selectedItemRef}
+              {...item}
+            />
+          )
+        })}
+      </CommandMenuList>
+    </CommandMenu>
+  )`,
 };
 
 const NESTED: HowToUseData = {
   title: "Nested menus",
   message:
-    "There is also a possibility to add nested menus if you would like to have more than one option related to a certain item. Of course, you can add nested menus multiple on each level.\nAfter adding a proper config, this feature should work out of the box so you are ready to rock!",
+    "If you'd like to include multiple options related to a specific item, you can utilize nested menus. You can even add nested menus to each level, as needed. Once you've updated the configuration accordingly, this feature should work seamlessly, allowing you to take your menu functionality to the next level!",
   codeMarkdown: `{
   id: 'spotify',
   label: 'Spotify',
@@ -151,25 +161,25 @@ const NESTED: HowToUseData = {
       id: 'spotifyPlay',
       label: 'Play',
       icon: 'Play',
-      onSelect: () => console.log('spotify play')
+      onSelect: () => console.log('spotify play selected')
     },
     {
       id: 'spotifyPause',
       label: 'Pause',
       icon: 'Pause',
-      onSelect: () => console.log('spotify pasue')
+      onSelect: () => console.log('spotify pasue selected')
     },
     {
       id: 'spotifyNext',
       label: 'Next',
       icon: 'ArrowRight',
-      onSelect: () => console.log('spotify next')
+      onSelect: () => console.log('spotify next selected')
     },
     {
       id: 'spotifyPrevious',
       label: 'Previous',
       icon: 'ArrowLeft',
-      onSelect: () => console.log('spotify prev')
+      onSelect: () => console.log('spotify prev selected')
     },
   ]
 }
