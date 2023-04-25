@@ -1,7 +1,7 @@
 # CommandMenu
 
 This package offers a hook for creating a customized command menu.
-The package returns an object that includes properties for every element in the menu, such as the menu itself, the search input, and a list of all the necessary properties for each menu item which enables you to easily build a command menu tailored to your specific needs.
+It returns an object that includes properties for every element in the menu, such as the menu itself, the search input, and a list of all the necessary properties for each menu item which enables you to easily build a command menu tailored to your specific needs.
 
 Demo: [commandmenu.wojtekolek.com](https://commandmenu.wojtekolek.com/)
 
@@ -50,6 +50,14 @@ const config: ConfigData<IconName> = [
     onSelect: () => console.log('spotify next selected')
   },
 ]
+```
+
+```typescript
+// CommandMenu.tss
+import { useCommandMenu } from "commandmenu";
+  
+const { selectedItem, selectedItemRef, menuProps, searchProps, list } = 
+  useCommandMenu({ config })
 ```
 
 Utilizing the props data returned by the hook is a straightforward process. Simply spread the `menuProps` and `searchProps`, then map through the list in order to render all the necessary menu items.

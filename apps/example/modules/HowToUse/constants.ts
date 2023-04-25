@@ -2,16 +2,17 @@ import type { HowToUseData } from "./types";
 
 const BASIC: HowToUseData = {
   message:
-    "This package offers a hook for creating a customized command menu.\n\nThe package returns an object that includes properties for every element in the menu, such as the menu itself, the search input, and a list of all the necessary properties for each menu item which enables you to easily build a command menu tailored to your specific needs.",
-  codeMarkdown: `const { selectedItem, selectedItemRef, menuProps, searchProps, list } = 
+    "This package offers a hook for creating a customized command menu.\n\nIt returns an object that includes properties for every element in the menu, such as the menu itself, the search input, and a list of all the necessary properties for each menu item which enables you to easily build a command menu tailored to your specific needs.",
+  codeMarkdown: `import { useCommandMenu } from "commandmenu";
+  
+const { selectedItem, selectedItemRef, menuProps, searchProps, list } = 
   useCommandMenu({ config })`,
 };
 
 const CONFIG: HowToUseData = {
   message:
     "In order to fully utilize the functionality of this package, you must pass a configuration array that includes all the items you wish to display in the menu. A basic example of this configuration array might look something like the following:",
-  codeMarkdown: `
-  import type { ConfigData } from "commandmenu";
+  codeMarkdown: `import type { ConfigData } from "commandmenu";
 import type { IconName } from "components/Icon";
 
 const config: ConfigData<IconName> = [
@@ -36,8 +37,7 @@ const config: ConfigData<IconName> = [
     description: 'Next song on Spotify',
     onSelect: () => console.log('spotify next selected')
   },
-]
-  `,
+]`,
 };
 
 const USAGE: HowToUseData = {
@@ -102,8 +102,7 @@ const GROUPS: HowToUseData = {
       onSelect: () => console.log('spotify next')
     },
   ]
-},
-`,
+},`,
 };
 
 const GROUPS_RETURN: HowToUseData = {
@@ -182,8 +181,7 @@ const NESTED: HowToUseData = {
       onSelect: () => console.log('spotify prev selected')
     },
   ]
-}
-  `,
+}`,
 };
 
 export const ADVANCED_USE_DATA = [GROUPS, GROUPS_RETURN, NESTED];
