@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: dark)", color: colors.primary[950] },
   ],
   openGraph: {
-    title: Title,
+    title: "Command Menu",
     description: Description,
     url: URL,
     siteName: "Command Menu",
