@@ -1,5 +1,11 @@
 # commandpalette
 
+## 0.1.8
+
+### Patch Changes
+
+- d3e04b0: Update readme
+
 ## 0.1.7
 
 ### Patch Changes
