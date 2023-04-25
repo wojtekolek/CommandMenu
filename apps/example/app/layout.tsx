@@ -17,12 +17,20 @@ const font = Montserrat({
   variable: "--font-montserrat",
 });
 
+const Title = "Command Menu — Headless UI for building command menus in React.";
+const Description = "Headless UI for building command menus in React.";
+const URL = "https://commandmenu.wojtekolek.com";
+
 export const metadata: Metadata = {
-  title: "Command Menu — Headless UI for building command menus in React.",
-  description: "Headless UI for building command menus in React.",
+  title: Title,
+  description: Description,
+  keywords: ["Next.js", "React", "JavaScript", "Typescript", "CommandMenu"],
   icons: {
-    icon: "./favicon.ico",
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
   },
+  manifest: `${URL}/favicons/site.webmanifest`,
   authors: [
     {
       name: "Wojtek Olek",
@@ -33,6 +41,21 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: light)", color: colors.primary[950] },
     { media: "(prefers-color-scheme: dark)", color: colors.primary[950] },
   ],
+  openGraph: {
+    title: Title,
+    description: Description,
+    url: URL,
+    siteName: "Command Menu",
+    images: [
+      {
+        url: `${URL}/og.png`,
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en-US",
+    type: "website",
+  },
 };
 
 type RootLayoutProps = {
