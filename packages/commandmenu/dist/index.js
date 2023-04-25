@@ -49,6 +49,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
+  isGroupItem: () => isGroupItem,
   useCommandMenu: () => useCommandMenu
 });
 module.exports = __toCommonJS(src_exports);
@@ -69,7 +70,7 @@ var prepareListOption = (config, setSelectedItem, goToNested) => config.map(({ i
   const isConfigWithNestedData = !!(items == null ? void 0 : items.length);
   return {
     id,
-    label: typeof label === "function" ? label("") : label,
+    label,
     icon,
     description,
     onPointerMove: () => setSelectedItem({
@@ -159,6 +160,7 @@ var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupIt
   }
   return [];
 });
+var isGroupItem = (itemToCheck) => Array.isArray(itemToCheck.groupItems);
 
 // src/useCommandMenu.ts
 var useLayoutEffect = typeof window === "undefined" ? import_react.useEffect : import_react.useLayoutEffect;
@@ -348,5 +350,6 @@ var useCommandMenu = ({
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  isGroupItem,
   useCommandMenu
 });

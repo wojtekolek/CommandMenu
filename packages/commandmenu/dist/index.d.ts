@@ -6,9 +6,8 @@ type ItemCommonConfigData = {
     label: string;
     description?: string;
 };
-type ItemConfigData = Omit<ItemCommonConfigData, "label"> & {
+type ItemConfigData = ItemCommonConfigData & {
     placeholder?: never;
-    label: ((typedValue: string) => string) | string;
     items?: never;
     onSelect: (event: MouseEvent<HTMLLIElement>) => void;
 };
@@ -69,4 +68,6 @@ type UseCommandMenuReturn = {
 };
 declare const useCommandMenu: ({ config, searchPlaceholder, }: UseCommandMenuProps) => UseCommandMenuReturn;
 
-export { ConfigData, ItemConfigData, ItemsGroupConfigData, ListItemData, useCommandMenu };
+declare const isGroupItem: (itemToCheck: ListGroupData | ListItemData) => itemToCheck is ListGroupData;
+
+export { ConfigData, ItemConfigData, ItemsGroupConfigData, ListItemData, isGroupItem, useCommandMenu };

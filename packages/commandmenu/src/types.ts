@@ -14,9 +14,8 @@ type ItemCommonConfigData = {
   description?: string;
 };
 
-export type ItemConfigData = Omit<ItemCommonConfigData, "label"> & {
+export type ItemConfigData = ItemCommonConfigData & {
   placeholder?: never;
-  label: ((typedValue: string) => string) | string;
   items?: never;
   onSelect: (event: MouseEvent<HTMLLIElement>) => void;
 };

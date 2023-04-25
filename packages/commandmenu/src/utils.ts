@@ -28,7 +28,7 @@ export const prepareListOption = (
     const isConfigWithNestedData = !!items?.length;
     return {
       id,
-      label: typeof label === "function" ? label("") : label,
+      label,
       icon,
       description,
       onPointerMove: () =>
@@ -146,3 +146,7 @@ export const findIndexes = (data: ListData, selectedItemId: string) =>
     }
     return [];
   });
+
+export const isGroupItem = (
+  itemToCheck: ListGroupData | ListItemData,
+): itemToCheck is ListGroupData => Array.isArray((itemToCheck as ListGroupData).groupItems);

@@ -46,7 +46,7 @@ var prepareListOption = (config, setSelectedItem, goToNested) => config.map(({ i
   const isConfigWithNestedData = !!(items == null ? void 0 : items.length);
   return {
     id,
-    label: typeof label === "function" ? label("") : label,
+    label,
     icon,
     description,
     onPointerMove: () => setSelectedItem({
@@ -136,6 +136,7 @@ var findIndexes = (data, selectedItemId) => data.flatMap(({ id, isGroup, groupIt
   }
   return [];
 });
+var isGroupItem = (itemToCheck) => Array.isArray(itemToCheck.groupItems);
 
 // src/useCommandMenu.ts
 var useLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffectBase;
@@ -324,5 +325,6 @@ var useCommandMenu = ({
   };
 };
 export {
+  isGroupItem,
   useCommandMenu
 };
